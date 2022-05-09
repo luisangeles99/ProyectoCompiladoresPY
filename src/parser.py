@@ -139,7 +139,8 @@ def p_DEC_V_O_SIMPLE(p):
                             | empty'''
                     
 def p_DEC_ARR(p):
-    '''DEC_ARR              : LSBRACKET CTEI RSBRACKET DEC_ARR_ONE'''
+    '''DEC_ARR              : LSBRACKET CTEI RSBRACKET DEC_ARR_ONE
+                            | empty'''
 
 def p_DEC_ARR_ONE(p):
     '''DEC_ARR_ONE          : LSBRACKET CTEI RSBRACKET
@@ -277,12 +278,12 @@ parser = yacc.yacc()
 
 #test the parser
 #
-#file = 'entrada.txt'
+file = 'entrada.txt'
 #
-#with open(file, 'r') as f:
-#    input = f.read()
-#    parser.parse(input, debug = 1)
-#    print('apropiado')
+with open(file, 'r') as f:
+    input = f.read()
+    parser.parse(input, debug = 1)
+    print('apropiado')
 
 
 

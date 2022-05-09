@@ -1,7 +1,11 @@
 # ProyectoCompiladoresPY
-OOP compilator using python. 
+OOP compiler using python. 
 
 # Avance 1
 Lexer y Parser
 
-# Acance 2
+# Avance 2
+Tabla de funciones y de variables
+
+# Avance 3
+Generación de cod intermedio (cuadrúplos) usando direcciones
