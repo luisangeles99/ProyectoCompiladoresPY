@@ -1,0 +1,50 @@
+tokens = [
+    'ID',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'LT',
+    'GT',
+    'NE',
+    'LPAREN',
+    'RPAREN',
+    'LBRACE',
+    'RBRACE',
+    'ASSIGN',
+    'COMMA',
+    'SEMICOLON',
+    'CTEI',
+    'CTEF',
+    'CTECH', #missing
+    'LSBRACKET',
+    'RSBRACKET',
+    'AND',
+    'OR',
+    'POINT',
+    'EQ',
+    'NOT',
+    'GTE',
+    'LTE'
+]
+
+reserved = {
+    'if' : 'IF',
+    'else' : 'ELSE',
+    'program' : 'PROGRAM',
+    'int' : 'INT', 
+    'float' : 'FLOAT',
+    'char' : 'CHAR',
+    'print' : 'PRINT',
+    'var' : 'VAR', 
+    ####### LINE
+    'class' : 'CLASS',
+    'while' : 'WHILE',
+    'void' : 'VOID',
+    'print' : 'PRINT',
+    'read' : 'READ',
+    'func' : 'FUNC',
+    'import' : 'IMPORT',
+    'derives' : 'DERIVES',
+    'return' : 'RETURN'
+}
