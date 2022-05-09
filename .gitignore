@@ -1,3 +1,4 @@
-src/__pychache__
-src/tests
+src/__pychache__/
+src/tests/
 src/parser.out
+*.pyc

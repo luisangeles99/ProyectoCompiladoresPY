@@ -58,120 +58,121 @@ Rule 47    DEC_VAR_ONE -> SIMPLE_TYPE ID DEC_ARR DEC_V_O_SIMPLE
 Rule 48    DEC_V_O_SIMPLE -> COMMA ID DEC_ARR DEC_V_O_SIMPLE
 Rule 49    DEC_V_O_SIMPLE -> empty
 Rule 50    DEC_ARR -> LSBRACKET CTEI RSBRACKET DEC_ARR_ONE
-Rule 51    DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET
-Rule 52    DEC_ARR_ONE -> empty
-Rule 53    DEC_V_O_COMPLEX -> COMMA ID DEC_V_O_COMPLEX
-Rule 54    DEC_V_O_COMPLEX -> empty
-Rule 55    SIMPLE_TYPE -> INT
-Rule 56    SIMPLE_TYPE -> FLOAT
-Rule 57    SIMPLE_TYPE -> CHAR
-Rule 58    COMPLEX_TYPE -> ID
-Rule 59    EXP -> T_EXP EXP_ONE
-Rule 60    EXP_ONE -> OR EXP
-Rule 61    EXP_ONE -> empty
-Rule 62    T_EXP -> G_EXP T_EXP_ONE
-Rule 63    T_EXP_ONE -> AND T_EXP
-Rule 64    T_EXP_ONE -> empty
-Rule 65    G_EXP -> MID_EXP G_EXP_ONE
-Rule 66    G_EXP_ONE -> G_EXP_TWO MID_EXP
-Rule 67    G_EXP_TWO -> LT
-Rule 68    G_EXP_TWO -> GT
-Rule 69    G_EXP_TWO -> NE
-Rule 70    G_EXP_TWO -> EQ
-Rule 71    G_EXP_TWO -> GTE
-Rule 72    G_EXP_TWO -> LTE
-Rule 73    MID_EXP -> TERM MID_EXP_ONE
-Rule 74    MID_EXP_ONE -> PLUS MID_EXP
-Rule 75    MID_EXP_ONE -> MINUS MID_EXP
-Rule 76    MID_EXP_ONE -> empty
-Rule 77    TERM -> FACT TERM_ONE
-Rule 78    TERM_ONE -> TIMES TERM
-Rule 79    TERM_ONE -> DIVIDE TERM
-Rule 80    TERM_ONE -> empty
-Rule 81    FACT -> CTEI
-Rule 82    FACT -> CTEF
-Rule 83    FACT -> VARIABLE
-Rule 84    FACT -> FUNCTION_CALL
-Rule 85    FACT -> LPAREN EXP RPAREN
-Rule 86    BLOCK -> LBRACE BLOCK_ONE RBRACE
-Rule 87    BLOCK_ONE -> BLOCK_STMT BLOCK_ONE
-Rule 88    BLOCK_ONE -> empty
-Rule 89    BLOCK_STMT -> STMT
-Rule 90    BLOCK_STMT -> DEC_VAR
-Rule 91    STMT -> ASSIGN_OP
-Rule 92    STMT -> FUNCTION_CALL
-Rule 93    STMT -> READ_FUNC
-Rule 94    STMT -> PRINT_FUNC
-Rule 95    STMT -> COND
-Rule 96    STMT -> WHILE_LOOP
-Rule 97    STMT -> RETURN_FUNC
-Rule 98    RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON
-Rule 99    RETURN_F_ONE -> VARIABLE
-Rule 100   RETURN_F_ONE -> EXP
-Rule 101   PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON
-Rule 102   READ_FUNC -> READ VARIABLE SEMICOLON
-Rule 103   WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK
-Rule 104   COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
-Rule 105   COND_ONE -> ELSE NESTED_BLOCK
-Rule 106   COND_ONE -> empty
-Rule 107   NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE
-Rule 108   NESTED_B_ONE -> STMT NESTED_B_ONE
-Rule 109   NESTED_B_ONE -> empty
-Rule 110   empty -> <empty>
+Rule 51    DEC_ARR -> empty
+Rule 52    DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET
+Rule 53    DEC_ARR_ONE -> empty
+Rule 54    DEC_V_O_COMPLEX -> COMMA ID DEC_V_O_COMPLEX
+Rule 55    DEC_V_O_COMPLEX -> empty
+Rule 56    SIMPLE_TYPE -> INT
+Rule 57    SIMPLE_TYPE -> FLOAT
+Rule 58    SIMPLE_TYPE -> CHAR
+Rule 59    COMPLEX_TYPE -> ID
+Rule 60    EXP -> T_EXP EXP_ONE
+Rule 61    EXP_ONE -> OR EXP
+Rule 62    EXP_ONE -> empty
+Rule 63    T_EXP -> G_EXP T_EXP_ONE
+Rule 64    T_EXP_ONE -> AND T_EXP
+Rule 65    T_EXP_ONE -> empty
+Rule 66    G_EXP -> MID_EXP G_EXP_ONE
+Rule 67    G_EXP_ONE -> G_EXP_TWO MID_EXP
+Rule 68    G_EXP_TWO -> LT
+Rule 69    G_EXP_TWO -> GT
+Rule 70    G_EXP_TWO -> NE
+Rule 71    G_EXP_TWO -> EQ
+Rule 72    G_EXP_TWO -> GTE
+Rule 73    G_EXP_TWO -> LTE
+Rule 74    MID_EXP -> TERM MID_EXP_ONE
+Rule 75    MID_EXP_ONE -> PLUS MID_EXP
+Rule 76    MID_EXP_ONE -> MINUS MID_EXP
+Rule 77    MID_EXP_ONE -> empty
+Rule 78    TERM -> FACT TERM_ONE
+Rule 79    TERM_ONE -> TIMES TERM
+Rule 80    TERM_ONE -> DIVIDE TERM
+Rule 81    TERM_ONE -> empty
+Rule 82    FACT -> CTEI
+Rule 83    FACT -> CTEF
+Rule 84    FACT -> VARIABLE
+Rule 85    FACT -> FUNCTION_CALL
+Rule 86    FACT -> LPAREN EXP RPAREN
+Rule 87    BLOCK -> LBRACE BLOCK_ONE RBRACE
+Rule 88    BLOCK_ONE -> BLOCK_STMT BLOCK_ONE
+Rule 89    BLOCK_ONE -> empty
+Rule 90    BLOCK_STMT -> STMT
+Rule 91    BLOCK_STMT -> DEC_VAR
+Rule 92    STMT -> ASSIGN_OP
+Rule 93    STMT -> FUNCTION_CALL
+Rule 94    STMT -> READ_FUNC
+Rule 95    STMT -> PRINT_FUNC
+Rule 96    STMT -> COND
+Rule 97    STMT -> WHILE_LOOP
+Rule 98    STMT -> RETURN_FUNC
+Rule 99    RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON
+Rule 100   RETURN_F_ONE -> VARIABLE
+Rule 101   RETURN_F_ONE -> EXP
+Rule 102   PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON
+Rule 103   READ_FUNC -> READ VARIABLE SEMICOLON
+Rule 104   WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK
+Rule 105   COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
+Rule 106   COND_ONE -> ELSE NESTED_BLOCK
+Rule 107   COND_ONE -> empty
+Rule 108   NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE
+Rule 109   NESTED_B_ONE -> STMT NESTED_B_ONE
+Rule 110   NESTED_B_ONE -> empty
+Rule 111   empty -> <empty>
 
 Terminals, with rules where they appear
 
-AND                  : 63
+AND                  : 64
 ASSIGN               : 44
-CHAR                 : 57
+CHAR                 : 58
 CLASS                : 15
-COMMA                : 30 38 48 53
+COMMA                : 30 38 48 54
 CTECH                : 
-CTEF                 : 82
-CTEI                 : 50 51 81
+CTEF                 : 83
+CTEI                 : 50 52 82
 DERIVES              : 18
-DIVIDE               : 79
-ELSE                 : 105
-EQ                   : 70
-FLOAT                : 56
+DIVIDE               : 80
+ELSE                 : 106
+EQ                   : 71
+FLOAT                : 57
 FUNC                 : 31
-GT                   : 68
-GTE                  : 71
-ID                   : 1 13 15 18 24 27 27 28 29 31 37 40 46 47 48 53 58
-IF                   : 104
+GT                   : 69
+GTE                  : 72
+ID                   : 1 13 15 18 24 27 27 28 29 31 37 40 46 47 48 54 59
+IF                   : 105
 IMPORT               : 13
-INT                  : 55
-LBRACE               : 14 86 107
-LPAREN               : 24 29 31 85 101 103 104
-LSBRACKET            : 42 50 51
-LT                   : 67
-LTE                  : 72
-MINUS                : 75
-NE                   : 69
+INT                  : 56
+LBRACE               : 14 87 108
+LPAREN               : 24 29 31 86 102 104 105
+LSBRACKET            : 42 50 52
+LT                   : 68
+LTE                  : 73
+MINUS                : 76
+NE                   : 70
 NOT                  : 
-OR                   : 60
-PLUS                 : 74
+OR                   : 61
+PLUS                 : 75
 POINT                : 27 28
-PRINT                : 101
+PRINT                : 102
 PROGRAM              : 1
-RBRACE               : 14 86 107
-READ                 : 102
-RETURN               : 98
-RPAREN               : 24 29 31 85 101 103 104
-RSBRACKET            : 42 50 51
-SEMICOLON            : 1 13 44 45 98 101 102
-TIMES                : 78
+RBRACE               : 14 87 108
+READ                 : 103
+RETURN               : 99
+RPAREN               : 24 29 31 86 102 104 105
+RSBRACKET            : 42 50 52
+SEMICOLON            : 1 13 44 45 99 102 103
+TIMES                : 79
 VAR                  : 45
 VOID                 : 34
-WHILE                : 103
+WHILE                : 104
 error                : 
 
 Nonterminals, with rules where they appear
 
-ASSIGN_OP            : 91
+ASSIGN_OP            : 92
 BLOCK                : 24 32
-BLOCK_ONE            : 86 87
-BLOCK_STMT           : 87
+BLOCK_ONE            : 87 88
+BLOCK_STMT           : 88
 CLASS_BODY           : 14
 CLASS_BODY_MEMBER    : 19 20
 CLASS_B_M_ONE        : 19 20
@@ -182,56 +183,56 @@ CLASS_DEC_ONE        : 15
 CLASS_INHERITS       : 16
 CLASS_STR            : 5
 COMPLEX_TYPE         : 46
-COND                 : 95
-COND_ONE             : 104
+COND                 : 96
+COND_ONE             : 105
 DEC_ARR              : 47 48
 DEC_ARR_ONE          : 50
-DEC_VAR              : 7 23 90
+DEC_VAR              : 7 23 91
 DEC_VAR_ONE          : 45
-DEC_V_O_COMPLEX      : 46 53
+DEC_V_O_COMPLEX      : 46 54
 DEC_V_O_SIMPLE       : 47 48
-EXP                  : 29 30 42 44 60 85 100 101 103 104
-EXP_ONE              : 59
-FACT                 : 77
+EXP                  : 29 30 42 44 61 86 101 102 104 105
+EXP_ONE              : 60
+FACT                 : 78
 FIELD_ACCESS         : 41
 FUNCTION             : 6 22 30
 FUNCTION_ACCESS      : 
-FUNCTION_CALL        : 28 84 92
+FUNCTION_CALL        : 28 85 93
 FUNCTION_C_ONE       : 29
 FUNCTION_DEC         : 32
 FUNCTION_D_ONE       : 31
 FUNCTION_D_TWO       : 31
-G_EXP                : 62
-G_EXP_ONE            : 65
-G_EXP_TWO            : 66
+G_EXP                : 63
+G_EXP_ONE            : 66
+G_EXP_TWO            : 67
 LIB                  : 10 11
 LIBS_DECLARATION     : 3
 LIB_ONE              : 10 11
-MID_EXP              : 65 66 74 75
-MID_EXP_ONE          : 73
-NESTED_BLOCK         : 103 104 105
-NESTED_B_ONE         : 107 108
+MID_EXP              : 66 67 75 76
+MID_EXP_ONE          : 74
+NESTED_BLOCK         : 104 105 106
+NESTED_B_ONE         : 108 109
 P                    : 0
 PARAM                : 25 35 38
 PARAM_ONE            : 37
-PRINT_FUNC           : 94
+PRINT_FUNC           : 95
 PROG_MEMBERS         : 2 8
 PROG_M_ONE           : 2 8
 P_STRUCTURE          : 1
 P_STR_ONE            : 2
-READ_FUNC            : 93
-RETURN_FUNC          : 97
-RETURN_F_ONE         : 98
+READ_FUNC            : 94
+RETURN_FUNC          : 98
+RETURN_F_ONE         : 99
 SIMPLE_TYPE          : 33 37 47
-STMT                 : 89 108
-TERM                 : 73 78 79
-TERM_ONE             : 77
-T_EXP                : 59 63
-T_EXP_ONE            : 62
-VARIABLE             : 44 83 99 102
+STMT                 : 90 109
+TERM                 : 74 79 80
+TERM_ONE             : 78
+T_EXP                : 60 64
+T_EXP_ONE            : 63
+VARIABLE             : 44 84 100 103
 VARIABLE_ONE         : 40 42
-WHILE_LOOP           : 96
-empty                : 4 9 12 17 21 26 36 39 43 49 52 54 61 64 76 80 88 106 109
+WHILE_LOOP           : 97
+empty                : 4 9 12 17 21 26 36 39 43 49 51 53 55 62 65 77 81 89 107 110
 
 Parsing method: LALR
 
@@ -271,12 +272,12 @@ state 4
     (3) P_STR_ONE -> . LIBS_DECLARATION
     (4) P_STR_ONE -> . empty
     (10) LIBS_DECLARATION -> . LIB LIB_ONE
-    (110) empty -> .
+    (111) empty -> .
     (13) LIB -> . IMPORT ID SEMICOLON
 
-    VAR             reduce using rule 110 (empty -> .)
-    CLASS           reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    VAR             reduce using rule 111 (empty -> .)
+    CLASS           reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
     IMPORT          shift and go to state 10
 
     P_STRUCTURE                    shift and go to state 5
@@ -339,12 +340,12 @@ state 9
     (11) LIB_ONE -> . LIB LIB_ONE
     (12) LIB_ONE -> . empty
     (13) LIB -> . IMPORT ID SEMICOLON
-    (110) empty -> .
+    (111) empty -> .
 
     IMPORT          shift and go to state 10
-    VAR             reduce using rule 110 (empty -> .)
-    CLASS           reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    VAR             reduce using rule 111 (empty -> .)
+    CLASS           reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
     LIB                            shift and go to state 20
     LIB_ONE                        shift and go to state 21
@@ -365,14 +366,14 @@ state 11
     (5) PROG_MEMBERS -> . CLASS_STR
     (6) PROG_MEMBERS -> . FUNCTION
     (7) PROG_MEMBERS -> . DEC_VAR
-    (110) empty -> .
+    (111) empty -> .
     (14) CLASS_STR -> . CLASS_DEC LBRACE CLASS_BODY RBRACE
     (32) FUNCTION -> . FUNCTION_DEC BLOCK
     (45) DEC_VAR -> . VAR DEC_VAR_ONE SEMICOLON
     (15) CLASS_DEC -> . CLASS ID CLASS_DEC_ONE
     (31) FUNCTION_DEC -> . FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN
 
-    $end            reduce using rule 110 (empty -> .)
+    $end            reduce using rule 111 (empty -> .)
     VAR             shift and go to state 17
     CLASS           shift and go to state 18
     FUNC            shift and go to state 19
@@ -426,7 +427,7 @@ state 15
 state 16
 
     (32) FUNCTION -> FUNCTION_DEC . BLOCK
-    (86) BLOCK -> . LBRACE BLOCK_ONE RBRACE
+    (87) BLOCK -> . LBRACE BLOCK_ONE RBRACE
 
     LBRACE          shift and go to state 29
 
@@ -437,10 +438,10 @@ state 17
     (45) DEC_VAR -> VAR . DEC_VAR_ONE SEMICOLON
     (46) DEC_VAR_ONE -> . COMPLEX_TYPE ID DEC_V_O_COMPLEX
     (47) DEC_VAR_ONE -> . SIMPLE_TYPE ID DEC_ARR DEC_V_O_SIMPLE
-    (58) COMPLEX_TYPE -> . ID
-    (55) SIMPLE_TYPE -> . INT
-    (56) SIMPLE_TYPE -> . FLOAT
-    (57) SIMPLE_TYPE -> . CHAR
+    (59) COMPLEX_TYPE -> . ID
+    (56) SIMPLE_TYPE -> . INT
+    (57) SIMPLE_TYPE -> . FLOAT
+    (58) SIMPLE_TYPE -> . CHAR
 
     ID              shift and go to state 32
     INT             shift and go to state 34
@@ -463,9 +464,9 @@ state 19
     (31) FUNCTION_DEC -> FUNC . FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN
     (33) FUNCTION_D_ONE -> . SIMPLE_TYPE
     (34) FUNCTION_D_ONE -> . VOID
-    (55) SIMPLE_TYPE -> . INT
-    (56) SIMPLE_TYPE -> . FLOAT
-    (57) SIMPLE_TYPE -> . CHAR
+    (56) SIMPLE_TYPE -> . INT
+    (57) SIMPLE_TYPE -> . FLOAT
+    (58) SIMPLE_TYPE -> . CHAR
 
     VOID            shift and go to state 40
     INT             shift and go to state 34
@@ -481,12 +482,12 @@ state 20
     (11) LIB_ONE -> . LIB LIB_ONE
     (12) LIB_ONE -> . empty
     (13) LIB -> . IMPORT ID SEMICOLON
-    (110) empty -> .
+    (111) empty -> .
 
     IMPORT          shift and go to state 10
-    VAR             reduce using rule 110 (empty -> .)
-    CLASS           reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    VAR             reduce using rule 111 (empty -> .)
+    CLASS           reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
     LIB                            shift and go to state 20
     LIB_ONE                        shift and go to state 41
@@ -525,14 +526,14 @@ state 24
     (5) PROG_MEMBERS -> . CLASS_STR
     (6) PROG_MEMBERS -> . FUNCTION
     (7) PROG_MEMBERS -> . DEC_VAR
-    (110) empty -> .
+    (111) empty -> .
     (14) CLASS_STR -> . CLASS_DEC LBRACE CLASS_BODY RBRACE
     (32) FUNCTION -> . FUNCTION_DEC BLOCK
     (45) DEC_VAR -> . VAR DEC_VAR_ONE SEMICOLON
     (15) CLASS_DEC -> . CLASS ID CLASS_DEC_ONE
     (31) FUNCTION_DEC -> . FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN
 
-    $end            reduce using rule 110 (empty -> .)
+    $end            reduce using rule 111 (empty -> .)
     VAR             shift and go to state 17
     CLASS           shift and go to state 18
     FUNC            shift and go to state 19
@@ -585,32 +586,32 @@ state 28
 
 state 29
 
-    (86) BLOCK -> LBRACE . BLOCK_ONE RBRACE
-    (87) BLOCK_ONE -> . BLOCK_STMT BLOCK_ONE
-    (88) BLOCK_ONE -> . empty
-    (89) BLOCK_STMT -> . STMT
-    (90) BLOCK_STMT -> . DEC_VAR
-    (110) empty -> .
-    (91) STMT -> . ASSIGN_OP
-    (92) STMT -> . FUNCTION_CALL
-    (93) STMT -> . READ_FUNC
-    (94) STMT -> . PRINT_FUNC
-    (95) STMT -> . COND
-    (96) STMT -> . WHILE_LOOP
-    (97) STMT -> . RETURN_FUNC
+    (87) BLOCK -> LBRACE . BLOCK_ONE RBRACE
+    (88) BLOCK_ONE -> . BLOCK_STMT BLOCK_ONE
+    (89) BLOCK_ONE -> . empty
+    (90) BLOCK_STMT -> . STMT
+    (91) BLOCK_STMT -> . DEC_VAR
+    (111) empty -> .
+    (92) STMT -> . ASSIGN_OP
+    (93) STMT -> . FUNCTION_CALL
+    (94) STMT -> . READ_FUNC
+    (95) STMT -> . PRINT_FUNC
+    (96) STMT -> . COND
+    (97) STMT -> . WHILE_LOOP
+    (98) STMT -> . RETURN_FUNC
     (45) DEC_VAR -> . VAR DEC_VAR_ONE SEMICOLON
     (44) ASSIGN_OP -> . VARIABLE ASSIGN EXP SEMICOLON
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (102) READ_FUNC -> . READ VARIABLE SEMICOLON
-    (101) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
-    (104) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
-    (103) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
-    (98) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
+    (103) READ_FUNC -> . READ VARIABLE SEMICOLON
+    (102) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
+    (105) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
+    (104) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
+    (99) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (27) FIELD_ACCESS -> . ID POINT ID
 
-    RBRACE          reduce using rule 110 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
     VAR             shift and go to state 17
     ID              shift and go to state 60
     READ            shift and go to state 61
@@ -650,9 +651,9 @@ state 31
 
 state 32
 
-    (58) COMPLEX_TYPE -> ID .
+    (59) COMPLEX_TYPE -> ID .
 
-    ID              reduce using rule 58 (COMPLEX_TYPE -> ID .)
+    ID              reduce using rule 59 (COMPLEX_TYPE -> ID .)
 
 
 state 33
@@ -664,23 +665,23 @@ state 33
 
 state 34
 
-    (55) SIMPLE_TYPE -> INT .
+    (56) SIMPLE_TYPE -> INT .
 
-    ID              reduce using rule 55 (SIMPLE_TYPE -> INT .)
+    ID              reduce using rule 56 (SIMPLE_TYPE -> INT .)
 
 
 state 35
 
-    (56) SIMPLE_TYPE -> FLOAT .
+    (57) SIMPLE_TYPE -> FLOAT .
 
-    ID              reduce using rule 56 (SIMPLE_TYPE -> FLOAT .)
+    ID              reduce using rule 57 (SIMPLE_TYPE -> FLOAT .)
 
 
 state 36
 
-    (57) SIMPLE_TYPE -> CHAR .
+    (58) SIMPLE_TYPE -> CHAR .
 
-    ID              reduce using rule 57 (SIMPLE_TYPE -> CHAR .)
+    ID              reduce using rule 58 (SIMPLE_TYPE -> CHAR .)
 
 
 state 37
@@ -689,10 +690,10 @@ state 37
     (16) CLASS_DEC_ONE -> . CLASS_INHERITS
     (17) CLASS_DEC_ONE -> . empty
     (18) CLASS_INHERITS -> . DERIVES ID
-    (110) empty -> .
+    (111) empty -> .
 
     DERIVES         shift and go to state 73
-    LBRACE          reduce using rule 110 (empty -> .)
+    LBRACE          reduce using rule 111 (empty -> .)
 
     CLASS_DEC_ONE                  shift and go to state 70
     CLASS_INHERITS                 shift and go to state 71
@@ -778,39 +779,39 @@ state 46
 
 state 47
 
-    (86) BLOCK -> LBRACE BLOCK_ONE . RBRACE
+    (87) BLOCK -> LBRACE BLOCK_ONE . RBRACE
 
     RBRACE          shift and go to state 80
 
 
 state 48
 
-    (87) BLOCK_ONE -> BLOCK_STMT . BLOCK_ONE
-    (87) BLOCK_ONE -> . BLOCK_STMT BLOCK_ONE
-    (88) BLOCK_ONE -> . empty
-    (89) BLOCK_STMT -> . STMT
-    (90) BLOCK_STMT -> . DEC_VAR
-    (110) empty -> .
-    (91) STMT -> . ASSIGN_OP
-    (92) STMT -> . FUNCTION_CALL
-    (93) STMT -> . READ_FUNC
-    (94) STMT -> . PRINT_FUNC
-    (95) STMT -> . COND
-    (96) STMT -> . WHILE_LOOP
-    (97) STMT -> . RETURN_FUNC
+    (88) BLOCK_ONE -> BLOCK_STMT . BLOCK_ONE
+    (88) BLOCK_ONE -> . BLOCK_STMT BLOCK_ONE
+    (89) BLOCK_ONE -> . empty
+    (90) BLOCK_STMT -> . STMT
+    (91) BLOCK_STMT -> . DEC_VAR
+    (111) empty -> .
+    (92) STMT -> . ASSIGN_OP
+    (93) STMT -> . FUNCTION_CALL
+    (94) STMT -> . READ_FUNC
+    (95) STMT -> . PRINT_FUNC
+    (96) STMT -> . COND
+    (97) STMT -> . WHILE_LOOP
+    (98) STMT -> . RETURN_FUNC
     (45) DEC_VAR -> . VAR DEC_VAR_ONE SEMICOLON
     (44) ASSIGN_OP -> . VARIABLE ASSIGN EXP SEMICOLON
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (102) READ_FUNC -> . READ VARIABLE SEMICOLON
-    (101) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
-    (104) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
-    (103) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
-    (98) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
+    (103) READ_FUNC -> . READ VARIABLE SEMICOLON
+    (102) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
+    (105) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
+    (104) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
+    (99) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (27) FIELD_ACCESS -> . ID POINT ID
 
-    RBRACE          reduce using rule 110 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
     VAR             shift and go to state 17
     ID              shift and go to state 60
     READ            shift and go to state 61
@@ -836,135 +837,135 @@ state 48
 
 state 49
 
-    (88) BLOCK_ONE -> empty .
+    (89) BLOCK_ONE -> empty .
 
-    RBRACE          reduce using rule 88 (BLOCK_ONE -> empty .)
+    RBRACE          reduce using rule 89 (BLOCK_ONE -> empty .)
 
 
 state 50
 
-    (89) BLOCK_STMT -> STMT .
+    (90) BLOCK_STMT -> STMT .
 
-    VAR             reduce using rule 89 (BLOCK_STMT -> STMT .)
-    ID              reduce using rule 89 (BLOCK_STMT -> STMT .)
-    READ            reduce using rule 89 (BLOCK_STMT -> STMT .)
-    PRINT           reduce using rule 89 (BLOCK_STMT -> STMT .)
-    IF              reduce using rule 89 (BLOCK_STMT -> STMT .)
-    WHILE           reduce using rule 89 (BLOCK_STMT -> STMT .)
-    RETURN          reduce using rule 89 (BLOCK_STMT -> STMT .)
-    RBRACE          reduce using rule 89 (BLOCK_STMT -> STMT .)
+    VAR             reduce using rule 90 (BLOCK_STMT -> STMT .)
+    ID              reduce using rule 90 (BLOCK_STMT -> STMT .)
+    READ            reduce using rule 90 (BLOCK_STMT -> STMT .)
+    PRINT           reduce using rule 90 (BLOCK_STMT -> STMT .)
+    IF              reduce using rule 90 (BLOCK_STMT -> STMT .)
+    WHILE           reduce using rule 90 (BLOCK_STMT -> STMT .)
+    RETURN          reduce using rule 90 (BLOCK_STMT -> STMT .)
+    RBRACE          reduce using rule 90 (BLOCK_STMT -> STMT .)
 
 
 state 51
 
-    (90) BLOCK_STMT -> DEC_VAR .
+    (91) BLOCK_STMT -> DEC_VAR .
 
-    VAR             reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    ID              reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    READ            reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    PRINT           reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    IF              reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    WHILE           reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    RETURN          reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
-    RBRACE          reduce using rule 90 (BLOCK_STMT -> DEC_VAR .)
+    VAR             reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    ID              reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    READ            reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    PRINT           reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    IF              reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    WHILE           reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    RETURN          reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
+    RBRACE          reduce using rule 91 (BLOCK_STMT -> DEC_VAR .)
 
 
 state 52
 
-    (91) STMT -> ASSIGN_OP .
+    (92) STMT -> ASSIGN_OP .
 
-    VAR             reduce using rule 91 (STMT -> ASSIGN_OP .)
-    ID              reduce using rule 91 (STMT -> ASSIGN_OP .)
-    READ            reduce using rule 91 (STMT -> ASSIGN_OP .)
-    PRINT           reduce using rule 91 (STMT -> ASSIGN_OP .)
-    IF              reduce using rule 91 (STMT -> ASSIGN_OP .)
-    WHILE           reduce using rule 91 (STMT -> ASSIGN_OP .)
-    RETURN          reduce using rule 91 (STMT -> ASSIGN_OP .)
-    RBRACE          reduce using rule 91 (STMT -> ASSIGN_OP .)
+    VAR             reduce using rule 92 (STMT -> ASSIGN_OP .)
+    ID              reduce using rule 92 (STMT -> ASSIGN_OP .)
+    READ            reduce using rule 92 (STMT -> ASSIGN_OP .)
+    PRINT           reduce using rule 92 (STMT -> ASSIGN_OP .)
+    IF              reduce using rule 92 (STMT -> ASSIGN_OP .)
+    WHILE           reduce using rule 92 (STMT -> ASSIGN_OP .)
+    RETURN          reduce using rule 92 (STMT -> ASSIGN_OP .)
+    RBRACE          reduce using rule 92 (STMT -> ASSIGN_OP .)
 
 
 state 53
 
-    (92) STMT -> FUNCTION_CALL .
+    (93) STMT -> FUNCTION_CALL .
 
-    VAR             reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    ID              reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    READ            reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    PRINT           reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    IF              reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    WHILE           reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    RETURN          reduce using rule 92 (STMT -> FUNCTION_CALL .)
-    RBRACE          reduce using rule 92 (STMT -> FUNCTION_CALL .)
+    VAR             reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    ID              reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    READ            reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    PRINT           reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    IF              reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    WHILE           reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    RETURN          reduce using rule 93 (STMT -> FUNCTION_CALL .)
+    RBRACE          reduce using rule 93 (STMT -> FUNCTION_CALL .)
 
 
 state 54
 
-    (93) STMT -> READ_FUNC .
+    (94) STMT -> READ_FUNC .
 
-    VAR             reduce using rule 93 (STMT -> READ_FUNC .)
-    ID              reduce using rule 93 (STMT -> READ_FUNC .)
-    READ            reduce using rule 93 (STMT -> READ_FUNC .)
-    PRINT           reduce using rule 93 (STMT -> READ_FUNC .)
-    IF              reduce using rule 93 (STMT -> READ_FUNC .)
-    WHILE           reduce using rule 93 (STMT -> READ_FUNC .)
-    RETURN          reduce using rule 93 (STMT -> READ_FUNC .)
-    RBRACE          reduce using rule 93 (STMT -> READ_FUNC .)
+    VAR             reduce using rule 94 (STMT -> READ_FUNC .)
+    ID              reduce using rule 94 (STMT -> READ_FUNC .)
+    READ            reduce using rule 94 (STMT -> READ_FUNC .)
+    PRINT           reduce using rule 94 (STMT -> READ_FUNC .)
+    IF              reduce using rule 94 (STMT -> READ_FUNC .)
+    WHILE           reduce using rule 94 (STMT -> READ_FUNC .)
+    RETURN          reduce using rule 94 (STMT -> READ_FUNC .)
+    RBRACE          reduce using rule 94 (STMT -> READ_FUNC .)
 
 
 state 55
 
-    (94) STMT -> PRINT_FUNC .
+    (95) STMT -> PRINT_FUNC .
 
-    VAR             reduce using rule 94 (STMT -> PRINT_FUNC .)
-    ID              reduce using rule 94 (STMT -> PRINT_FUNC .)
-    READ            reduce using rule 94 (STMT -> PRINT_FUNC .)
-    PRINT           reduce using rule 94 (STMT -> PRINT_FUNC .)
-    IF              reduce using rule 94 (STMT -> PRINT_FUNC .)
-    WHILE           reduce using rule 94 (STMT -> PRINT_FUNC .)
-    RETURN          reduce using rule 94 (STMT -> PRINT_FUNC .)
-    RBRACE          reduce using rule 94 (STMT -> PRINT_FUNC .)
+    VAR             reduce using rule 95 (STMT -> PRINT_FUNC .)
+    ID              reduce using rule 95 (STMT -> PRINT_FUNC .)
+    READ            reduce using rule 95 (STMT -> PRINT_FUNC .)
+    PRINT           reduce using rule 95 (STMT -> PRINT_FUNC .)
+    IF              reduce using rule 95 (STMT -> PRINT_FUNC .)
+    WHILE           reduce using rule 95 (STMT -> PRINT_FUNC .)
+    RETURN          reduce using rule 95 (STMT -> PRINT_FUNC .)
+    RBRACE          reduce using rule 95 (STMT -> PRINT_FUNC .)
 
 
 state 56
 
-    (95) STMT -> COND .
+    (96) STMT -> COND .
 
-    VAR             reduce using rule 95 (STMT -> COND .)
-    ID              reduce using rule 95 (STMT -> COND .)
-    READ            reduce using rule 95 (STMT -> COND .)
-    PRINT           reduce using rule 95 (STMT -> COND .)
-    IF              reduce using rule 95 (STMT -> COND .)
-    WHILE           reduce using rule 95 (STMT -> COND .)
-    RETURN          reduce using rule 95 (STMT -> COND .)
-    RBRACE          reduce using rule 95 (STMT -> COND .)
+    VAR             reduce using rule 96 (STMT -> COND .)
+    ID              reduce using rule 96 (STMT -> COND .)
+    READ            reduce using rule 96 (STMT -> COND .)
+    PRINT           reduce using rule 96 (STMT -> COND .)
+    IF              reduce using rule 96 (STMT -> COND .)
+    WHILE           reduce using rule 96 (STMT -> COND .)
+    RETURN          reduce using rule 96 (STMT -> COND .)
+    RBRACE          reduce using rule 96 (STMT -> COND .)
 
 
 state 57
 
-    (96) STMT -> WHILE_LOOP .
+    (97) STMT -> WHILE_LOOP .
 
-    VAR             reduce using rule 96 (STMT -> WHILE_LOOP .)
-    ID              reduce using rule 96 (STMT -> WHILE_LOOP .)
-    READ            reduce using rule 96 (STMT -> WHILE_LOOP .)
-    PRINT           reduce using rule 96 (STMT -> WHILE_LOOP .)
-    IF              reduce using rule 96 (STMT -> WHILE_LOOP .)
-    WHILE           reduce using rule 96 (STMT -> WHILE_LOOP .)
-    RETURN          reduce using rule 96 (STMT -> WHILE_LOOP .)
-    RBRACE          reduce using rule 96 (STMT -> WHILE_LOOP .)
+    VAR             reduce using rule 97 (STMT -> WHILE_LOOP .)
+    ID              reduce using rule 97 (STMT -> WHILE_LOOP .)
+    READ            reduce using rule 97 (STMT -> WHILE_LOOP .)
+    PRINT           reduce using rule 97 (STMT -> WHILE_LOOP .)
+    IF              reduce using rule 97 (STMT -> WHILE_LOOP .)
+    WHILE           reduce using rule 97 (STMT -> WHILE_LOOP .)
+    RETURN          reduce using rule 97 (STMT -> WHILE_LOOP .)
+    RBRACE          reduce using rule 97 (STMT -> WHILE_LOOP .)
 
 
 state 58
 
-    (97) STMT -> RETURN_FUNC .
+    (98) STMT -> RETURN_FUNC .
 
-    VAR             reduce using rule 97 (STMT -> RETURN_FUNC .)
-    ID              reduce using rule 97 (STMT -> RETURN_FUNC .)
-    READ            reduce using rule 97 (STMT -> RETURN_FUNC .)
-    PRINT           reduce using rule 97 (STMT -> RETURN_FUNC .)
-    IF              reduce using rule 97 (STMT -> RETURN_FUNC .)
-    WHILE           reduce using rule 97 (STMT -> RETURN_FUNC .)
-    RETURN          reduce using rule 97 (STMT -> RETURN_FUNC .)
-    RBRACE          reduce using rule 97 (STMT -> RETURN_FUNC .)
+    VAR             reduce using rule 98 (STMT -> RETURN_FUNC .)
+    ID              reduce using rule 98 (STMT -> RETURN_FUNC .)
+    READ            reduce using rule 98 (STMT -> RETURN_FUNC .)
+    PRINT           reduce using rule 98 (STMT -> RETURN_FUNC .)
+    IF              reduce using rule 98 (STMT -> RETURN_FUNC .)
+    WHILE           reduce using rule 98 (STMT -> RETURN_FUNC .)
+    RETURN          reduce using rule 98 (STMT -> RETURN_FUNC .)
+    RBRACE          reduce using rule 98 (STMT -> RETURN_FUNC .)
 
 
 state 59
@@ -981,19 +982,19 @@ state 60
     (27) FIELD_ACCESS -> ID . POINT ID
     (42) VARIABLE_ONE -> . LSBRACKET EXP RSBRACKET VARIABLE_ONE
     (43) VARIABLE_ONE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
     LPAREN          shift and go to state 83
     POINT           shift and go to state 85
     LSBRACKET       shift and go to state 86
-    ASSIGN          reduce using rule 110 (empty -> .)
+    ASSIGN          reduce using rule 111 (empty -> .)
 
     VARIABLE_ONE                   shift and go to state 84
     empty                          shift and go to state 87
 
 state 61
 
-    (102) READ_FUNC -> READ . VARIABLE SEMICOLON
+    (103) READ_FUNC -> READ . VARIABLE SEMICOLON
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (27) FIELD_ACCESS -> . ID POINT ID
@@ -1005,43 +1006,43 @@ state 61
 
 state 62
 
-    (101) PRINT_FUNC -> PRINT . LPAREN EXP RPAREN SEMICOLON
+    (102) PRINT_FUNC -> PRINT . LPAREN EXP RPAREN SEMICOLON
 
     LPAREN          shift and go to state 90
 
 
 state 63
 
-    (104) COND -> IF . LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
+    (105) COND -> IF . LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
 
     LPAREN          shift and go to state 91
 
 
 state 64
 
-    (103) WHILE_LOOP -> WHILE . LPAREN EXP RPAREN NESTED_BLOCK
+    (104) WHILE_LOOP -> WHILE . LPAREN EXP RPAREN NESTED_BLOCK
 
     LPAREN          shift and go to state 92
 
 
 state 65
 
-    (98) RETURN_FUNC -> RETURN . RETURN_F_ONE SEMICOLON
-    (99) RETURN_F_ONE -> . VARIABLE
-    (100) RETURN_F_ONE -> . EXP
+    (99) RETURN_FUNC -> RETURN . RETURN_F_ONE SEMICOLON
+    (100) RETURN_F_ONE -> . VARIABLE
+    (101) RETURN_F_ONE -> . EXP
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
-    (59) EXP -> . T_EXP EXP_ONE
+    (60) EXP -> . T_EXP EXP_ONE
     (27) FIELD_ACCESS -> . ID POINT ID
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
 
     ID              shift and go to state 96
@@ -1104,12 +1105,12 @@ state 67
 state 68
 
     (46) DEC_VAR_ONE -> COMPLEX_TYPE ID . DEC_V_O_COMPLEX
-    (53) DEC_V_O_COMPLEX -> . COMMA ID DEC_V_O_COMPLEX
-    (54) DEC_V_O_COMPLEX -> . empty
-    (110) empty -> .
+    (54) DEC_V_O_COMPLEX -> . COMMA ID DEC_V_O_COMPLEX
+    (55) DEC_V_O_COMPLEX -> . empty
+    (111) empty -> .
 
     COMMA           shift and go to state 107
-    SEMICOLON       reduce using rule 110 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
 
     DEC_V_O_COMPLEX                shift and go to state 106
     empty                          shift and go to state 108
@@ -1118,10 +1119,15 @@ state 69
 
     (47) DEC_VAR_ONE -> SIMPLE_TYPE ID . DEC_ARR DEC_V_O_SIMPLE
     (50) DEC_ARR -> . LSBRACKET CTEI RSBRACKET DEC_ARR_ONE
+    (51) DEC_ARR -> . empty
+    (111) empty -> .
 
     LSBRACKET       shift and go to state 110
+    COMMA           reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
 
     DEC_ARR                        shift and go to state 109
+    empty                          shift and go to state 111
 
 state 70
 
@@ -1148,14 +1154,14 @@ state 73
 
     (18) CLASS_INHERITS -> DERIVES . ID
 
-    ID              shift and go to state 111
+    ID              shift and go to state 112
 
 
 state 74
 
     (31) FUNCTION_DEC -> FUNC FUNCTION_D_ONE ID . LPAREN FUNCTION_D_TWO RPAREN
 
-    LPAREN          shift and go to state 112
+    LPAREN          shift and go to state 113
 
 
 state 75
@@ -1175,18 +1181,18 @@ state 76
     (21) CLASS_B_M_ONE -> . empty
     (22) CLASS_BODY_MEMBER -> . FUNCTION
     (23) CLASS_BODY_MEMBER -> . DEC_VAR
-    (110) empty -> .
+    (111) empty -> .
     (32) FUNCTION -> . FUNCTION_DEC BLOCK
     (45) DEC_VAR -> . VAR DEC_VAR_ONE SEMICOLON
     (31) FUNCTION_DEC -> . FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN
 
-    RBRACE          reduce using rule 110 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
     VAR             shift and go to state 17
     FUNC            shift and go to state 19
 
-    CLASS_BODY_MEMBER              shift and go to state 113
-    CLASS_B_M_ONE                  shift and go to state 114
-    empty                          shift and go to state 115
+    CLASS_BODY_MEMBER              shift and go to state 114
+    CLASS_B_M_ONE                  shift and go to state 115
+    empty                          shift and go to state 116
     FUNCTION                       shift and go to state 77
     DEC_VAR                        shift and go to state 78
     FUNCTION_DEC                   shift and go to state 16
@@ -1215,53 +1221,53 @@ state 79
     (25) CLASS_C_ONE -> . PARAM
     (26) CLASS_C_ONE -> . empty
     (37) PARAM -> . SIMPLE_TYPE ID PARAM_ONE
-    (110) empty -> .
-    (55) SIMPLE_TYPE -> . INT
-    (56) SIMPLE_TYPE -> . FLOAT
-    (57) SIMPLE_TYPE -> . CHAR
+    (111) empty -> .
+    (56) SIMPLE_TYPE -> . INT
+    (57) SIMPLE_TYPE -> . FLOAT
+    (58) SIMPLE_TYPE -> . CHAR
 
-    RPAREN          reduce using rule 110 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
     INT             shift and go to state 34
     FLOAT           shift and go to state 35
     CHAR            shift and go to state 36
 
-    CLASS_C_ONE                    shift and go to state 116
-    PARAM                          shift and go to state 117
-    empty                          shift and go to state 118
-    SIMPLE_TYPE                    shift and go to state 119
+    CLASS_C_ONE                    shift and go to state 117
+    PARAM                          shift and go to state 118
+    empty                          shift and go to state 119
+    SIMPLE_TYPE                    shift and go to state 120
 
 state 80
 
-    (86) BLOCK -> LBRACE BLOCK_ONE RBRACE .
+    (87) BLOCK -> LBRACE BLOCK_ONE RBRACE .
 
-    VAR             reduce using rule 86 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
-    CLASS           reduce using rule 86 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
-    FUNC            reduce using rule 86 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
-    $end            reduce using rule 86 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
-    RBRACE          reduce using rule 86 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
-    RPAREN          reduce using rule 86 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
+    VAR             reduce using rule 87 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
+    CLASS           reduce using rule 87 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
+    FUNC            reduce using rule 87 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
+    $end            reduce using rule 87 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
+    RBRACE          reduce using rule 87 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
+    RPAREN          reduce using rule 87 (BLOCK -> LBRACE BLOCK_ONE RBRACE .)
 
 
 state 81
 
-    (87) BLOCK_ONE -> BLOCK_STMT BLOCK_ONE .
+    (88) BLOCK_ONE -> BLOCK_STMT BLOCK_ONE .
 
-    RBRACE          reduce using rule 87 (BLOCK_ONE -> BLOCK_STMT BLOCK_ONE .)
+    RBRACE          reduce using rule 88 (BLOCK_ONE -> BLOCK_STMT BLOCK_ONE .)
 
 
 state 82
 
     (44) ASSIGN_OP -> VARIABLE ASSIGN . EXP SEMICOLON
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -1270,10 +1276,10 @@ state 82
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    VARIABLE                       shift and go to state 120
-    EXP                            shift and go to state 121
+    VARIABLE                       shift and go to state 121
+    EXP                            shift and go to state 122
     T_EXP                          shift and go to state 97
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
@@ -1285,16 +1291,16 @@ state 82
 state 83
 
     (29) FUNCTION_CALL -> ID LPAREN . EXP FUNCTION_C_ONE RPAREN
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -1303,15 +1309,15 @@ state 83
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    EXP                            shift and go to state 123
+    EXP                            shift and go to state 124
     T_EXP                          shift and go to state 97
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
@@ -1343,22 +1349,22 @@ state 85
 
     (27) FIELD_ACCESS -> ID POINT . ID
 
-    ID              shift and go to state 124
+    ID              shift and go to state 125
 
 
 state 86
 
     (42) VARIABLE_ONE -> LSBRACKET . EXP RSBRACKET VARIABLE_ONE
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -1367,15 +1373,15 @@ state 86
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    EXP                            shift and go to state 125
+    EXP                            shift and go to state 126
     T_EXP                          shift and go to state 97
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
@@ -1405,9 +1411,9 @@ state 87
 
 state 88
 
-    (102) READ_FUNC -> READ VARIABLE . SEMICOLON
+    (103) READ_FUNC -> READ VARIABLE . SEMICOLON
 
-    SEMICOLON       shift and go to state 126
+    SEMICOLON       shift and go to state 127
 
 
 state 89
@@ -1416,28 +1422,28 @@ state 89
     (27) FIELD_ACCESS -> ID . POINT ID
     (42) VARIABLE_ONE -> . LSBRACKET EXP RSBRACKET VARIABLE_ONE
     (43) VARIABLE_ONE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
     POINT           shift and go to state 85
     LSBRACKET       shift and go to state 86
-    SEMICOLON       reduce using rule 110 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
 
     VARIABLE_ONE                   shift and go to state 84
     empty                          shift and go to state 87
 
 state 90
 
-    (101) PRINT_FUNC -> PRINT LPAREN . EXP RPAREN SEMICOLON
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (102) PRINT_FUNC -> PRINT LPAREN . EXP RPAREN SEMICOLON
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -1446,40 +1452,7 @@ state 90
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
-
-    EXP                            shift and go to state 127
-    T_EXP                          shift and go to state 97
-    G_EXP                          shift and go to state 98
-    MID_EXP                        shift and go to state 99
-    TERM                           shift and go to state 100
-    FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
-    FUNCTION_CALL                  shift and go to state 104
-    FIELD_ACCESS                   shift and go to state 66
-
-state 91
-
-    (104) COND -> IF LPAREN . EXP RPAREN NESTED_BLOCK COND_ONE
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
-    (40) VARIABLE -> . ID VARIABLE_ONE
-    (41) VARIABLE -> . FIELD_ACCESS
-    (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (27) FIELD_ACCESS -> . ID POINT ID
-
-    CTEI            shift and go to state 102
-    CTEF            shift and go to state 103
-    LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
     EXP                            shift and go to state 128
     T_EXP                          shift and go to state 97
@@ -1487,23 +1460,23 @@ state 91
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
-state 92
+state 91
 
-    (103) WHILE_LOOP -> WHILE LPAREN . EXP RPAREN NESTED_BLOCK
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (105) COND -> IF LPAREN . EXP RPAREN NESTED_BLOCK COND_ONE
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -1512,7 +1485,7 @@ state 92
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
     EXP                            shift and go to state 129
     T_EXP                          shift and go to state 97
@@ -1520,40 +1493,73 @@ state 92
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
+    FUNCTION_CALL                  shift and go to state 104
+    FIELD_ACCESS                   shift and go to state 66
+
+state 92
+
+    (104) WHILE_LOOP -> WHILE LPAREN . EXP RPAREN NESTED_BLOCK
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
+    (40) VARIABLE -> . ID VARIABLE_ONE
+    (41) VARIABLE -> . FIELD_ACCESS
+    (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
+    (27) FIELD_ACCESS -> . ID POINT ID
+
+    CTEI            shift and go to state 102
+    CTEF            shift and go to state 103
+    LPAREN          shift and go to state 105
+    ID              shift and go to state 123
+
+    EXP                            shift and go to state 130
+    T_EXP                          shift and go to state 97
+    G_EXP                          shift and go to state 98
+    MID_EXP                        shift and go to state 99
+    TERM                           shift and go to state 100
+    FACT                           shift and go to state 101
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
 state 93
 
-    (98) RETURN_FUNC -> RETURN RETURN_F_ONE . SEMICOLON
+    (99) RETURN_FUNC -> RETURN RETURN_F_ONE . SEMICOLON
 
-    SEMICOLON       shift and go to state 130
+    SEMICOLON       shift and go to state 131
 
 
 state 94
 
-    (99) RETURN_F_ONE -> VARIABLE .
-    (83) FACT -> VARIABLE .
+    (100) RETURN_F_ONE -> VARIABLE .
+    (84) FACT -> VARIABLE .
 
-    SEMICOLON       reduce using rule 99 (RETURN_F_ONE -> VARIABLE .)
-    TIMES           reduce using rule 83 (FACT -> VARIABLE .)
-    DIVIDE          reduce using rule 83 (FACT -> VARIABLE .)
-    PLUS            reduce using rule 83 (FACT -> VARIABLE .)
-    MINUS           reduce using rule 83 (FACT -> VARIABLE .)
-    LT              reduce using rule 83 (FACT -> VARIABLE .)
-    GT              reduce using rule 83 (FACT -> VARIABLE .)
-    NE              reduce using rule 83 (FACT -> VARIABLE .)
-    EQ              reduce using rule 83 (FACT -> VARIABLE .)
-    GTE             reduce using rule 83 (FACT -> VARIABLE .)
-    LTE             reduce using rule 83 (FACT -> VARIABLE .)
+    SEMICOLON       reduce using rule 100 (RETURN_F_ONE -> VARIABLE .)
+    TIMES           reduce using rule 84 (FACT -> VARIABLE .)
+    DIVIDE          reduce using rule 84 (FACT -> VARIABLE .)
+    PLUS            reduce using rule 84 (FACT -> VARIABLE .)
+    MINUS           reduce using rule 84 (FACT -> VARIABLE .)
+    LT              reduce using rule 84 (FACT -> VARIABLE .)
+    GT              reduce using rule 84 (FACT -> VARIABLE .)
+    NE              reduce using rule 84 (FACT -> VARIABLE .)
+    EQ              reduce using rule 84 (FACT -> VARIABLE .)
+    GTE             reduce using rule 84 (FACT -> VARIABLE .)
+    LTE             reduce using rule 84 (FACT -> VARIABLE .)
 
 
 state 95
 
-    (100) RETURN_F_ONE -> EXP .
+    (101) RETURN_F_ONE -> EXP .
 
-    SEMICOLON       reduce using rule 100 (RETURN_F_ONE -> EXP .)
+    SEMICOLON       reduce using rule 101 (RETURN_F_ONE -> EXP .)
 
 
 state 96
@@ -1563,220 +1569,220 @@ state 96
     (29) FUNCTION_CALL -> ID . LPAREN EXP FUNCTION_C_ONE RPAREN
     (42) VARIABLE_ONE -> . LSBRACKET EXP RSBRACKET VARIABLE_ONE
     (43) VARIABLE_ONE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
     POINT           shift and go to state 85
     LPAREN          shift and go to state 83
     LSBRACKET       shift and go to state 86
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    TIMES           reduce using rule 110 (empty -> .)
-    DIVIDE          reduce using rule 110 (empty -> .)
-    PLUS            reduce using rule 110 (empty -> .)
-    MINUS           reduce using rule 110 (empty -> .)
-    LT              reduce using rule 110 (empty -> .)
-    GT              reduce using rule 110 (empty -> .)
-    NE              reduce using rule 110 (empty -> .)
-    EQ              reduce using rule 110 (empty -> .)
-    GTE             reduce using rule 110 (empty -> .)
-    LTE             reduce using rule 110 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    TIMES           reduce using rule 111 (empty -> .)
+    DIVIDE          reduce using rule 111 (empty -> .)
+    PLUS            reduce using rule 111 (empty -> .)
+    MINUS           reduce using rule 111 (empty -> .)
+    LT              reduce using rule 111 (empty -> .)
+    GT              reduce using rule 111 (empty -> .)
+    NE              reduce using rule 111 (empty -> .)
+    EQ              reduce using rule 111 (empty -> .)
+    GTE             reduce using rule 111 (empty -> .)
+    LTE             reduce using rule 111 (empty -> .)
 
     VARIABLE_ONE                   shift and go to state 84
     empty                          shift and go to state 87
 
 state 97
 
-    (59) EXP -> T_EXP . EXP_ONE
-    (60) EXP_ONE -> . OR EXP
-    (61) EXP_ONE -> . empty
-    (110) empty -> .
+    (60) EXP -> T_EXP . EXP_ONE
+    (61) EXP_ONE -> . OR EXP
+    (62) EXP_ONE -> . empty
+    (111) empty -> .
 
-    OR              shift and go to state 132
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    COMMA           reduce using rule 110 (empty -> .)
-    RSBRACKET       reduce using rule 110 (empty -> .)
-    RPAREN          reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    OR              shift and go to state 133
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    COMMA           reduce using rule 111 (empty -> .)
+    RSBRACKET       reduce using rule 111 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
-    EXP_ONE                        shift and go to state 131
-    empty                          shift and go to state 133
+    EXP_ONE                        shift and go to state 132
+    empty                          shift and go to state 134
 
 state 98
 
-    (62) T_EXP -> G_EXP . T_EXP_ONE
-    (63) T_EXP_ONE -> . AND T_EXP
-    (64) T_EXP_ONE -> . empty
-    (110) empty -> .
+    (63) T_EXP -> G_EXP . T_EXP_ONE
+    (64) T_EXP_ONE -> . AND T_EXP
+    (65) T_EXP_ONE -> . empty
+    (111) empty -> .
 
-    AND             shift and go to state 135
-    OR              reduce using rule 110 (empty -> .)
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    COMMA           reduce using rule 110 (empty -> .)
-    RSBRACKET       reduce using rule 110 (empty -> .)
-    RPAREN          reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    AND             shift and go to state 136
+    OR              reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    COMMA           reduce using rule 111 (empty -> .)
+    RSBRACKET       reduce using rule 111 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
-    T_EXP_ONE                      shift and go to state 134
-    empty                          shift and go to state 136
+    T_EXP_ONE                      shift and go to state 135
+    empty                          shift and go to state 137
 
 state 99
 
-    (65) G_EXP -> MID_EXP . G_EXP_ONE
-    (66) G_EXP_ONE -> . G_EXP_TWO MID_EXP
-    (67) G_EXP_TWO -> . LT
-    (68) G_EXP_TWO -> . GT
-    (69) G_EXP_TWO -> . NE
-    (70) G_EXP_TWO -> . EQ
-    (71) G_EXP_TWO -> . GTE
-    (72) G_EXP_TWO -> . LTE
+    (66) G_EXP -> MID_EXP . G_EXP_ONE
+    (67) G_EXP_ONE -> . G_EXP_TWO MID_EXP
+    (68) G_EXP_TWO -> . LT
+    (69) G_EXP_TWO -> . GT
+    (70) G_EXP_TWO -> . NE
+    (71) G_EXP_TWO -> . EQ
+    (72) G_EXP_TWO -> . GTE
+    (73) G_EXP_TWO -> . LTE
 
-    LT              shift and go to state 139
-    GT              shift and go to state 140
-    NE              shift and go to state 141
-    EQ              shift and go to state 142
-    GTE             shift and go to state 143
-    LTE             shift and go to state 144
+    LT              shift and go to state 140
+    GT              shift and go to state 141
+    NE              shift and go to state 142
+    EQ              shift and go to state 143
+    GTE             shift and go to state 144
+    LTE             shift and go to state 145
 
-    G_EXP_ONE                      shift and go to state 137
-    G_EXP_TWO                      shift and go to state 138
+    G_EXP_ONE                      shift and go to state 138
+    G_EXP_TWO                      shift and go to state 139
 
 state 100
 
-    (73) MID_EXP -> TERM . MID_EXP_ONE
-    (74) MID_EXP_ONE -> . PLUS MID_EXP
-    (75) MID_EXP_ONE -> . MINUS MID_EXP
-    (76) MID_EXP_ONE -> . empty
-    (110) empty -> .
+    (74) MID_EXP -> TERM . MID_EXP_ONE
+    (75) MID_EXP_ONE -> . PLUS MID_EXP
+    (76) MID_EXP_ONE -> . MINUS MID_EXP
+    (77) MID_EXP_ONE -> . empty
+    (111) empty -> .
 
-    PLUS            shift and go to state 146
-    MINUS           shift and go to state 147
-    LT              reduce using rule 110 (empty -> .)
-    GT              reduce using rule 110 (empty -> .)
-    NE              reduce using rule 110 (empty -> .)
-    EQ              reduce using rule 110 (empty -> .)
-    GTE             reduce using rule 110 (empty -> .)
-    LTE             reduce using rule 110 (empty -> .)
-    AND             reduce using rule 110 (empty -> .)
-    OR              reduce using rule 110 (empty -> .)
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    COMMA           reduce using rule 110 (empty -> .)
-    RSBRACKET       reduce using rule 110 (empty -> .)
-    RPAREN          reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    PLUS            shift and go to state 147
+    MINUS           shift and go to state 148
+    LT              reduce using rule 111 (empty -> .)
+    GT              reduce using rule 111 (empty -> .)
+    NE              reduce using rule 111 (empty -> .)
+    EQ              reduce using rule 111 (empty -> .)
+    GTE             reduce using rule 111 (empty -> .)
+    LTE             reduce using rule 111 (empty -> .)
+    AND             reduce using rule 111 (empty -> .)
+    OR              reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    COMMA           reduce using rule 111 (empty -> .)
+    RSBRACKET       reduce using rule 111 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
-    MID_EXP_ONE                    shift and go to state 145
-    empty                          shift and go to state 148
+    MID_EXP_ONE                    shift and go to state 146
+    empty                          shift and go to state 149
 
 state 101
 
-    (77) TERM -> FACT . TERM_ONE
-    (78) TERM_ONE -> . TIMES TERM
-    (79) TERM_ONE -> . DIVIDE TERM
-    (80) TERM_ONE -> . empty
-    (110) empty -> .
+    (78) TERM -> FACT . TERM_ONE
+    (79) TERM_ONE -> . TIMES TERM
+    (80) TERM_ONE -> . DIVIDE TERM
+    (81) TERM_ONE -> . empty
+    (111) empty -> .
 
-    TIMES           shift and go to state 150
-    DIVIDE          shift and go to state 151
-    PLUS            reduce using rule 110 (empty -> .)
-    MINUS           reduce using rule 110 (empty -> .)
-    LT              reduce using rule 110 (empty -> .)
-    GT              reduce using rule 110 (empty -> .)
-    NE              reduce using rule 110 (empty -> .)
-    EQ              reduce using rule 110 (empty -> .)
-    GTE             reduce using rule 110 (empty -> .)
-    LTE             reduce using rule 110 (empty -> .)
-    AND             reduce using rule 110 (empty -> .)
-    OR              reduce using rule 110 (empty -> .)
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    COMMA           reduce using rule 110 (empty -> .)
-    RSBRACKET       reduce using rule 110 (empty -> .)
-    RPAREN          reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    TIMES           shift and go to state 151
+    DIVIDE          shift and go to state 152
+    PLUS            reduce using rule 111 (empty -> .)
+    MINUS           reduce using rule 111 (empty -> .)
+    LT              reduce using rule 111 (empty -> .)
+    GT              reduce using rule 111 (empty -> .)
+    NE              reduce using rule 111 (empty -> .)
+    EQ              reduce using rule 111 (empty -> .)
+    GTE             reduce using rule 111 (empty -> .)
+    LTE             reduce using rule 111 (empty -> .)
+    AND             reduce using rule 111 (empty -> .)
+    OR              reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    COMMA           reduce using rule 111 (empty -> .)
+    RSBRACKET       reduce using rule 111 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
-    TERM_ONE                       shift and go to state 149
-    empty                          shift and go to state 152
+    TERM_ONE                       shift and go to state 150
+    empty                          shift and go to state 153
 
 state 102
 
-    (81) FACT -> CTEI .
+    (82) FACT -> CTEI .
 
-    TIMES           reduce using rule 81 (FACT -> CTEI .)
-    DIVIDE          reduce using rule 81 (FACT -> CTEI .)
-    PLUS            reduce using rule 81 (FACT -> CTEI .)
-    MINUS           reduce using rule 81 (FACT -> CTEI .)
-    LT              reduce using rule 81 (FACT -> CTEI .)
-    GT              reduce using rule 81 (FACT -> CTEI .)
-    NE              reduce using rule 81 (FACT -> CTEI .)
-    EQ              reduce using rule 81 (FACT -> CTEI .)
-    GTE             reduce using rule 81 (FACT -> CTEI .)
-    LTE             reduce using rule 81 (FACT -> CTEI .)
-    AND             reduce using rule 81 (FACT -> CTEI .)
-    OR              reduce using rule 81 (FACT -> CTEI .)
-    SEMICOLON       reduce using rule 81 (FACT -> CTEI .)
-    COMMA           reduce using rule 81 (FACT -> CTEI .)
-    RSBRACKET       reduce using rule 81 (FACT -> CTEI .)
-    RPAREN          reduce using rule 81 (FACT -> CTEI .)
-    FUNC            reduce using rule 81 (FACT -> CTEI .)
+    TIMES           reduce using rule 82 (FACT -> CTEI .)
+    DIVIDE          reduce using rule 82 (FACT -> CTEI .)
+    PLUS            reduce using rule 82 (FACT -> CTEI .)
+    MINUS           reduce using rule 82 (FACT -> CTEI .)
+    LT              reduce using rule 82 (FACT -> CTEI .)
+    GT              reduce using rule 82 (FACT -> CTEI .)
+    NE              reduce using rule 82 (FACT -> CTEI .)
+    EQ              reduce using rule 82 (FACT -> CTEI .)
+    GTE             reduce using rule 82 (FACT -> CTEI .)
+    LTE             reduce using rule 82 (FACT -> CTEI .)
+    AND             reduce using rule 82 (FACT -> CTEI .)
+    OR              reduce using rule 82 (FACT -> CTEI .)
+    SEMICOLON       reduce using rule 82 (FACT -> CTEI .)
+    COMMA           reduce using rule 82 (FACT -> CTEI .)
+    RSBRACKET       reduce using rule 82 (FACT -> CTEI .)
+    RPAREN          reduce using rule 82 (FACT -> CTEI .)
+    FUNC            reduce using rule 82 (FACT -> CTEI .)
 
 
 state 103
 
-    (82) FACT -> CTEF .
+    (83) FACT -> CTEF .
 
-    TIMES           reduce using rule 82 (FACT -> CTEF .)
-    DIVIDE          reduce using rule 82 (FACT -> CTEF .)
-    PLUS            reduce using rule 82 (FACT -> CTEF .)
-    MINUS           reduce using rule 82 (FACT -> CTEF .)
-    LT              reduce using rule 82 (FACT -> CTEF .)
-    GT              reduce using rule 82 (FACT -> CTEF .)
-    NE              reduce using rule 82 (FACT -> CTEF .)
-    EQ              reduce using rule 82 (FACT -> CTEF .)
-    GTE             reduce using rule 82 (FACT -> CTEF .)
-    LTE             reduce using rule 82 (FACT -> CTEF .)
-    AND             reduce using rule 82 (FACT -> CTEF .)
-    OR              reduce using rule 82 (FACT -> CTEF .)
-    SEMICOLON       reduce using rule 82 (FACT -> CTEF .)
-    COMMA           reduce using rule 82 (FACT -> CTEF .)
-    RSBRACKET       reduce using rule 82 (FACT -> CTEF .)
-    RPAREN          reduce using rule 82 (FACT -> CTEF .)
-    FUNC            reduce using rule 82 (FACT -> CTEF .)
+    TIMES           reduce using rule 83 (FACT -> CTEF .)
+    DIVIDE          reduce using rule 83 (FACT -> CTEF .)
+    PLUS            reduce using rule 83 (FACT -> CTEF .)
+    MINUS           reduce using rule 83 (FACT -> CTEF .)
+    LT              reduce using rule 83 (FACT -> CTEF .)
+    GT              reduce using rule 83 (FACT -> CTEF .)
+    NE              reduce using rule 83 (FACT -> CTEF .)
+    EQ              reduce using rule 83 (FACT -> CTEF .)
+    GTE             reduce using rule 83 (FACT -> CTEF .)
+    LTE             reduce using rule 83 (FACT -> CTEF .)
+    AND             reduce using rule 83 (FACT -> CTEF .)
+    OR              reduce using rule 83 (FACT -> CTEF .)
+    SEMICOLON       reduce using rule 83 (FACT -> CTEF .)
+    COMMA           reduce using rule 83 (FACT -> CTEF .)
+    RSBRACKET       reduce using rule 83 (FACT -> CTEF .)
+    RPAREN          reduce using rule 83 (FACT -> CTEF .)
+    FUNC            reduce using rule 83 (FACT -> CTEF .)
 
 
 state 104
 
-    (84) FACT -> FUNCTION_CALL .
+    (85) FACT -> FUNCTION_CALL .
 
-    TIMES           reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    DIVIDE          reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    PLUS            reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    MINUS           reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    LT              reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    GT              reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    NE              reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    EQ              reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    GTE             reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    LTE             reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    AND             reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    OR              reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    SEMICOLON       reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    COMMA           reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    RSBRACKET       reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    RPAREN          reduce using rule 84 (FACT -> FUNCTION_CALL .)
-    FUNC            reduce using rule 84 (FACT -> FUNCTION_CALL .)
+    TIMES           reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    DIVIDE          reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    PLUS            reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    MINUS           reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    LT              reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    GT              reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    NE              reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    EQ              reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    GTE             reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    LTE             reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    AND             reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    OR              reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    SEMICOLON       reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    COMMA           reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    RSBRACKET       reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    RPAREN          reduce using rule 85 (FACT -> FUNCTION_CALL .)
+    FUNC            reduce using rule 85 (FACT -> FUNCTION_CALL .)
 
 
 state 105
 
-    (85) FACT -> LPAREN . EXP RPAREN
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (86) FACT -> LPAREN . EXP RPAREN
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -1785,15 +1791,15 @@ state 105
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    EXP                            shift and go to state 153
+    EXP                            shift and go to state 154
     T_EXP                          shift and go to state 97
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
@@ -1806,16 +1812,16 @@ state 106
 
 state 107
 
-    (53) DEC_V_O_COMPLEX -> COMMA . ID DEC_V_O_COMPLEX
+    (54) DEC_V_O_COMPLEX -> COMMA . ID DEC_V_O_COMPLEX
 
-    ID              shift and go to state 154
+    ID              shift and go to state 155
 
 
 state 108
 
-    (54) DEC_V_O_COMPLEX -> empty .
+    (55) DEC_V_O_COMPLEX -> empty .
 
-    SEMICOLON       reduce using rule 54 (DEC_V_O_COMPLEX -> empty .)
+    SEMICOLON       reduce using rule 55 (DEC_V_O_COMPLEX -> empty .)
 
 
 state 109
@@ -1823,187 +1829,195 @@ state 109
     (47) DEC_VAR_ONE -> SIMPLE_TYPE ID DEC_ARR . DEC_V_O_SIMPLE
     (48) DEC_V_O_SIMPLE -> . COMMA ID DEC_ARR DEC_V_O_SIMPLE
     (49) DEC_V_O_SIMPLE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
-    COMMA           shift and go to state 156
-    SEMICOLON       reduce using rule 110 (empty -> .)
+    COMMA           shift and go to state 157
+    SEMICOLON       reduce using rule 111 (empty -> .)
 
-    DEC_V_O_SIMPLE                 shift and go to state 155
-    empty                          shift and go to state 157
+    DEC_V_O_SIMPLE                 shift and go to state 156
+    empty                          shift and go to state 158
 
 state 110
 
     (50) DEC_ARR -> LSBRACKET . CTEI RSBRACKET DEC_ARR_ONE
 
-    CTEI            shift and go to state 158
+    CTEI            shift and go to state 159
 
 
 state 111
+
+    (51) DEC_ARR -> empty .
+
+    COMMA           reduce using rule 51 (DEC_ARR -> empty .)
+    SEMICOLON       reduce using rule 51 (DEC_ARR -> empty .)
+
+
+state 112
 
     (18) CLASS_INHERITS -> DERIVES ID .
 
     LBRACE          reduce using rule 18 (CLASS_INHERITS -> DERIVES ID .)
 
 
-state 112
+state 113
 
     (31) FUNCTION_DEC -> FUNC FUNCTION_D_ONE ID LPAREN . FUNCTION_D_TWO RPAREN
     (35) FUNCTION_D_TWO -> . PARAM
     (36) FUNCTION_D_TWO -> . empty
     (37) PARAM -> . SIMPLE_TYPE ID PARAM_ONE
-    (110) empty -> .
-    (55) SIMPLE_TYPE -> . INT
-    (56) SIMPLE_TYPE -> . FLOAT
-    (57) SIMPLE_TYPE -> . CHAR
+    (111) empty -> .
+    (56) SIMPLE_TYPE -> . INT
+    (57) SIMPLE_TYPE -> . FLOAT
+    (58) SIMPLE_TYPE -> . CHAR
 
-    RPAREN          reduce using rule 110 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
     INT             shift and go to state 34
     FLOAT           shift and go to state 35
     CHAR            shift and go to state 36
 
-    FUNCTION_D_TWO                 shift and go to state 159
-    PARAM                          shift and go to state 160
-    empty                          shift and go to state 161
-    SIMPLE_TYPE                    shift and go to state 119
+    FUNCTION_D_TWO                 shift and go to state 160
+    PARAM                          shift and go to state 161
+    empty                          shift and go to state 162
+    SIMPLE_TYPE                    shift and go to state 120
 
-state 113
+state 114
 
     (20) CLASS_B_M_ONE -> CLASS_BODY_MEMBER . CLASS_B_M_ONE
     (20) CLASS_B_M_ONE -> . CLASS_BODY_MEMBER CLASS_B_M_ONE
     (21) CLASS_B_M_ONE -> . empty
     (22) CLASS_BODY_MEMBER -> . FUNCTION
     (23) CLASS_BODY_MEMBER -> . DEC_VAR
-    (110) empty -> .
+    (111) empty -> .
     (32) FUNCTION -> . FUNCTION_DEC BLOCK
     (45) DEC_VAR -> . VAR DEC_VAR_ONE SEMICOLON
     (31) FUNCTION_DEC -> . FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN
 
-    RBRACE          reduce using rule 110 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
     VAR             shift and go to state 17
     FUNC            shift and go to state 19
 
-    CLASS_BODY_MEMBER              shift and go to state 113
-    CLASS_B_M_ONE                  shift and go to state 162
-    empty                          shift and go to state 115
+    CLASS_BODY_MEMBER              shift and go to state 114
+    CLASS_B_M_ONE                  shift and go to state 163
+    empty                          shift and go to state 116
     FUNCTION                       shift and go to state 77
     DEC_VAR                        shift and go to state 78
     FUNCTION_DEC                   shift and go to state 16
 
-state 114
+state 115
 
     (19) CLASS_BODY -> CLASS_CONSTRUCTOR CLASS_BODY_MEMBER CLASS_B_M_ONE .
 
     RBRACE          reduce using rule 19 (CLASS_BODY -> CLASS_CONSTRUCTOR CLASS_BODY_MEMBER CLASS_B_M_ONE .)
 
 
-state 115
+state 116
 
     (21) CLASS_B_M_ONE -> empty .
 
     RBRACE          reduce using rule 21 (CLASS_B_M_ONE -> empty .)
 
 
-state 116
+state 117
 
     (24) CLASS_CONSTRUCTOR -> ID LPAREN CLASS_C_ONE . RPAREN BLOCK
 
-    RPAREN          shift and go to state 163
+    RPAREN          shift and go to state 164
 
 
-state 117
+state 118
 
     (25) CLASS_C_ONE -> PARAM .
 
     RPAREN          reduce using rule 25 (CLASS_C_ONE -> PARAM .)
 
 
-state 118
+state 119
 
     (26) CLASS_C_ONE -> empty .
 
     RPAREN          reduce using rule 26 (CLASS_C_ONE -> empty .)
 
 
-state 119
+state 120
 
     (37) PARAM -> SIMPLE_TYPE . ID PARAM_ONE
 
-    ID              shift and go to state 164
-
-
-state 120
-
-    (83) FACT -> VARIABLE .
-
-    TIMES           reduce using rule 83 (FACT -> VARIABLE .)
-    DIVIDE          reduce using rule 83 (FACT -> VARIABLE .)
-    PLUS            reduce using rule 83 (FACT -> VARIABLE .)
-    MINUS           reduce using rule 83 (FACT -> VARIABLE .)
-    LT              reduce using rule 83 (FACT -> VARIABLE .)
-    GT              reduce using rule 83 (FACT -> VARIABLE .)
-    NE              reduce using rule 83 (FACT -> VARIABLE .)
-    EQ              reduce using rule 83 (FACT -> VARIABLE .)
-    GTE             reduce using rule 83 (FACT -> VARIABLE .)
-    LTE             reduce using rule 83 (FACT -> VARIABLE .)
-    AND             reduce using rule 83 (FACT -> VARIABLE .)
-    OR              reduce using rule 83 (FACT -> VARIABLE .)
-    SEMICOLON       reduce using rule 83 (FACT -> VARIABLE .)
-    COMMA           reduce using rule 83 (FACT -> VARIABLE .)
-    RSBRACKET       reduce using rule 83 (FACT -> VARIABLE .)
-    RPAREN          reduce using rule 83 (FACT -> VARIABLE .)
-    FUNC            reduce using rule 83 (FACT -> VARIABLE .)
+    ID              shift and go to state 165
 
 
 state 121
 
-    (44) ASSIGN_OP -> VARIABLE ASSIGN EXP . SEMICOLON
+    (84) FACT -> VARIABLE .
 
-    SEMICOLON       shift and go to state 165
+    TIMES           reduce using rule 84 (FACT -> VARIABLE .)
+    DIVIDE          reduce using rule 84 (FACT -> VARIABLE .)
+    PLUS            reduce using rule 84 (FACT -> VARIABLE .)
+    MINUS           reduce using rule 84 (FACT -> VARIABLE .)
+    LT              reduce using rule 84 (FACT -> VARIABLE .)
+    GT              reduce using rule 84 (FACT -> VARIABLE .)
+    NE              reduce using rule 84 (FACT -> VARIABLE .)
+    EQ              reduce using rule 84 (FACT -> VARIABLE .)
+    GTE             reduce using rule 84 (FACT -> VARIABLE .)
+    LTE             reduce using rule 84 (FACT -> VARIABLE .)
+    AND             reduce using rule 84 (FACT -> VARIABLE .)
+    OR              reduce using rule 84 (FACT -> VARIABLE .)
+    SEMICOLON       reduce using rule 84 (FACT -> VARIABLE .)
+    COMMA           reduce using rule 84 (FACT -> VARIABLE .)
+    RSBRACKET       reduce using rule 84 (FACT -> VARIABLE .)
+    RPAREN          reduce using rule 84 (FACT -> VARIABLE .)
+    FUNC            reduce using rule 84 (FACT -> VARIABLE .)
 
 
 state 122
+
+    (44) ASSIGN_OP -> VARIABLE ASSIGN EXP . SEMICOLON
+
+    SEMICOLON       shift and go to state 166
+
+
+state 123
 
     (40) VARIABLE -> ID . VARIABLE_ONE
     (29) FUNCTION_CALL -> ID . LPAREN EXP FUNCTION_C_ONE RPAREN
     (27) FIELD_ACCESS -> ID . POINT ID
     (42) VARIABLE_ONE -> . LSBRACKET EXP RSBRACKET VARIABLE_ONE
     (43) VARIABLE_ONE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
     LPAREN          shift and go to state 83
     POINT           shift and go to state 85
     LSBRACKET       shift and go to state 86
-    TIMES           reduce using rule 110 (empty -> .)
-    DIVIDE          reduce using rule 110 (empty -> .)
-    PLUS            reduce using rule 110 (empty -> .)
-    MINUS           reduce using rule 110 (empty -> .)
-    LT              reduce using rule 110 (empty -> .)
-    GT              reduce using rule 110 (empty -> .)
-    NE              reduce using rule 110 (empty -> .)
-    EQ              reduce using rule 110 (empty -> .)
-    GTE             reduce using rule 110 (empty -> .)
-    LTE             reduce using rule 110 (empty -> .)
-    AND             reduce using rule 110 (empty -> .)
-    OR              reduce using rule 110 (empty -> .)
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    COMMA           reduce using rule 110 (empty -> .)
-    RSBRACKET       reduce using rule 110 (empty -> .)
-    RPAREN          reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    TIMES           reduce using rule 111 (empty -> .)
+    DIVIDE          reduce using rule 111 (empty -> .)
+    PLUS            reduce using rule 111 (empty -> .)
+    MINUS           reduce using rule 111 (empty -> .)
+    LT              reduce using rule 111 (empty -> .)
+    GT              reduce using rule 111 (empty -> .)
+    NE              reduce using rule 111 (empty -> .)
+    EQ              reduce using rule 111 (empty -> .)
+    GTE             reduce using rule 111 (empty -> .)
+    LTE             reduce using rule 111 (empty -> .)
+    AND             reduce using rule 111 (empty -> .)
+    OR              reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    COMMA           reduce using rule 111 (empty -> .)
+    RSBRACKET       reduce using rule 111 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
     VARIABLE_ONE                   shift and go to state 84
     empty                          shift and go to state 87
 
-state 123
+state 124
 
     (29) FUNCTION_CALL -> ID LPAREN EXP . FUNCTION_C_ONE RPAREN
     (30) FUNCTION_C_ONE -> . COMMA EXP FUNCTION
 
-    COMMA           shift and go to state 167
+    COMMA           shift and go to state 168
 
-    FUNCTION_C_ONE                 shift and go to state 166
+    FUNCTION_C_ONE                 shift and go to state 167
 
-state 124
+state 125
 
     (27) FIELD_ACCESS -> ID POINT ID .
 
@@ -2027,86 +2041,86 @@ state 124
     FUNC            reduce using rule 27 (FIELD_ACCESS -> ID POINT ID .)
 
 
-state 125
+state 126
 
     (42) VARIABLE_ONE -> LSBRACKET EXP . RSBRACKET VARIABLE_ONE
 
-    RSBRACKET       shift and go to state 168
-
-
-state 126
-
-    (102) READ_FUNC -> READ VARIABLE SEMICOLON .
-
-    VAR             reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    ID              reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    READ            reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    PRINT           reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    IF              reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    WHILE           reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    RETURN          reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
-    RBRACE          reduce using rule 102 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    RSBRACKET       shift and go to state 169
 
 
 state 127
 
-    (101) PRINT_FUNC -> PRINT LPAREN EXP . RPAREN SEMICOLON
+    (103) READ_FUNC -> READ VARIABLE SEMICOLON .
 
-    RPAREN          shift and go to state 169
+    VAR             reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    ID              reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    READ            reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    PRINT           reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    IF              reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    WHILE           reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    RETURN          reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
+    RBRACE          reduce using rule 103 (READ_FUNC -> READ VARIABLE SEMICOLON .)
 
 
 state 128
 
-    (104) COND -> IF LPAREN EXP . RPAREN NESTED_BLOCK COND_ONE
+    (102) PRINT_FUNC -> PRINT LPAREN EXP . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 170
 
 
 state 129
 
-    (103) WHILE_LOOP -> WHILE LPAREN EXP . RPAREN NESTED_BLOCK
+    (105) COND -> IF LPAREN EXP . RPAREN NESTED_BLOCK COND_ONE
 
     RPAREN          shift and go to state 171
 
 
 state 130
 
-    (98) RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .
+    (104) WHILE_LOOP -> WHILE LPAREN EXP . RPAREN NESTED_BLOCK
 
-    VAR             reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    ID              reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    READ            reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    PRINT           reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    IF              reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    WHILE           reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    RETURN          reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
-    RBRACE          reduce using rule 98 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    RPAREN          shift and go to state 172
 
 
 state 131
 
-    (59) EXP -> T_EXP EXP_ONE .
+    (99) RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .
 
-    SEMICOLON       reduce using rule 59 (EXP -> T_EXP EXP_ONE .)
-    COMMA           reduce using rule 59 (EXP -> T_EXP EXP_ONE .)
-    RSBRACKET       reduce using rule 59 (EXP -> T_EXP EXP_ONE .)
-    RPAREN          reduce using rule 59 (EXP -> T_EXP EXP_ONE .)
-    FUNC            reduce using rule 59 (EXP -> T_EXP EXP_ONE .)
+    VAR             reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    ID              reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    READ            reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    PRINT           reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    IF              reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    WHILE           reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    RETURN          reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
+    RBRACE          reduce using rule 99 (RETURN_FUNC -> RETURN RETURN_F_ONE SEMICOLON .)
 
 
 state 132
 
-    (60) EXP_ONE -> OR . EXP
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (60) EXP -> T_EXP EXP_ONE .
+
+    SEMICOLON       reduce using rule 60 (EXP -> T_EXP EXP_ONE .)
+    COMMA           reduce using rule 60 (EXP -> T_EXP EXP_ONE .)
+    RSBRACKET       reduce using rule 60 (EXP -> T_EXP EXP_ONE .)
+    RPAREN          reduce using rule 60 (EXP -> T_EXP EXP_ONE .)
+    FUNC            reduce using rule 60 (EXP -> T_EXP EXP_ONE .)
+
+
+state 133
+
+    (61) EXP_ONE -> OR . EXP
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -2115,53 +2129,53 @@ state 132
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    EXP                            shift and go to state 172
+    EXP                            shift and go to state 173
     T_EXP                          shift and go to state 97
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
-state 133
-
-    (61) EXP_ONE -> empty .
-
-    SEMICOLON       reduce using rule 61 (EXP_ONE -> empty .)
-    COMMA           reduce using rule 61 (EXP_ONE -> empty .)
-    RSBRACKET       reduce using rule 61 (EXP_ONE -> empty .)
-    RPAREN          reduce using rule 61 (EXP_ONE -> empty .)
-    FUNC            reduce using rule 61 (EXP_ONE -> empty .)
-
-
 state 134
 
-    (62) T_EXP -> G_EXP T_EXP_ONE .
+    (62) EXP_ONE -> empty .
 
-    OR              reduce using rule 62 (T_EXP -> G_EXP T_EXP_ONE .)
-    SEMICOLON       reduce using rule 62 (T_EXP -> G_EXP T_EXP_ONE .)
-    COMMA           reduce using rule 62 (T_EXP -> G_EXP T_EXP_ONE .)
-    RSBRACKET       reduce using rule 62 (T_EXP -> G_EXP T_EXP_ONE .)
-    RPAREN          reduce using rule 62 (T_EXP -> G_EXP T_EXP_ONE .)
-    FUNC            reduce using rule 62 (T_EXP -> G_EXP T_EXP_ONE .)
+    SEMICOLON       reduce using rule 62 (EXP_ONE -> empty .)
+    COMMA           reduce using rule 62 (EXP_ONE -> empty .)
+    RSBRACKET       reduce using rule 62 (EXP_ONE -> empty .)
+    RPAREN          reduce using rule 62 (EXP_ONE -> empty .)
+    FUNC            reduce using rule 62 (EXP_ONE -> empty .)
 
 
 state 135
 
-    (63) T_EXP_ONE -> AND . T_EXP
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (63) T_EXP -> G_EXP T_EXP_ONE .
+
+    OR              reduce using rule 63 (T_EXP -> G_EXP T_EXP_ONE .)
+    SEMICOLON       reduce using rule 63 (T_EXP -> G_EXP T_EXP_ONE .)
+    COMMA           reduce using rule 63 (T_EXP -> G_EXP T_EXP_ONE .)
+    RSBRACKET       reduce using rule 63 (T_EXP -> G_EXP T_EXP_ONE .)
+    RPAREN          reduce using rule 63 (T_EXP -> G_EXP T_EXP_ONE .)
+    FUNC            reduce using rule 63 (T_EXP -> G_EXP T_EXP_ONE .)
+
+
+state 136
+
+    (64) T_EXP_ONE -> AND . T_EXP
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -2170,158 +2184,52 @@ state 135
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    T_EXP                          shift and go to state 173
+    T_EXP                          shift and go to state 174
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
-state 136
-
-    (64) T_EXP_ONE -> empty .
-
-    OR              reduce using rule 64 (T_EXP_ONE -> empty .)
-    SEMICOLON       reduce using rule 64 (T_EXP_ONE -> empty .)
-    COMMA           reduce using rule 64 (T_EXP_ONE -> empty .)
-    RSBRACKET       reduce using rule 64 (T_EXP_ONE -> empty .)
-    RPAREN          reduce using rule 64 (T_EXP_ONE -> empty .)
-    FUNC            reduce using rule 64 (T_EXP_ONE -> empty .)
-
-
 state 137
 
-    (65) G_EXP -> MID_EXP G_EXP_ONE .
+    (65) T_EXP_ONE -> empty .
 
-    AND             reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
-    OR              reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
-    SEMICOLON       reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
-    COMMA           reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
-    RSBRACKET       reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
-    RPAREN          reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
-    FUNC            reduce using rule 65 (G_EXP -> MID_EXP G_EXP_ONE .)
+    OR              reduce using rule 65 (T_EXP_ONE -> empty .)
+    SEMICOLON       reduce using rule 65 (T_EXP_ONE -> empty .)
+    COMMA           reduce using rule 65 (T_EXP_ONE -> empty .)
+    RSBRACKET       reduce using rule 65 (T_EXP_ONE -> empty .)
+    RPAREN          reduce using rule 65 (T_EXP_ONE -> empty .)
+    FUNC            reduce using rule 65 (T_EXP_ONE -> empty .)
 
 
 state 138
 
-    (66) G_EXP_ONE -> G_EXP_TWO . MID_EXP
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
-    (40) VARIABLE -> . ID VARIABLE_ONE
-    (41) VARIABLE -> . FIELD_ACCESS
-    (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (27) FIELD_ACCESS -> . ID POINT ID
+    (66) G_EXP -> MID_EXP G_EXP_ONE .
 
-    CTEI            shift and go to state 102
-    CTEF            shift and go to state 103
-    LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    AND             reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
+    OR              reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
+    SEMICOLON       reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
+    COMMA           reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
+    RSBRACKET       reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
+    RPAREN          reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
+    FUNC            reduce using rule 66 (G_EXP -> MID_EXP G_EXP_ONE .)
 
-    MID_EXP                        shift and go to state 174
-    TERM                           shift and go to state 100
-    FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
-    FUNCTION_CALL                  shift and go to state 104
-    FIELD_ACCESS                   shift and go to state 66
 
 state 139
 
-    (67) G_EXP_TWO -> LT .
-
-    CTEI            reduce using rule 67 (G_EXP_TWO -> LT .)
-    CTEF            reduce using rule 67 (G_EXP_TWO -> LT .)
-    LPAREN          reduce using rule 67 (G_EXP_TWO -> LT .)
-    ID              reduce using rule 67 (G_EXP_TWO -> LT .)
-
-
-state 140
-
-    (68) G_EXP_TWO -> GT .
-
-    CTEI            reduce using rule 68 (G_EXP_TWO -> GT .)
-    CTEF            reduce using rule 68 (G_EXP_TWO -> GT .)
-    LPAREN          reduce using rule 68 (G_EXP_TWO -> GT .)
-    ID              reduce using rule 68 (G_EXP_TWO -> GT .)
-
-
-state 141
-
-    (69) G_EXP_TWO -> NE .
-
-    CTEI            reduce using rule 69 (G_EXP_TWO -> NE .)
-    CTEF            reduce using rule 69 (G_EXP_TWO -> NE .)
-    LPAREN          reduce using rule 69 (G_EXP_TWO -> NE .)
-    ID              reduce using rule 69 (G_EXP_TWO -> NE .)
-
-
-state 142
-
-    (70) G_EXP_TWO -> EQ .
-
-    CTEI            reduce using rule 70 (G_EXP_TWO -> EQ .)
-    CTEF            reduce using rule 70 (G_EXP_TWO -> EQ .)
-    LPAREN          reduce using rule 70 (G_EXP_TWO -> EQ .)
-    ID              reduce using rule 70 (G_EXP_TWO -> EQ .)
-
-
-state 143
-
-    (71) G_EXP_TWO -> GTE .
-
-    CTEI            reduce using rule 71 (G_EXP_TWO -> GTE .)
-    CTEF            reduce using rule 71 (G_EXP_TWO -> GTE .)
-    LPAREN          reduce using rule 71 (G_EXP_TWO -> GTE .)
-    ID              reduce using rule 71 (G_EXP_TWO -> GTE .)
-
-
-state 144
-
-    (72) G_EXP_TWO -> LTE .
-
-    CTEI            reduce using rule 72 (G_EXP_TWO -> LTE .)
-    CTEF            reduce using rule 72 (G_EXP_TWO -> LTE .)
-    LPAREN          reduce using rule 72 (G_EXP_TWO -> LTE .)
-    ID              reduce using rule 72 (G_EXP_TWO -> LTE .)
-
-
-state 145
-
-    (73) MID_EXP -> TERM MID_EXP_ONE .
-
-    LT              reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    GT              reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    NE              reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    EQ              reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    GTE             reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    LTE             reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    AND             reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    OR              reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    SEMICOLON       reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    COMMA           reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    RSBRACKET       reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    RPAREN          reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-    FUNC            reduce using rule 73 (MID_EXP -> TERM MID_EXP_ONE .)
-
-
-state 146
-
-    (74) MID_EXP_ONE -> PLUS . MID_EXP
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (67) G_EXP_ONE -> G_EXP_TWO . MID_EXP
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -2330,25 +2238,104 @@ state 146
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
     MID_EXP                        shift and go to state 175
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
+state 140
+
+    (68) G_EXP_TWO -> LT .
+
+    CTEI            reduce using rule 68 (G_EXP_TWO -> LT .)
+    CTEF            reduce using rule 68 (G_EXP_TWO -> LT .)
+    LPAREN          reduce using rule 68 (G_EXP_TWO -> LT .)
+    ID              reduce using rule 68 (G_EXP_TWO -> LT .)
+
+
+state 141
+
+    (69) G_EXP_TWO -> GT .
+
+    CTEI            reduce using rule 69 (G_EXP_TWO -> GT .)
+    CTEF            reduce using rule 69 (G_EXP_TWO -> GT .)
+    LPAREN          reduce using rule 69 (G_EXP_TWO -> GT .)
+    ID              reduce using rule 69 (G_EXP_TWO -> GT .)
+
+
+state 142
+
+    (70) G_EXP_TWO -> NE .
+
+    CTEI            reduce using rule 70 (G_EXP_TWO -> NE .)
+    CTEF            reduce using rule 70 (G_EXP_TWO -> NE .)
+    LPAREN          reduce using rule 70 (G_EXP_TWO -> NE .)
+    ID              reduce using rule 70 (G_EXP_TWO -> NE .)
+
+
+state 143
+
+    (71) G_EXP_TWO -> EQ .
+
+    CTEI            reduce using rule 71 (G_EXP_TWO -> EQ .)
+    CTEF            reduce using rule 71 (G_EXP_TWO -> EQ .)
+    LPAREN          reduce using rule 71 (G_EXP_TWO -> EQ .)
+    ID              reduce using rule 71 (G_EXP_TWO -> EQ .)
+
+
+state 144
+
+    (72) G_EXP_TWO -> GTE .
+
+    CTEI            reduce using rule 72 (G_EXP_TWO -> GTE .)
+    CTEF            reduce using rule 72 (G_EXP_TWO -> GTE .)
+    LPAREN          reduce using rule 72 (G_EXP_TWO -> GTE .)
+    ID              reduce using rule 72 (G_EXP_TWO -> GTE .)
+
+
+state 145
+
+    (73) G_EXP_TWO -> LTE .
+
+    CTEI            reduce using rule 73 (G_EXP_TWO -> LTE .)
+    CTEF            reduce using rule 73 (G_EXP_TWO -> LTE .)
+    LPAREN          reduce using rule 73 (G_EXP_TWO -> LTE .)
+    ID              reduce using rule 73 (G_EXP_TWO -> LTE .)
+
+
+state 146
+
+    (74) MID_EXP -> TERM MID_EXP_ONE .
+
+    LT              reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    GT              reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    NE              reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    EQ              reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    GTE             reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    LTE             reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    AND             reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    OR              reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    SEMICOLON       reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    COMMA           reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    RSBRACKET       reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    RPAREN          reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+    FUNC            reduce using rule 74 (MID_EXP -> TERM MID_EXP_ONE .)
+
+
 state 147
 
-    (75) MID_EXP_ONE -> MINUS . MID_EXP
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (75) MID_EXP_ONE -> PLUS . MID_EXP
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -2357,89 +2344,91 @@ state 147
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
     MID_EXP                        shift and go to state 176
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
 state 148
 
-    (76) MID_EXP_ONE -> empty .
+    (76) MID_EXP_ONE -> MINUS . MID_EXP
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
+    (40) VARIABLE -> . ID VARIABLE_ONE
+    (41) VARIABLE -> . FIELD_ACCESS
+    (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
+    (27) FIELD_ACCESS -> . ID POINT ID
 
-    LT              reduce using rule 76 (MID_EXP_ONE -> empty .)
-    GT              reduce using rule 76 (MID_EXP_ONE -> empty .)
-    NE              reduce using rule 76 (MID_EXP_ONE -> empty .)
-    EQ              reduce using rule 76 (MID_EXP_ONE -> empty .)
-    GTE             reduce using rule 76 (MID_EXP_ONE -> empty .)
-    LTE             reduce using rule 76 (MID_EXP_ONE -> empty .)
-    AND             reduce using rule 76 (MID_EXP_ONE -> empty .)
-    OR              reduce using rule 76 (MID_EXP_ONE -> empty .)
-    SEMICOLON       reduce using rule 76 (MID_EXP_ONE -> empty .)
-    COMMA           reduce using rule 76 (MID_EXP_ONE -> empty .)
-    RSBRACKET       reduce using rule 76 (MID_EXP_ONE -> empty .)
-    RPAREN          reduce using rule 76 (MID_EXP_ONE -> empty .)
-    FUNC            reduce using rule 76 (MID_EXP_ONE -> empty .)
+    CTEI            shift and go to state 102
+    CTEF            shift and go to state 103
+    LPAREN          shift and go to state 105
+    ID              shift and go to state 123
 
+    MID_EXP                        shift and go to state 177
+    TERM                           shift and go to state 100
+    FACT                           shift and go to state 101
+    VARIABLE                       shift and go to state 121
+    FUNCTION_CALL                  shift and go to state 104
+    FIELD_ACCESS                   shift and go to state 66
 
 state 149
 
-    (77) TERM -> FACT TERM_ONE .
+    (77) MID_EXP_ONE -> empty .
 
-    PLUS            reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    MINUS           reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    LT              reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    GT              reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    NE              reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    EQ              reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    GTE             reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    LTE             reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    AND             reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    OR              reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    SEMICOLON       reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    COMMA           reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    RSBRACKET       reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    RPAREN          reduce using rule 77 (TERM -> FACT TERM_ONE .)
-    FUNC            reduce using rule 77 (TERM -> FACT TERM_ONE .)
+    LT              reduce using rule 77 (MID_EXP_ONE -> empty .)
+    GT              reduce using rule 77 (MID_EXP_ONE -> empty .)
+    NE              reduce using rule 77 (MID_EXP_ONE -> empty .)
+    EQ              reduce using rule 77 (MID_EXP_ONE -> empty .)
+    GTE             reduce using rule 77 (MID_EXP_ONE -> empty .)
+    LTE             reduce using rule 77 (MID_EXP_ONE -> empty .)
+    AND             reduce using rule 77 (MID_EXP_ONE -> empty .)
+    OR              reduce using rule 77 (MID_EXP_ONE -> empty .)
+    SEMICOLON       reduce using rule 77 (MID_EXP_ONE -> empty .)
+    COMMA           reduce using rule 77 (MID_EXP_ONE -> empty .)
+    RSBRACKET       reduce using rule 77 (MID_EXP_ONE -> empty .)
+    RPAREN          reduce using rule 77 (MID_EXP_ONE -> empty .)
+    FUNC            reduce using rule 77 (MID_EXP_ONE -> empty .)
 
 
 state 150
 
-    (78) TERM_ONE -> TIMES . TERM
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
-    (40) VARIABLE -> . ID VARIABLE_ONE
-    (41) VARIABLE -> . FIELD_ACCESS
-    (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (27) FIELD_ACCESS -> . ID POINT ID
+    (78) TERM -> FACT TERM_ONE .
 
-    CTEI            shift and go to state 102
-    CTEF            shift and go to state 103
-    LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    PLUS            reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    MINUS           reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    LT              reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    GT              reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    NE              reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    EQ              reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    GTE             reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    LTE             reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    AND             reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    OR              reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    SEMICOLON       reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    COMMA           reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    RSBRACKET       reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    RPAREN          reduce using rule 78 (TERM -> FACT TERM_ONE .)
+    FUNC            reduce using rule 78 (TERM -> FACT TERM_ONE .)
 
-    TERM                           shift and go to state 177
-    FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
-    FUNCTION_CALL                  shift and go to state 104
-    FIELD_ACCESS                   shift and go to state 66
 
 state 151
 
-    (79) TERM_ONE -> DIVIDE . TERM
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (79) TERM_ONE -> TIMES . TERM
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -2448,134 +2437,159 @@ state 151
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
     TERM                           shift and go to state 178
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
 state 152
 
-    (80) TERM_ONE -> empty .
+    (80) TERM_ONE -> DIVIDE . TERM
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
+    (40) VARIABLE -> . ID VARIABLE_ONE
+    (41) VARIABLE -> . FIELD_ACCESS
+    (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
+    (27) FIELD_ACCESS -> . ID POINT ID
 
-    PLUS            reduce using rule 80 (TERM_ONE -> empty .)
-    MINUS           reduce using rule 80 (TERM_ONE -> empty .)
-    LT              reduce using rule 80 (TERM_ONE -> empty .)
-    GT              reduce using rule 80 (TERM_ONE -> empty .)
-    NE              reduce using rule 80 (TERM_ONE -> empty .)
-    EQ              reduce using rule 80 (TERM_ONE -> empty .)
-    GTE             reduce using rule 80 (TERM_ONE -> empty .)
-    LTE             reduce using rule 80 (TERM_ONE -> empty .)
-    AND             reduce using rule 80 (TERM_ONE -> empty .)
-    OR              reduce using rule 80 (TERM_ONE -> empty .)
-    SEMICOLON       reduce using rule 80 (TERM_ONE -> empty .)
-    COMMA           reduce using rule 80 (TERM_ONE -> empty .)
-    RSBRACKET       reduce using rule 80 (TERM_ONE -> empty .)
-    RPAREN          reduce using rule 80 (TERM_ONE -> empty .)
-    FUNC            reduce using rule 80 (TERM_ONE -> empty .)
+    CTEI            shift and go to state 102
+    CTEF            shift and go to state 103
+    LPAREN          shift and go to state 105
+    ID              shift and go to state 123
 
+    TERM                           shift and go to state 179
+    FACT                           shift and go to state 101
+    VARIABLE                       shift and go to state 121
+    FUNCTION_CALL                  shift and go to state 104
+    FIELD_ACCESS                   shift and go to state 66
 
 state 153
 
-    (85) FACT -> LPAREN EXP . RPAREN
+    (81) TERM_ONE -> empty .
 
-    RPAREN          shift and go to state 179
+    PLUS            reduce using rule 81 (TERM_ONE -> empty .)
+    MINUS           reduce using rule 81 (TERM_ONE -> empty .)
+    LT              reduce using rule 81 (TERM_ONE -> empty .)
+    GT              reduce using rule 81 (TERM_ONE -> empty .)
+    NE              reduce using rule 81 (TERM_ONE -> empty .)
+    EQ              reduce using rule 81 (TERM_ONE -> empty .)
+    GTE             reduce using rule 81 (TERM_ONE -> empty .)
+    LTE             reduce using rule 81 (TERM_ONE -> empty .)
+    AND             reduce using rule 81 (TERM_ONE -> empty .)
+    OR              reduce using rule 81 (TERM_ONE -> empty .)
+    SEMICOLON       reduce using rule 81 (TERM_ONE -> empty .)
+    COMMA           reduce using rule 81 (TERM_ONE -> empty .)
+    RSBRACKET       reduce using rule 81 (TERM_ONE -> empty .)
+    RPAREN          reduce using rule 81 (TERM_ONE -> empty .)
+    FUNC            reduce using rule 81 (TERM_ONE -> empty .)
 
 
 state 154
 
-    (53) DEC_V_O_COMPLEX -> COMMA ID . DEC_V_O_COMPLEX
-    (53) DEC_V_O_COMPLEX -> . COMMA ID DEC_V_O_COMPLEX
-    (54) DEC_V_O_COMPLEX -> . empty
-    (110) empty -> .
+    (86) FACT -> LPAREN EXP . RPAREN
 
-    COMMA           shift and go to state 107
-    SEMICOLON       reduce using rule 110 (empty -> .)
+    RPAREN          shift and go to state 180
 
-    DEC_V_O_COMPLEX                shift and go to state 180
-    empty                          shift and go to state 108
 
 state 155
+
+    (54) DEC_V_O_COMPLEX -> COMMA ID . DEC_V_O_COMPLEX
+    (54) DEC_V_O_COMPLEX -> . COMMA ID DEC_V_O_COMPLEX
+    (55) DEC_V_O_COMPLEX -> . empty
+    (111) empty -> .
+
+    COMMA           shift and go to state 107
+    SEMICOLON       reduce using rule 111 (empty -> .)
+
+    DEC_V_O_COMPLEX                shift and go to state 181
+    empty                          shift and go to state 108
+
+state 156
 
     (47) DEC_VAR_ONE -> SIMPLE_TYPE ID DEC_ARR DEC_V_O_SIMPLE .
 
     SEMICOLON       reduce using rule 47 (DEC_VAR_ONE -> SIMPLE_TYPE ID DEC_ARR DEC_V_O_SIMPLE .)
 
 
-state 156
+state 157
 
     (48) DEC_V_O_SIMPLE -> COMMA . ID DEC_ARR DEC_V_O_SIMPLE
 
-    ID              shift and go to state 181
+    ID              shift and go to state 182
 
 
-state 157
+state 158
 
     (49) DEC_V_O_SIMPLE -> empty .
 
     SEMICOLON       reduce using rule 49 (DEC_V_O_SIMPLE -> empty .)
 
 
-state 158
+state 159
 
     (50) DEC_ARR -> LSBRACKET CTEI . RSBRACKET DEC_ARR_ONE
 
-    RSBRACKET       shift and go to state 182
-
-
-state 159
-
-    (31) FUNCTION_DEC -> FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO . RPAREN
-
-    RPAREN          shift and go to state 183
+    RSBRACKET       shift and go to state 183
 
 
 state 160
+
+    (31) FUNCTION_DEC -> FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO . RPAREN
+
+    RPAREN          shift and go to state 184
+
+
+state 161
 
     (35) FUNCTION_D_TWO -> PARAM .
 
     RPAREN          reduce using rule 35 (FUNCTION_D_TWO -> PARAM .)
 
 
-state 161
+state 162
 
     (36) FUNCTION_D_TWO -> empty .
 
     RPAREN          reduce using rule 36 (FUNCTION_D_TWO -> empty .)
 
 
-state 162
+state 163
 
     (20) CLASS_B_M_ONE -> CLASS_BODY_MEMBER CLASS_B_M_ONE .
 
     RBRACE          reduce using rule 20 (CLASS_B_M_ONE -> CLASS_BODY_MEMBER CLASS_B_M_ONE .)
 
 
-state 163
+state 164
 
     (24) CLASS_CONSTRUCTOR -> ID LPAREN CLASS_C_ONE RPAREN . BLOCK
-    (86) BLOCK -> . LBRACE BLOCK_ONE RBRACE
+    (87) BLOCK -> . LBRACE BLOCK_ONE RBRACE
 
     LBRACE          shift and go to state 29
 
-    BLOCK                          shift and go to state 184
+    BLOCK                          shift and go to state 185
 
-state 164
+state 165
 
     (37) PARAM -> SIMPLE_TYPE ID . PARAM_ONE
     (38) PARAM_ONE -> . COMMA PARAM
     (39) PARAM_ONE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
-    COMMA           shift and go to state 186
-    RPAREN          reduce using rule 110 (empty -> .)
+    COMMA           shift and go to state 187
+    RPAREN          reduce using rule 111 (empty -> .)
 
-    PARAM_ONE                      shift and go to state 185
-    empty                          shift and go to state 187
+    PARAM_ONE                      shift and go to state 186
+    empty                          shift and go to state 188
 
-state 165
+state 166
 
     (44) ASSIGN_OP -> VARIABLE ASSIGN EXP SEMICOLON .
 
@@ -2589,26 +2603,26 @@ state 165
     RBRACE          reduce using rule 44 (ASSIGN_OP -> VARIABLE ASSIGN EXP SEMICOLON .)
 
 
-state 166
+state 167
 
     (29) FUNCTION_CALL -> ID LPAREN EXP FUNCTION_C_ONE . RPAREN
 
-    RPAREN          shift and go to state 188
+    RPAREN          shift and go to state 189
 
 
-state 167
+state 168
 
     (30) FUNCTION_C_ONE -> COMMA . EXP FUNCTION
-    (59) EXP -> . T_EXP EXP_ONE
-    (62) T_EXP -> . G_EXP T_EXP_ONE
-    (65) G_EXP -> . MID_EXP G_EXP_ONE
-    (73) MID_EXP -> . TERM MID_EXP_ONE
-    (77) TERM -> . FACT TERM_ONE
-    (81) FACT -> . CTEI
-    (82) FACT -> . CTEF
-    (83) FACT -> . VARIABLE
-    (84) FACT -> . FUNCTION_CALL
-    (85) FACT -> . LPAREN EXP RPAREN
+    (60) EXP -> . T_EXP EXP_ONE
+    (63) T_EXP -> . G_EXP T_EXP_ONE
+    (66) G_EXP -> . MID_EXP G_EXP_ONE
+    (74) MID_EXP -> . TERM MID_EXP_ONE
+    (78) TERM -> . FACT TERM_ONE
+    (82) FACT -> . CTEI
+    (83) FACT -> . CTEF
+    (84) FACT -> . VARIABLE
+    (85) FACT -> . FUNCTION_CALL
+    (86) FACT -> . LPAREN EXP RPAREN
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
@@ -2617,250 +2631,255 @@ state 167
     CTEI            shift and go to state 102
     CTEF            shift and go to state 103
     LPAREN          shift and go to state 105
-    ID              shift and go to state 122
+    ID              shift and go to state 123
 
-    EXP                            shift and go to state 189
+    EXP                            shift and go to state 190
     T_EXP                          shift and go to state 97
     G_EXP                          shift and go to state 98
     MID_EXP                        shift and go to state 99
     TERM                           shift and go to state 100
     FACT                           shift and go to state 101
-    VARIABLE                       shift and go to state 120
+    VARIABLE                       shift and go to state 121
     FUNCTION_CALL                  shift and go to state 104
     FIELD_ACCESS                   shift and go to state 66
 
-state 168
+state 169
 
     (42) VARIABLE_ONE -> LSBRACKET EXP RSBRACKET . VARIABLE_ONE
     (42) VARIABLE_ONE -> . LSBRACKET EXP RSBRACKET VARIABLE_ONE
     (43) VARIABLE_ONE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
     LSBRACKET       shift and go to state 86
-    ASSIGN          reduce using rule 110 (empty -> .)
-    SEMICOLON       reduce using rule 110 (empty -> .)
-    TIMES           reduce using rule 110 (empty -> .)
-    DIVIDE          reduce using rule 110 (empty -> .)
-    PLUS            reduce using rule 110 (empty -> .)
-    MINUS           reduce using rule 110 (empty -> .)
-    LT              reduce using rule 110 (empty -> .)
-    GT              reduce using rule 110 (empty -> .)
-    NE              reduce using rule 110 (empty -> .)
-    EQ              reduce using rule 110 (empty -> .)
-    GTE             reduce using rule 110 (empty -> .)
-    LTE             reduce using rule 110 (empty -> .)
-    AND             reduce using rule 110 (empty -> .)
-    OR              reduce using rule 110 (empty -> .)
-    COMMA           reduce using rule 110 (empty -> .)
-    RSBRACKET       reduce using rule 110 (empty -> .)
-    RPAREN          reduce using rule 110 (empty -> .)
-    FUNC            reduce using rule 110 (empty -> .)
+    ASSIGN          reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+    TIMES           reduce using rule 111 (empty -> .)
+    DIVIDE          reduce using rule 111 (empty -> .)
+    PLUS            reduce using rule 111 (empty -> .)
+    MINUS           reduce using rule 111 (empty -> .)
+    LT              reduce using rule 111 (empty -> .)
+    GT              reduce using rule 111 (empty -> .)
+    NE              reduce using rule 111 (empty -> .)
+    EQ              reduce using rule 111 (empty -> .)
+    GTE             reduce using rule 111 (empty -> .)
+    LTE             reduce using rule 111 (empty -> .)
+    AND             reduce using rule 111 (empty -> .)
+    OR              reduce using rule 111 (empty -> .)
+    COMMA           reduce using rule 111 (empty -> .)
+    RSBRACKET       reduce using rule 111 (empty -> .)
+    RPAREN          reduce using rule 111 (empty -> .)
+    FUNC            reduce using rule 111 (empty -> .)
 
-    VARIABLE_ONE                   shift and go to state 190
+    VARIABLE_ONE                   shift and go to state 191
     empty                          shift and go to state 87
-
-state 169
-
-    (101) PRINT_FUNC -> PRINT LPAREN EXP RPAREN . SEMICOLON
-
-    SEMICOLON       shift and go to state 191
-
 
 state 170
 
-    (104) COND -> IF LPAREN EXP RPAREN . NESTED_BLOCK COND_ONE
-    (107) NESTED_BLOCK -> . LBRACE NESTED_B_ONE RBRACE
+    (102) PRINT_FUNC -> PRINT LPAREN EXP RPAREN . SEMICOLON
 
-    LBRACE          shift and go to state 193
+    SEMICOLON       shift and go to state 192
 
-    NESTED_BLOCK                   shift and go to state 192
 
 state 171
 
-    (103) WHILE_LOOP -> WHILE LPAREN EXP RPAREN . NESTED_BLOCK
-    (107) NESTED_BLOCK -> . LBRACE NESTED_B_ONE RBRACE
+    (105) COND -> IF LPAREN EXP RPAREN . NESTED_BLOCK COND_ONE
+    (108) NESTED_BLOCK -> . LBRACE NESTED_B_ONE RBRACE
 
-    LBRACE          shift and go to state 193
+    LBRACE          shift and go to state 194
 
-    NESTED_BLOCK                   shift and go to state 194
+    NESTED_BLOCK                   shift and go to state 193
 
 state 172
 
-    (60) EXP_ONE -> OR EXP .
+    (104) WHILE_LOOP -> WHILE LPAREN EXP RPAREN . NESTED_BLOCK
+    (108) NESTED_BLOCK -> . LBRACE NESTED_B_ONE RBRACE
 
-    SEMICOLON       reduce using rule 60 (EXP_ONE -> OR EXP .)
-    COMMA           reduce using rule 60 (EXP_ONE -> OR EXP .)
-    RSBRACKET       reduce using rule 60 (EXP_ONE -> OR EXP .)
-    RPAREN          reduce using rule 60 (EXP_ONE -> OR EXP .)
-    FUNC            reduce using rule 60 (EXP_ONE -> OR EXP .)
+    LBRACE          shift and go to state 194
 
+    NESTED_BLOCK                   shift and go to state 195
 
 state 173
 
-    (63) T_EXP_ONE -> AND T_EXP .
+    (61) EXP_ONE -> OR EXP .
 
-    OR              reduce using rule 63 (T_EXP_ONE -> AND T_EXP .)
-    SEMICOLON       reduce using rule 63 (T_EXP_ONE -> AND T_EXP .)
-    COMMA           reduce using rule 63 (T_EXP_ONE -> AND T_EXP .)
-    RSBRACKET       reduce using rule 63 (T_EXP_ONE -> AND T_EXP .)
-    RPAREN          reduce using rule 63 (T_EXP_ONE -> AND T_EXP .)
-    FUNC            reduce using rule 63 (T_EXP_ONE -> AND T_EXP .)
+    SEMICOLON       reduce using rule 61 (EXP_ONE -> OR EXP .)
+    COMMA           reduce using rule 61 (EXP_ONE -> OR EXP .)
+    RSBRACKET       reduce using rule 61 (EXP_ONE -> OR EXP .)
+    RPAREN          reduce using rule 61 (EXP_ONE -> OR EXP .)
+    FUNC            reduce using rule 61 (EXP_ONE -> OR EXP .)
 
 
 state 174
 
-    (66) G_EXP_ONE -> G_EXP_TWO MID_EXP .
+    (64) T_EXP_ONE -> AND T_EXP .
 
-    AND             reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
-    OR              reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
-    SEMICOLON       reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
-    COMMA           reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
-    RSBRACKET       reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
-    RPAREN          reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
-    FUNC            reduce using rule 66 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    OR              reduce using rule 64 (T_EXP_ONE -> AND T_EXP .)
+    SEMICOLON       reduce using rule 64 (T_EXP_ONE -> AND T_EXP .)
+    COMMA           reduce using rule 64 (T_EXP_ONE -> AND T_EXP .)
+    RSBRACKET       reduce using rule 64 (T_EXP_ONE -> AND T_EXP .)
+    RPAREN          reduce using rule 64 (T_EXP_ONE -> AND T_EXP .)
+    FUNC            reduce using rule 64 (T_EXP_ONE -> AND T_EXP .)
 
 
 state 175
 
-    (74) MID_EXP_ONE -> PLUS MID_EXP .
+    (67) G_EXP_ONE -> G_EXP_TWO MID_EXP .
 
-    LT              reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    GT              reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    NE              reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    EQ              reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    GTE             reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    LTE             reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    AND             reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    OR              reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    SEMICOLON       reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    COMMA           reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    RSBRACKET       reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    RPAREN          reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
-    FUNC            reduce using rule 74 (MID_EXP_ONE -> PLUS MID_EXP .)
+    AND             reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    OR              reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    SEMICOLON       reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    COMMA           reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    RSBRACKET       reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    RPAREN          reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
+    FUNC            reduce using rule 67 (G_EXP_ONE -> G_EXP_TWO MID_EXP .)
 
 
 state 176
 
-    (75) MID_EXP_ONE -> MINUS MID_EXP .
+    (75) MID_EXP_ONE -> PLUS MID_EXP .
 
-    LT              reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    GT              reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    NE              reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    EQ              reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    GTE             reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    LTE             reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    AND             reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    OR              reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    SEMICOLON       reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    COMMA           reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    RSBRACKET       reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    RPAREN          reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
-    FUNC            reduce using rule 75 (MID_EXP_ONE -> MINUS MID_EXP .)
+    LT              reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    GT              reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    NE              reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    EQ              reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    GTE             reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    LTE             reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    AND             reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    OR              reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    SEMICOLON       reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    COMMA           reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    RSBRACKET       reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    RPAREN          reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
+    FUNC            reduce using rule 75 (MID_EXP_ONE -> PLUS MID_EXP .)
 
 
 state 177
 
-    (78) TERM_ONE -> TIMES TERM .
+    (76) MID_EXP_ONE -> MINUS MID_EXP .
 
-    PLUS            reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    MINUS           reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    LT              reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    GT              reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    NE              reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    EQ              reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    GTE             reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    LTE             reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    AND             reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    OR              reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    SEMICOLON       reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    COMMA           reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    RSBRACKET       reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    RPAREN          reduce using rule 78 (TERM_ONE -> TIMES TERM .)
-    FUNC            reduce using rule 78 (TERM_ONE -> TIMES TERM .)
+    LT              reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    GT              reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    NE              reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    EQ              reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    GTE             reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    LTE             reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    AND             reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    OR              reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    SEMICOLON       reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    COMMA           reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    RSBRACKET       reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    RPAREN          reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
+    FUNC            reduce using rule 76 (MID_EXP_ONE -> MINUS MID_EXP .)
 
 
 state 178
 
-    (79) TERM_ONE -> DIVIDE TERM .
+    (79) TERM_ONE -> TIMES TERM .
 
-    PLUS            reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    MINUS           reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    LT              reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    GT              reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    NE              reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    EQ              reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    GTE             reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    LTE             reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    AND             reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    OR              reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    SEMICOLON       reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    COMMA           reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    RSBRACKET       reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    RPAREN          reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
-    FUNC            reduce using rule 79 (TERM_ONE -> DIVIDE TERM .)
+    PLUS            reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    MINUS           reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    LT              reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    GT              reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    NE              reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    EQ              reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    GTE             reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    LTE             reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    AND             reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    OR              reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    SEMICOLON       reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    COMMA           reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    RSBRACKET       reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    RPAREN          reduce using rule 79 (TERM_ONE -> TIMES TERM .)
+    FUNC            reduce using rule 79 (TERM_ONE -> TIMES TERM .)
 
 
 state 179
 
-    (85) FACT -> LPAREN EXP RPAREN .
+    (80) TERM_ONE -> DIVIDE TERM .
 
-    TIMES           reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    DIVIDE          reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    PLUS            reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    MINUS           reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    LT              reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    GT              reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    NE              reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    EQ              reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    GTE             reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    LTE             reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    AND             reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    OR              reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    SEMICOLON       reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    COMMA           reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    RSBRACKET       reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    RPAREN          reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
-    FUNC            reduce using rule 85 (FACT -> LPAREN EXP RPAREN .)
+    PLUS            reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    MINUS           reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    LT              reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    GT              reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    NE              reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    EQ              reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    GTE             reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    LTE             reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    AND             reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    OR              reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    SEMICOLON       reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    COMMA           reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    RSBRACKET       reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    RPAREN          reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
+    FUNC            reduce using rule 80 (TERM_ONE -> DIVIDE TERM .)
 
 
 state 180
 
-    (53) DEC_V_O_COMPLEX -> COMMA ID DEC_V_O_COMPLEX .
+    (86) FACT -> LPAREN EXP RPAREN .
 
-    SEMICOLON       reduce using rule 53 (DEC_V_O_COMPLEX -> COMMA ID DEC_V_O_COMPLEX .)
+    TIMES           reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    DIVIDE          reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    PLUS            reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    MINUS           reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    LT              reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    GT              reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    NE              reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    EQ              reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    GTE             reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    LTE             reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    AND             reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    OR              reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    SEMICOLON       reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    COMMA           reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    RSBRACKET       reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    RPAREN          reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
+    FUNC            reduce using rule 86 (FACT -> LPAREN EXP RPAREN .)
 
 
 state 181
 
-    (48) DEC_V_O_SIMPLE -> COMMA ID . DEC_ARR DEC_V_O_SIMPLE
-    (50) DEC_ARR -> . LSBRACKET CTEI RSBRACKET DEC_ARR_ONE
+    (54) DEC_V_O_COMPLEX -> COMMA ID DEC_V_O_COMPLEX .
 
-    LSBRACKET       shift and go to state 110
+    SEMICOLON       reduce using rule 54 (DEC_V_O_COMPLEX -> COMMA ID DEC_V_O_COMPLEX .)
 
-    DEC_ARR                        shift and go to state 195
 
 state 182
 
-    (50) DEC_ARR -> LSBRACKET CTEI RSBRACKET . DEC_ARR_ONE
-    (51) DEC_ARR_ONE -> . LSBRACKET CTEI RSBRACKET
-    (52) DEC_ARR_ONE -> . empty
-    (110) empty -> .
+    (48) DEC_V_O_SIMPLE -> COMMA ID . DEC_ARR DEC_V_O_SIMPLE
+    (50) DEC_ARR -> . LSBRACKET CTEI RSBRACKET DEC_ARR_ONE
+    (51) DEC_ARR -> . empty
+    (111) empty -> .
 
-    LSBRACKET       shift and go to state 196
-    COMMA           reduce using rule 110 (empty -> .)
-    SEMICOLON       reduce using rule 110 (empty -> .)
+    LSBRACKET       shift and go to state 110
+    COMMA           reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
 
-    DEC_ARR_ONE                    shift and go to state 197
-    empty                          shift and go to state 198
+    DEC_ARR                        shift and go to state 196
+    empty                          shift and go to state 111
 
 state 183
+
+    (50) DEC_ARR -> LSBRACKET CTEI RSBRACKET . DEC_ARR_ONE
+    (52) DEC_ARR_ONE -> . LSBRACKET CTEI RSBRACKET
+    (53) DEC_ARR_ONE -> . empty
+    (111) empty -> .
+
+    LSBRACKET       shift and go to state 197
+    COMMA           reduce using rule 111 (empty -> .)
+    SEMICOLON       reduce using rule 111 (empty -> .)
+
+    DEC_ARR_ONE                    shift and go to state 198
+    empty                          shift and go to state 199
+
+state 184
 
     (31) FUNCTION_DEC -> FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN .
 
     LBRACE          reduce using rule 31 (FUNCTION_DEC -> FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN .)
 
 
-state 184
+state 185
 
     (24) CLASS_CONSTRUCTOR -> ID LPAREN CLASS_C_ONE RPAREN BLOCK .
 
@@ -2868,36 +2887,36 @@ state 184
     FUNC            reduce using rule 24 (CLASS_CONSTRUCTOR -> ID LPAREN CLASS_C_ONE RPAREN BLOCK .)
 
 
-state 185
+state 186
 
     (37) PARAM -> SIMPLE_TYPE ID PARAM_ONE .
 
     RPAREN          reduce using rule 37 (PARAM -> SIMPLE_TYPE ID PARAM_ONE .)
 
 
-state 186
+state 187
 
     (38) PARAM_ONE -> COMMA . PARAM
     (37) PARAM -> . SIMPLE_TYPE ID PARAM_ONE
-    (55) SIMPLE_TYPE -> . INT
-    (56) SIMPLE_TYPE -> . FLOAT
-    (57) SIMPLE_TYPE -> . CHAR
+    (56) SIMPLE_TYPE -> . INT
+    (57) SIMPLE_TYPE -> . FLOAT
+    (58) SIMPLE_TYPE -> . CHAR
 
     INT             shift and go to state 34
     FLOAT           shift and go to state 35
     CHAR            shift and go to state 36
 
-    PARAM                          shift and go to state 199
-    SIMPLE_TYPE                    shift and go to state 119
+    PARAM                          shift and go to state 200
+    SIMPLE_TYPE                    shift and go to state 120
 
-state 187
+state 188
 
     (39) PARAM_ONE -> empty .
 
     RPAREN          reduce using rule 39 (PARAM_ONE -> empty .)
 
 
-state 188
+state 189
 
     (29) FUNCTION_CALL -> ID LPAREN EXP FUNCTION_C_ONE RPAREN .
 
@@ -2928,7 +2947,7 @@ state 188
     FUNC            reduce using rule 29 (FUNCTION_CALL -> ID LPAREN EXP FUNCTION_C_ONE RPAREN .)
 
 
-state 189
+state 190
 
     (30) FUNCTION_C_ONE -> COMMA EXP . FUNCTION
     (32) FUNCTION -> . FUNCTION_DEC BLOCK
@@ -2936,10 +2955,10 @@ state 189
 
     FUNC            shift and go to state 19
 
-    FUNCTION                       shift and go to state 200
+    FUNCTION                       shift and go to state 201
     FUNCTION_DEC                   shift and go to state 16
 
-state 190
+state 191
 
     (42) VARIABLE_ONE -> LSBRACKET EXP RSBRACKET VARIABLE_ONE .
 
@@ -2963,65 +2982,65 @@ state 190
     FUNC            reduce using rule 42 (VARIABLE_ONE -> LSBRACKET EXP RSBRACKET VARIABLE_ONE .)
 
 
-state 191
-
-    (101) PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .
-
-    VAR             reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    ID              reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    READ            reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    PRINT           reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    IF              reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    WHILE           reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    RETURN          reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-    RBRACE          reduce using rule 101 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
-
-
 state 192
 
-    (104) COND -> IF LPAREN EXP RPAREN NESTED_BLOCK . COND_ONE
-    (105) COND_ONE -> . ELSE NESTED_BLOCK
-    (106) COND_ONE -> . empty
-    (110) empty -> .
+    (102) PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .
 
-    ELSE            shift and go to state 202
-    VAR             reduce using rule 110 (empty -> .)
-    ID              reduce using rule 110 (empty -> .)
-    READ            reduce using rule 110 (empty -> .)
-    PRINT           reduce using rule 110 (empty -> .)
-    IF              reduce using rule 110 (empty -> .)
-    WHILE           reduce using rule 110 (empty -> .)
-    RETURN          reduce using rule 110 (empty -> .)
-    RBRACE          reduce using rule 110 (empty -> .)
+    VAR             reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    ID              reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    READ            reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    PRINT           reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    IF              reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    WHILE           reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    RETURN          reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 102 (PRINT_FUNC -> PRINT LPAREN EXP RPAREN SEMICOLON .)
 
-    COND_ONE                       shift and go to state 201
-    empty                          shift and go to state 203
 
 state 193
 
-    (107) NESTED_BLOCK -> LBRACE . NESTED_B_ONE RBRACE
-    (108) NESTED_B_ONE -> . STMT NESTED_B_ONE
-    (109) NESTED_B_ONE -> . empty
-    (91) STMT -> . ASSIGN_OP
-    (92) STMT -> . FUNCTION_CALL
-    (93) STMT -> . READ_FUNC
-    (94) STMT -> . PRINT_FUNC
-    (95) STMT -> . COND
-    (96) STMT -> . WHILE_LOOP
-    (97) STMT -> . RETURN_FUNC
-    (110) empty -> .
+    (105) COND -> IF LPAREN EXP RPAREN NESTED_BLOCK . COND_ONE
+    (106) COND_ONE -> . ELSE NESTED_BLOCK
+    (107) COND_ONE -> . empty
+    (111) empty -> .
+
+    ELSE            shift and go to state 203
+    VAR             reduce using rule 111 (empty -> .)
+    ID              reduce using rule 111 (empty -> .)
+    READ            reduce using rule 111 (empty -> .)
+    PRINT           reduce using rule 111 (empty -> .)
+    IF              reduce using rule 111 (empty -> .)
+    WHILE           reduce using rule 111 (empty -> .)
+    RETURN          reduce using rule 111 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
+
+    COND_ONE                       shift and go to state 202
+    empty                          shift and go to state 204
+
+state 194
+
+    (108) NESTED_BLOCK -> LBRACE . NESTED_B_ONE RBRACE
+    (109) NESTED_B_ONE -> . STMT NESTED_B_ONE
+    (110) NESTED_B_ONE -> . empty
+    (92) STMT -> . ASSIGN_OP
+    (93) STMT -> . FUNCTION_CALL
+    (94) STMT -> . READ_FUNC
+    (95) STMT -> . PRINT_FUNC
+    (96) STMT -> . COND
+    (97) STMT -> . WHILE_LOOP
+    (98) STMT -> . RETURN_FUNC
+    (111) empty -> .
     (44) ASSIGN_OP -> . VARIABLE ASSIGN EXP SEMICOLON
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (102) READ_FUNC -> . READ VARIABLE SEMICOLON
-    (101) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
-    (104) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
-    (103) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
-    (98) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
+    (103) READ_FUNC -> . READ VARIABLE SEMICOLON
+    (102) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
+    (105) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
+    (104) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
+    (99) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (27) FIELD_ACCESS -> . ID POINT ID
 
-    RBRACE          reduce using rule 110 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
     ID              shift and go to state 60
     READ            shift and go to state 61
     PRINT           shift and go to state 62
@@ -3029,9 +3048,9 @@ state 193
     WHILE           shift and go to state 64
     RETURN          shift and go to state 65
 
-    NESTED_B_ONE                   shift and go to state 204
-    STMT                           shift and go to state 205
-    empty                          shift and go to state 206
+    NESTED_B_ONE                   shift and go to state 205
+    STMT                           shift and go to state 206
+    empty                          shift and go to state 207
     ASSIGN_OP                      shift and go to state 52
     FUNCTION_CALL                  shift and go to state 53
     READ_FUNC                      shift and go to state 54
@@ -3042,41 +3061,41 @@ state 193
     VARIABLE                       shift and go to state 59
     FIELD_ACCESS                   shift and go to state 66
 
-state 194
-
-    (103) WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .
-
-    VAR             reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    ID              reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    READ            reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    PRINT           reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    IF              reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    WHILE           reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    RETURN          reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-    RBRACE          reduce using rule 103 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
-
-
 state 195
+
+    (104) WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .
+
+    VAR             reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    ID              reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    READ            reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    PRINT           reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    IF              reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    WHILE           reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    RETURN          reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+    RBRACE          reduce using rule 104 (WHILE_LOOP -> WHILE LPAREN EXP RPAREN NESTED_BLOCK .)
+
+
+state 196
 
     (48) DEC_V_O_SIMPLE -> COMMA ID DEC_ARR . DEC_V_O_SIMPLE
     (48) DEC_V_O_SIMPLE -> . COMMA ID DEC_ARR DEC_V_O_SIMPLE
     (49) DEC_V_O_SIMPLE -> . empty
-    (110) empty -> .
+    (111) empty -> .
 
-    COMMA           shift and go to state 156
-    SEMICOLON       reduce using rule 110 (empty -> .)
+    COMMA           shift and go to state 157
+    SEMICOLON       reduce using rule 111 (empty -> .)
 
-    DEC_V_O_SIMPLE                 shift and go to state 207
-    empty                          shift and go to state 157
-
-state 196
-
-    (51) DEC_ARR_ONE -> LSBRACKET . CTEI RSBRACKET
-
-    CTEI            shift and go to state 208
-
+    DEC_V_O_SIMPLE                 shift and go to state 208
+    empty                          shift and go to state 158
 
 state 197
+
+    (52) DEC_ARR_ONE -> LSBRACKET . CTEI RSBRACKET
+
+    CTEI            shift and go to state 209
+
+
+state 198
 
     (50) DEC_ARR -> LSBRACKET CTEI RSBRACKET DEC_ARR_ONE .
 
@@ -3084,97 +3103,97 @@ state 197
     SEMICOLON       reduce using rule 50 (DEC_ARR -> LSBRACKET CTEI RSBRACKET DEC_ARR_ONE .)
 
 
-state 198
-
-    (52) DEC_ARR_ONE -> empty .
-
-    COMMA           reduce using rule 52 (DEC_ARR_ONE -> empty .)
-    SEMICOLON       reduce using rule 52 (DEC_ARR_ONE -> empty .)
-
-
 state 199
+
+    (53) DEC_ARR_ONE -> empty .
+
+    COMMA           reduce using rule 53 (DEC_ARR_ONE -> empty .)
+    SEMICOLON       reduce using rule 53 (DEC_ARR_ONE -> empty .)
+
+
+state 200
 
     (38) PARAM_ONE -> COMMA PARAM .
 
     RPAREN          reduce using rule 38 (PARAM_ONE -> COMMA PARAM .)
 
 
-state 200
+state 201
 
     (30) FUNCTION_C_ONE -> COMMA EXP FUNCTION .
 
     RPAREN          reduce using rule 30 (FUNCTION_C_ONE -> COMMA EXP FUNCTION .)
 
 
-state 201
-
-    (104) COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .
-
-    VAR             reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    ID              reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    READ            reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    PRINT           reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    IF              reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    WHILE           reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    RETURN          reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-    RBRACE          reduce using rule 104 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
-
-
 state 202
 
-    (105) COND_ONE -> ELSE . NESTED_BLOCK
-    (107) NESTED_BLOCK -> . LBRACE NESTED_B_ONE RBRACE
+    (105) COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .
 
-    LBRACE          shift and go to state 193
+    VAR             reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    ID              reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    READ            reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    PRINT           reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    IF              reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    WHILE           reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    RETURN          reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
+    RBRACE          reduce using rule 105 (COND -> IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE .)
 
-    NESTED_BLOCK                   shift and go to state 209
 
 state 203
 
-    (106) COND_ONE -> empty .
+    (106) COND_ONE -> ELSE . NESTED_BLOCK
+    (108) NESTED_BLOCK -> . LBRACE NESTED_B_ONE RBRACE
 
-    VAR             reduce using rule 106 (COND_ONE -> empty .)
-    ID              reduce using rule 106 (COND_ONE -> empty .)
-    READ            reduce using rule 106 (COND_ONE -> empty .)
-    PRINT           reduce using rule 106 (COND_ONE -> empty .)
-    IF              reduce using rule 106 (COND_ONE -> empty .)
-    WHILE           reduce using rule 106 (COND_ONE -> empty .)
-    RETURN          reduce using rule 106 (COND_ONE -> empty .)
-    RBRACE          reduce using rule 106 (COND_ONE -> empty .)
+    LBRACE          shift and go to state 194
 
+    NESTED_BLOCK                   shift and go to state 210
 
 state 204
 
-    (107) NESTED_BLOCK -> LBRACE NESTED_B_ONE . RBRACE
+    (107) COND_ONE -> empty .
 
-    RBRACE          shift and go to state 210
+    VAR             reduce using rule 107 (COND_ONE -> empty .)
+    ID              reduce using rule 107 (COND_ONE -> empty .)
+    READ            reduce using rule 107 (COND_ONE -> empty .)
+    PRINT           reduce using rule 107 (COND_ONE -> empty .)
+    IF              reduce using rule 107 (COND_ONE -> empty .)
+    WHILE           reduce using rule 107 (COND_ONE -> empty .)
+    RETURN          reduce using rule 107 (COND_ONE -> empty .)
+    RBRACE          reduce using rule 107 (COND_ONE -> empty .)
 
 
 state 205
 
-    (108) NESTED_B_ONE -> STMT . NESTED_B_ONE
-    (108) NESTED_B_ONE -> . STMT NESTED_B_ONE
-    (109) NESTED_B_ONE -> . empty
-    (91) STMT -> . ASSIGN_OP
-    (92) STMT -> . FUNCTION_CALL
-    (93) STMT -> . READ_FUNC
-    (94) STMT -> . PRINT_FUNC
-    (95) STMT -> . COND
-    (96) STMT -> . WHILE_LOOP
-    (97) STMT -> . RETURN_FUNC
-    (110) empty -> .
+    (108) NESTED_BLOCK -> LBRACE NESTED_B_ONE . RBRACE
+
+    RBRACE          shift and go to state 211
+
+
+state 206
+
+    (109) NESTED_B_ONE -> STMT . NESTED_B_ONE
+    (109) NESTED_B_ONE -> . STMT NESTED_B_ONE
+    (110) NESTED_B_ONE -> . empty
+    (92) STMT -> . ASSIGN_OP
+    (93) STMT -> . FUNCTION_CALL
+    (94) STMT -> . READ_FUNC
+    (95) STMT -> . PRINT_FUNC
+    (96) STMT -> . COND
+    (97) STMT -> . WHILE_LOOP
+    (98) STMT -> . RETURN_FUNC
+    (111) empty -> .
     (44) ASSIGN_OP -> . VARIABLE ASSIGN EXP SEMICOLON
     (29) FUNCTION_CALL -> . ID LPAREN EXP FUNCTION_C_ONE RPAREN
-    (102) READ_FUNC -> . READ VARIABLE SEMICOLON
-    (101) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
-    (104) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
-    (103) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
-    (98) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
+    (103) READ_FUNC -> . READ VARIABLE SEMICOLON
+    (102) PRINT_FUNC -> . PRINT LPAREN EXP RPAREN SEMICOLON
+    (105) COND -> . IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE
+    (104) WHILE_LOOP -> . WHILE LPAREN EXP RPAREN NESTED_BLOCK
+    (99) RETURN_FUNC -> . RETURN RETURN_F_ONE SEMICOLON
     (40) VARIABLE -> . ID VARIABLE_ONE
     (41) VARIABLE -> . FIELD_ACCESS
     (27) FIELD_ACCESS -> . ID POINT ID
 
-    RBRACE          reduce using rule 110 (empty -> .)
+    RBRACE          reduce using rule 111 (empty -> .)
     ID              shift and go to state 60
     READ            shift and go to state 61
     PRINT           shift and go to state 62
@@ -3182,9 +3201,9 @@ state 205
     WHILE           shift and go to state 64
     RETURN          shift and go to state 65
 
-    STMT                           shift and go to state 205
-    NESTED_B_ONE                   shift and go to state 211
-    empty                          shift and go to state 206
+    STMT                           shift and go to state 206
+    NESTED_B_ONE                   shift and go to state 212
+    empty                          shift and go to state 207
     ASSIGN_OP                      shift and go to state 52
     FUNCTION_CALL                  shift and go to state 53
     READ_FUNC                      shift and go to state 54
@@ -3195,67 +3214,67 @@ state 205
     VARIABLE                       shift and go to state 59
     FIELD_ACCESS                   shift and go to state 66
 
-state 206
-
-    (109) NESTED_B_ONE -> empty .
-
-    RBRACE          reduce using rule 109 (NESTED_B_ONE -> empty .)
-
-
 state 207
+
+    (110) NESTED_B_ONE -> empty .
+
+    RBRACE          reduce using rule 110 (NESTED_B_ONE -> empty .)
+
+
+state 208
 
     (48) DEC_V_O_SIMPLE -> COMMA ID DEC_ARR DEC_V_O_SIMPLE .
 
     SEMICOLON       reduce using rule 48 (DEC_V_O_SIMPLE -> COMMA ID DEC_ARR DEC_V_O_SIMPLE .)
 
 
-state 208
-
-    (51) DEC_ARR_ONE -> LSBRACKET CTEI . RSBRACKET
-
-    RSBRACKET       shift and go to state 212
-
-
 state 209
 
-    (105) COND_ONE -> ELSE NESTED_BLOCK .
+    (52) DEC_ARR_ONE -> LSBRACKET CTEI . RSBRACKET
 
-    VAR             reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    ID              reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    READ            reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    PRINT           reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    IF              reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    WHILE           reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    RETURN          reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
-    RBRACE          reduce using rule 105 (COND_ONE -> ELSE NESTED_BLOCK .)
+    RSBRACKET       shift and go to state 213
 
 
 state 210
 
-    (107) NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .
+    (106) COND_ONE -> ELSE NESTED_BLOCK .
 
-    ELSE            reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    VAR             reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    ID              reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    READ            reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    PRINT           reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    IF              reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    WHILE           reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    RETURN          reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
-    RBRACE          reduce using rule 107 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    VAR             reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    ID              reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    READ            reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    PRINT           reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    IF              reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    WHILE           reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    RETURN          reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
+    RBRACE          reduce using rule 106 (COND_ONE -> ELSE NESTED_BLOCK .)
 
 
 state 211
 
-    (108) NESTED_B_ONE -> STMT NESTED_B_ONE .
+    (108) NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .
 
-    RBRACE          reduce using rule 108 (NESTED_B_ONE -> STMT NESTED_B_ONE .)
+    ELSE            reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    VAR             reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    ID              reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    READ            reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    PRINT           reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    IF              reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    WHILE           reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    RETURN          reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
+    RBRACE          reduce using rule 108 (NESTED_BLOCK -> LBRACE NESTED_B_ONE RBRACE .)
 
 
 state 212
 
-    (51) DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET .
+    (109) NESTED_B_ONE -> STMT NESTED_B_ONE .
 
-    COMMA           reduce using rule 51 (DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET .)
-    SEMICOLON       reduce using rule 51 (DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET .)
+    RBRACE          reduce using rule 109 (NESTED_B_ONE -> STMT NESTED_B_ONE .)
+
+
+state 213
+
+    (52) DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET .
+
+    COMMA           reduce using rule 52 (DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET .)
+    SEMICOLON       reduce using rule 52 (DEC_ARR_ONE -> LSBRACKET CTEI RSBRACKET .)
 
