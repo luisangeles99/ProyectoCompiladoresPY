@@ -278,7 +278,7 @@ parser = yacc.yacc()
 
 #test the parser
 #
-file = 'entrada.txt'
+file = 'tests/entrada.txt'
 #
 with open(file, 'r') as f:
     input = f.read()
