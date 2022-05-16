@@ -2,6 +2,8 @@
 # estará disponible para variables globales y locales
 # locales solo en función
 
+import sys
+
 class VariablesTable:
     def __init__(self):
         self.table = {}
@@ -10,10 +12,12 @@ class VariablesTable:
     def addVar(self, name, type, val): # TODO: USE MEMORY AND TO ADD MATRIX
         if name in self.table.keys():
             print('Variable declarada aquí saldríamos')
-            return
+            sys.exit()
         self.table[name] = {
             'type': type,
             'value': val
         }
 
     #TODO: Implement GETTERS AND SETTERS FOR DIRECTORY USE
+    def getVar(self, name):
+        return name in self.table.keys()

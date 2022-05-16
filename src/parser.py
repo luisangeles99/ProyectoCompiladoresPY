@@ -1,5 +1,8 @@
 import ply.yacc as yacc
 from lexer import tokens
+from DirectorioFunciones import DirectorioFunciones
+import Memoria
+import sys
 
 precedence = (
     ('right', 'ASSIGN'),
@@ -12,7 +15,16 @@ precedence = (
     ('left', 'CTEF', 'CTEI')
 )
 
+currTypeVar = None
+currTypeFunc = None
+currFunc = None
+currScope = 'global'
+
 start = 'P'
+
+#------------------------------------ INSTANTIATE NEEDED DATA STR ------------------------------------
+
+funcDirectory = DirectorioFunciones()
 
 #------------------------------------ PROGRAM SYNTAX ------------------------------------
 
@@ -92,8 +104,9 @@ def p_FUNCTION_CALL(p):
 def p_FUNCTION_C_ONE(p):
     '''FUNCTION_C_ONE       : COMMA EXP FUNCTION'''
 
-def p_FUNCTION_DEC(p):
-    '''FUNCTION_DEC         : FUNC FUNCTION_D_ONE ID LPAREN FUNCTION_D_TWO RPAREN'''
+def p_FUNCTION_DEC(p): #CHECK IF SET CURR IS OK THERE
+    '''FUNCTION_DEC         : FUNC FUNCTION_D_ONE ID addFunc LPAREN FUNCTION_D_TWO RPAREN'''
+
 
 def p_FUNCTION(p):
     '''FUNCTION             : FUNCTION_DEC BLOCK'''
@@ -101,6 +114,10 @@ def p_FUNCTION(p):
 def p_FUNCTION_D_ONE(p):
     '''FUNCTION_D_ONE       : SIMPLE_TYPE
                             | VOID'''
+    if p[1] == 'void':
+        global currTypeFunc 
+        print('añadimos tipo void')
+        currTypeFunc = p[1]
 
 def p_FUNCTION_D_TWO(p):
     '''FUNCTION_D_TWO       : PARAM
@@ -132,10 +149,10 @@ def p_DEC_VAR(p):
 
 def p_DEC_VAR_ONE(p):
     '''DEC_VAR_ONE          : COMPLEX_TYPE ID DEC_V_O_COMPLEX
-                            | SIMPLE_TYPE ID DEC_ARR DEC_V_O_SIMPLE'''
+                            | SIMPLE_TYPE ID addVar DEC_ARR DEC_V_O_SIMPLE'''
 
 def p_DEC_V_O_SIMPLE(p):
-    '''DEC_V_O_SIMPLE       : COMMA ID DEC_ARR DEC_V_O_SIMPLE
+    '''DEC_V_O_SIMPLE       : COMMA ID addVar DEC_ARR DEC_V_O_SIMPLE
                             | empty'''
                     
 def p_DEC_ARR(p):
@@ -154,6 +171,12 @@ def p_SIMPLE_TYPE(p):
     '''SIMPLE_TYPE          : INT 
                             | FLOAT 
                             | CHAR'''
+    if p[-1] == 'func':
+        global currTypeFunc
+        currTypeFunc = p[1]
+    elif p[-1] == 'var':
+        global currTypeVar
+        currTypeVar = p[1]
 
 def p_COMPLEX_TYPE(p):
     '''COMPLEX_TYPE         : ID'''
@@ -178,7 +201,8 @@ def p_G_EXP(p):
     '''G_EXP        : MID_EXP G_EXP_ONE'''
 
 def p_G_EXP_ONE(p):
-    '''G_EXP_ONE    : G_EXP_TWO MID_EXP'''
+    '''G_EXP_ONE    : G_EXP_TWO MID_EXP
+                    | empty'''
 
 def p_G_EXP_TWO(p):
     '''G_EXP_TWO    : LT 
@@ -262,6 +286,37 @@ def p_NESTED_BLOCK(p):
 def p_NESTED_B_ONE(p):
     '''NESTED_B_ONE     : STMT NESTED_B_ONE
                         | empty'''
+
+
+#------------------------------------ NEURAL POINTS ------------------------------------
+
+#------------------------------------ VARIABLES NEURAL POINTS ----------------------------
+
+def p_addVar(p):
+    '''addVar           : '''
+    varName = p[-1]
+    if currScope == 'local':
+        funcDirectory.addVar(currFunc, varName, currTypeVar, None)
+        print('vars added' + currFunc)
+        print(funcDirectory.directorio[currFunc]['vars'].table)
+    elif currScope == 'global':
+        pass
+    
+
+#------------------------------------ FUNCTION NEURAL POINTS ----------------------------
+
+def p_addFunc(p):
+    '''addFunc          : '''
+    functionName = p[-1]
+    if not funcDirectory.functionExists(functionName):
+        funcDirectory.addFunction(functionName, currTypeFunc)
+        print('Func added to directory')
+        print(funcDirectory.directorio)
+        global currFunc 
+        currFunc = functionName
+        global currScope
+        currScope = 'local'
+
 
 #EMPTY
 def p_empty(p):
