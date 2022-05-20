@@ -41,7 +41,7 @@ def t_CTEI(t):
     t.value = int(t.value)
     return t
 
-def t_CTE_CHAR(t):
+def t_CTE_CHAR(t): #TODO: CHECK NAME IN PARSER
     r'\'[A-Za-z]\''
     t.value = t.value[1]
     return t

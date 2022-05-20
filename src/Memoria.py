@@ -3,4 +3,7 @@
 
 class Memoria:
     def __init__(self):
+        self.memoria = {
+        }
+        #clase memoria
         pass

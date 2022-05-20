@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from lexer import tokens
 from DirectorioFunciones import DirectorioFunciones
+from QuadGenerator import QuadGenerator
 import Memoria
 import sys
 
@@ -25,8 +26,11 @@ start = 'P'
 #------------------------------------ INSTANTIATE NEEDED DATA STR ------------------------------------
 
 funcDirectory = DirectorioFunciones()
+quadGenerator = QuadGenerator()
 
 #------------------------------------ PROGRAM SYNTAX ------------------------------------
+
+#TODO: Remove import rules from language and from diagram
 
 def p_PROGRAM(p):
     '''P            : PROGRAM ID SEMICOLON P_STRUCTURE'''
@@ -233,7 +237,7 @@ def p_FACT(p):
                     | CTEF 
                     | VARIABLE 
                     | FUNCTION_CALL 
-                    | LPAREN EXP RPAREN''' # MISSING CHARS IN LEXER
+                    | LPAREN EXP RPAREN''' #TODO: MISSING CHARS IN LEXER
 
 #------------------------------------ CODE BLOCK SYNTAX------------------------------------
 
@@ -255,7 +259,7 @@ def p_STMT(p):
                     | PRINT_FUNC 
                     | COND 
                     | WHILE_LOOP
-                    | RETURN_FUNC''' #MISSING RETURN AND FOR_LOOP
+                    | RETURN_FUNC''' #TODO: MISSING RETURN AND FOR_LOOP
 
 def p_RETURN(p):
     '''RETURN_FUNC      : RETURN RETURN_F_ONE SEMICOLON'''
@@ -318,6 +322,10 @@ def p_addFunc(p):
         currScope = 'local'
 
 
+#------------------------------------ MANAGE OF STACKS ----------------------------
+
+
+
 #EMPTY
 def p_empty(p):
     'empty :'
@@ -337,18 +345,6 @@ file = 'tests/entrada.txt'
 #
 with open(file, 'r') as f:
     input = f.read()
-    parser.parse(input, debug = 1)
+    parser.parse(input)
     print('apropiado')
-
-
-
-
-
-
-
-
-
-
-
-
 
