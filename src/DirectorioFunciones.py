@@ -23,8 +23,8 @@ class DirectorioFunciones:
         
     def getVar(self, funcName, varName):
         if self.functionExists(funcName):
-            if self.directorio[funcName]['vars'].getVar(funcName, varName):
-                return True
+            if self.directorio[funcName]['vars'].searchVar(funcName, varName):
+                return self.directorio[funcName]['vars'][varName]
             else:
                 print('Variable no existe en el contexto')
                 sys.exit()
@@ -34,7 +34,7 @@ class DirectorioFunciones:
 
     def addVar(self, funcName, varName, type, val):
         if self.functionExists(funcName):
-            if not self.directorio[funcName]['vars'].getVar(varName):
+            if not self.directorio[funcName]['vars'].searchVar(varName):
                 self.directorio[funcName]['vars'].addVar(varName, type, val)
             else:
                 print('Variable ya declarada')

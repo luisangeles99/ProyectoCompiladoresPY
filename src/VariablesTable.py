@@ -19,5 +19,5 @@ class VariablesTable:
         }
 
     #TODO: Implement GETTERS AND SETTERS FOR DIRECTORY USE
-    def getVar(self, name):
+    def searchVar(self, name):
         return name in self.table.keys()

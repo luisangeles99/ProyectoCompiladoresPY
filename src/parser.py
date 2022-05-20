@@ -1,7 +1,9 @@
+from distutils.log import debug
 import ply.yacc as yacc
 from lexer import tokens
 from DirectorioFunciones import DirectorioFunciones
 from QuadGenerator import QuadGenerator
+from CuboSemantico import SemanticCube
 import Memoria
 import sys
 
@@ -27,6 +29,10 @@ start = 'P'
 
 funcDirectory = DirectorioFunciones()
 quadGenerator = QuadGenerator()
+cubo = SemanticCube()
+pOperadores = []
+pOperandos = []
+pTipos = []
 
 #------------------------------------ PROGRAM SYNTAX ------------------------------------
 
@@ -137,9 +143,14 @@ def p_PARAM_ONE(p):
 
 #------------------------------------ VARIABLES SYNTAX ------------------------------------
 
-def p_VARIABLE(p):
+def p_VARIABLE(p): #TODO: Check if braces for access is there
     '''VARIABLE             : ID VARIABLE_ONE
                             | FIELD_ACCESS'''
+    varId = p[1]
+    pOperandos.append(varId)
+    #get type using function name
+    varInfo = funcDirectory.getVar(currFunc, varId)
+    pTipos.append(varInfo['type'])
 
 def p_VARIABLE_ONE(p):
     '''VARIABLE_ONE         : LSBRACKET EXP RSBRACKET VARIABLE_ONE
@@ -220,17 +231,18 @@ def p_MID_EXP(p):
     '''MID_EXP      : TERM MID_EXP_ONE'''
 
 def p_MID_EXP_ONE(p):
-    '''MID_EXP_ONE  : PLUS MID_EXP
-                    | MINUS MID_EXP
+    '''MID_EXP_ONE  : PLUS pushOperador MID_EXP
+                    | MINUS pushOperador MID_EXP
                     | empty'''
 
 def p_TERM(p):
     '''TERM         : FACT TERM_ONE'''
 
 def p_TERM_ONE(p):
-    '''TERM_ONE     : TIMES TERM
-                    | DIVIDE TERM
+    '''TERM_ONE     : TIMES pushOperador TERM
+                    | DIVIDE pushOperador TERM
                     | empty'''
+    
 
 def p_FACT(p):
     '''FACT         : CTEI 
@@ -306,6 +318,27 @@ def p_addVar(p):
     elif currScope == 'global':
         pass
     
+#------------------------------------ EXP NEURAL POINTS ----------------------------
+
+def p_pushOperador(p):
+    '''pushOperador     : '''
+    oper = p[-1]
+    pOperadores.append(oper)
+
+def p_addMinusExp(p):
+    '''addMinusExp      : '''
+    if pOperadores[-1] == 'PLUS' or pOperandos[-1] == 'MINUS':
+        rOperand = pOperandos.pop()
+        rType = pTipos.pop()
+        lOperand = pOperandos.pop()
+        lType = pTipos.pop()
+        oper = pOperadores.pop()
+        resultType = cubo.getType(lType, rType, oper)
+        if resultType == 'error':
+            print('type mismatch')
+            sys.exit()
+        
+        
 
 #------------------------------------ FUNCTION NEURAL POINTS ----------------------------
 
@@ -323,7 +356,14 @@ def p_addFunc(p):
 
 
 #------------------------------------ MANAGE OF STACKS ----------------------------
+def printPOperandos():
+    print('Pila de operandos ', pOperandos)
 
+def printPOperadores():
+    print('Pila de operadores', pOperadores)
+
+def printPTipos():
+    print('Pila de tipos', pTipos)
 
 
 #EMPTY
