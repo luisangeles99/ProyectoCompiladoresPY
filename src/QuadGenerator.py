@@ -1,4 +1,5 @@
 # class description
+from tabulate import tabulate
 
 quadOperations = {
     '+': 1,
@@ -16,10 +17,12 @@ class QuadGenerator:
         #TODO: use cube to validate correct quad
         quad = (oper, dir1, dir2, dir3)
         self.quadsTable.append(quad)
-        print('Current quads table', self.quadsTable)
 
     def getQuadsTable(self):
         return self.quadsTable
+
+    def printQuads(self):
+        print (tabulate(self.quadsTable, headers=["Oper", "LOp", "ROp", "Res"]))
 
     #TODO: Special cases for quads like ASSIGN, ETC...
     #TODO: Define all possible operations in a dict to use numbers instead of str

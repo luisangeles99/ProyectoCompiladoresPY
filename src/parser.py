@@ -1,5 +1,6 @@
 from distutils.log import debug
 import ply.yacc as yacc
+from Avail import Avail
 from lexer import tokens
 from DirectorioFunciones import DirectorioFunciones
 from QuadGenerator import QuadGenerator
@@ -30,9 +31,13 @@ start = 'P'
 funcDirectory = DirectorioFunciones()
 quadGenerator = QuadGenerator()
 cubo = SemanticCube()
+avail = Avail()
 pOperadores = []
 pOperandos = []
 pTipos = []
+relationalOperators = [
+    '>', '<', '>=', '<=', '==', '!='
+]
 
 #------------------------------------ PROGRAM SYNTAX ------------------------------------
 
@@ -158,6 +163,15 @@ def p_VARIABLE_ONE(p):
 
 def p_ASSIGN_OP(p):
     '''ASSIGN_OP            : VARIABLE ASSIGN EXP SEMICOLON'''
+    temp = pOperandos.pop()
+    tempType = pTipos.pop()
+    varId = pOperandos.pop()
+    varType = pTipos.pop()
+    if varType != tempType:
+        print('Type mismatch in assign for var: ', varId)
+        sys.exit()
+    quadGenerator.generateQuad(p[2], temp, None, varId)
+    
 
 def p_DEC_VAR(p):
     '''DEC_VAR              : VAR DEC_VAR_ONE SEMICOLON'''
@@ -199,36 +213,36 @@ def p_COMPLEX_TYPE(p):
 #------------------------------------ EXPRESSIONS SYNTAX ------------------------------------
 
 def p_EXP(p):
-    '''EXP          : T_EXP EXP_ONE'''
+    '''EXP          : T_EXP logicalOrOperation EXP_ONE'''
 
 def p_EXP_ONE(p):
-    '''EXP_ONE      : OR EXP
+    '''EXP_ONE      : OR pushOperador EXP
                     | empty'''
 
 def p_T_EXP(p):
-    '''T_EXP        : G_EXP T_EXP_ONE'''
+    '''T_EXP        : G_EXP logicalAndOperation T_EXP_ONE'''
 
 def p_T_EXP_ONE(p):
-    '''T_EXP_ONE    : AND T_EXP
+    '''T_EXP_ONE    : AND pushOperador T_EXP
                     | empty'''
 
 def p_G_EXP(p):
-    '''G_EXP        : MID_EXP G_EXP_ONE'''
+    '''G_EXP        : MID_EXP relationalOperation G_EXP_ONE'''
 
 def p_G_EXP_ONE(p):
     '''G_EXP_ONE    : G_EXP_TWO MID_EXP
                     | empty'''
 
 def p_G_EXP_TWO(p):
-    '''G_EXP_TWO    : LT 
-                    | GT 
-                    | NE 
-                    | EQ 
-                    | GTE 
-                    | LTE'''
+    '''G_EXP_TWO    : LT pushOperador
+                    | GT pushOperador
+                    | NE pushOperador
+                    | EQ pushOperador
+                    | GTE pushOperador
+                    | LTE pushOperador'''
 
 def p_MID_EXP(p):
-    '''MID_EXP      : TERM MID_EXP_ONE'''
+    '''MID_EXP      : TERM plusMinusExp MID_EXP_ONE'''
 
 def p_MID_EXP_ONE(p):
     '''MID_EXP_ONE  : PLUS pushOperador MID_EXP
@@ -236,7 +250,7 @@ def p_MID_EXP_ONE(p):
                     | empty'''
 
 def p_TERM(p):
-    '''TERM         : FACT TERM_ONE'''
+    '''TERM         : FACT timesDivideExp TERM_ONE'''
 
 def p_TERM_ONE(p):
     '''TERM_ONE     : TIMES pushOperador TERM
@@ -324,19 +338,60 @@ def p_pushOperador(p):
     '''pushOperador     : '''
     oper = p[-1]
     pOperadores.append(oper)
+    print('Push a pOperadores', pOperadores)
 
-def p_addMinusExp(p):
-    '''addMinusExp      : '''
-    if pOperadores[-1] == 'PLUS' or pOperandos[-1] == 'MINUS':
-        rOperand = pOperandos.pop()
-        rType = pTipos.pop()
-        lOperand = pOperandos.pop()
-        lType = pTipos.pop()
-        oper = pOperadores.pop()
-        resultType = cubo.getType(lType, rType, oper)
-        if resultType == 'error':
-            print('type mismatch')
-            sys.exit()
+def expQuad():
+    rOperand = pOperandos.pop()
+    rType = pTipos.pop()
+    lOperand = pOperandos.pop()
+    lType = pTipos.pop()
+    oper = pOperadores.pop()
+    resultType = cubo.getType(lType, rType, oper)
+    if resultType == 'error':
+        print('type mismatch')
+        sys.exit()
+    res = avail.next()
+    quadGenerator.generateQuad(oper, lOperand, rOperand, res)
+    pOperandos.append(res)
+    pTipos.append(resultType)
+    #TODO: return to avail temps
+
+def p_plusMinusExp(p):
+    '''plusMinusExp      : '''
+    if len(pOperadores) == 0: 
+        return
+    if pOperadores[-1] == '+' or pOperadores[-1] == '-':
+        expQuad()
+
+def p_timesDivideExp(p):
+    '''timesDivideExp      : '''
+    if len(pOperadores) == 0: 
+        return
+    if pOperadores[-1] == '*' or pOperadores[-1] == '/':
+        expQuad()
+    
+def p_relationalOperation(p):
+    '''relationalOperation  :'''
+    if len(pOperadores) == 0:
+        return
+    if pOperadores[-1] in relationalOperators:
+        expQuad()
+
+def p_logicalOrOperation(p):
+    '''logicalOrOperation     :'''
+    if len(pOperadores) == 0:
+        return
+    if pOperadores[-1] == '||':
+        expQuad()
+
+def p_logicalAndOperation(p):
+    '''logicalAndOperation     :'''
+    if len(pOperadores) == 0:
+        return
+    if pOperadores[-1] == '&&':
+        expQuad()
+
+
         
         
 
@@ -387,4 +442,5 @@ with open(file, 'r') as f:
     input = f.read()
     parser.parse(input)
     print('apropiado')
+    quadGenerator.printQuads()
 

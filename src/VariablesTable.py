@@ -18,6 +18,9 @@ class VariablesTable:
             'value': val
         }
 
+    def getVar(self, name):
+        return self.table[name]
+
     #TODO: Implement GETTERS AND SETTERS FOR DIRECTORY USE
     def searchVar(self, name):
         return name in self.table.keys()
