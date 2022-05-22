@@ -16,7 +16,7 @@ tokens = [
     'SEMICOLON',
     'CTEI',
     'CTEF',
-    'CTECH', #missing
+    'CTECH',
     'LSBRACKET',
     'RSBRACKET',
     'AND',

@@ -259,11 +259,17 @@ def p_TERM_ONE(p):
     
 
 def p_FACT(p):
-    '''FACT         : CTEI 
-                    | CTEF 
+    '''FACT         : CONST 
                     | VARIABLE 
                     | FUNCTION_CALL 
                     | LPAREN EXP RPAREN''' #TODO: MISSING CHARS IN LEXER
+
+def p_CONST(p):
+    '''CONST        : CTEI pushInt
+                    | CTEF pushFloat
+                    | CTECH pushChar'''
+
+
 
 #------------------------------------ CODE BLOCK SYNTAX------------------------------------
 
@@ -339,6 +345,24 @@ def p_pushOperador(p):
     oper = p[-1]
     pOperadores.append(oper)
     print('Push a pOperadores', pOperadores)
+
+def p_pushInt(p):
+    '''pushInt         :'''
+    const = p[-1]
+    pOperandos.append(const)
+    pTipos.append('int')
+
+def p_pushFloat(p):
+    '''pushFloat        :'''
+    const = p[-1]
+    pOperandos.append(const)
+    pTipos.append('float')
+
+def p_pushChar(p):
+    '''pushChar         :'''
+    const = p[-1]
+    pOperandos.append(const)
+    pTipos.append('char')
 
 def expQuad():
     rOperand = pOperandos.pop()

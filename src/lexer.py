@@ -36,19 +36,19 @@ def t_ID(t):
         t.type = reserved[ t.value ]
     return t
 
+def t_CTEF(t):
+    r'[-]?[0-9]+\.[0-9]+'
+    t.value = float(t.value)
+    return t
+
 def t_CTEI(t):
-    r'[0-9]+'
+    r'[-]?[0-9]+'
     t.value = int(t.value)
     return t
 
-def t_CTE_CHAR(t): #TODO: CHECK NAME IN PARSER
+def t_CTECH(t): #TODO: CHECK NAME IN PARSER
     r'\'[A-Za-z]\''
     t.value = t.value[1]
-    return t
-
-def t_CTEF(t):
-    r'[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?'
-    t.value = float(t.value)
     return t
 
 def t_error(t):
