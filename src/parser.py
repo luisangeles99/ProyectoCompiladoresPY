@@ -34,6 +34,7 @@ avail = Avail()
 pOperadores = []
 pOperandos = []
 pTipos = []
+pSaltos = []
 relationalOperators = [
     '>', '<', '>=', '<=', '==', '!='
 ]
@@ -310,10 +311,10 @@ def p_WHILE_LOOP(p):
     '''WHILE_LOOP     : WHILE LPAREN EXP RPAREN NESTED_BLOCK'''
 
 def p_COND(p):
-    '''COND             : IF LPAREN EXP RPAREN NESTED_BLOCK COND_ONE'''
+    '''COND             : IF LPAREN EXP RPAREN condExp NESTED_BLOCK COND_ONE condEnd'''
 
 def p_COND_ONE(p):
-    '''COND_ONE         : ELSE NESTED_BLOCK
+    '''COND_ONE         : condElse ELSE NESTED_BLOCK
                         | empty'''
 
 def p_NESTED_BLOCK(p):
@@ -342,7 +343,7 @@ def p_pushOperador(p):
     '''pushOperador     : '''
     oper = p[-1]
     pOperadores.append(oper)
-    print('Push a pOperadores', pOperadores)
+    #print('Push a pOperadores', pOperadores)
 
 def p_pushInt(p):
     '''pushInt         :'''
@@ -414,8 +415,30 @@ def p_logicalAndOperation(p):
         expQuad()
 
 
+#------------------------------------ COND NEURAL POINTS ----------------------------     
         
-        
+def p_condExp(p):
+    '''condExp          :'''
+    expType = pTipos.pop()
+    if expType != 'bool':
+        print('Type mismatch in if expression, must be a bool!')
+        sys.exit()
+    res = pOperandos.pop()
+    quadGenerator.generateQuad('gotoF', res, None, -1)
+    pSaltos.append(quadGenerator.counter)
+
+def p_condElse(p):
+    '''condElse         :'''
+    quadGenerator.generateQuad('goto', None, None, -1)
+    false = pSaltos.pop()
+    pSaltos.append(quadGenerator.counter)
+    quadGenerator.updateJump(false)
+
+def p_condEnd(p):
+    '''condEnd          :'''
+    end = pSaltos.pop()
+    quadGenerator.updateJump(end)
+
 
 #------------------------------------ FUNCTION NEURAL POINTS ----------------------------
 
@@ -465,4 +488,5 @@ with open(file, 'r') as f:
     parser.parse(input)
     print('apropiado')
     quadGenerator.printQuads()
+    quadGenerator.printQuadsWithCount()
 
