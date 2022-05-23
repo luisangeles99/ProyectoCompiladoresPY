@@ -24,3 +24,6 @@ class VariablesTable:
     #TODO: Implement GETTERS AND SETTERS FOR DIRECTORY USE
     def searchVar(self, name):
         return name in self.table.keys()
+
+    def updateVal(self, name, val):
+        self.table[name]['value'] = val

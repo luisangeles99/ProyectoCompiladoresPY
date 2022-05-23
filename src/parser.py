@@ -1,4 +1,3 @@
-from distutils.log import debug
 import ply.yacc as yacc
 from Avail import Avail
 from lexer import tokens
@@ -170,6 +169,7 @@ def p_ASSIGN_OP(p):
     if varType != tempType:
         print('Type mismatch in assign for var: ', varId)
         sys.exit()
+    funcDirectory.updateVarValue(currFunc, varId, temp)
     quadGenerator.generateQuad(p[2], temp, None, varId)
     
 
@@ -333,8 +333,6 @@ def p_addVar(p):
     varName = p[-1]
     if currScope == 'local':
         funcDirectory.addVar(currFunc, varName, currTypeVar, None)
-        print('vars added' + currFunc)
-        print(funcDirectory.directorio[currFunc]['vars'].table)
     elif currScope == 'global':
         pass
     
@@ -453,7 +451,7 @@ def p_empty(p):
 #ERROR
 def p_error(p):
     print('error de sintaxis')
-    exit(1)
+    sys.exit()
 
 #BUILD THE PARSER
 parser = yacc.yacc()

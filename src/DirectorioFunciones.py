@@ -43,6 +43,16 @@ class DirectorioFunciones:
             print('Funcion no existe')
             sys.exit()
             
-
+    def updateVarValue(self, funcName, varName, val):
+        if self.functionExists(funcName):
+            if self.directorio[funcName]['vars'].searchVar(varName):
+                self.directorio[funcName]['vars'].updateVal(varName, val)
+            else:
+                print('Variable no existe en funcion ', funcName, ' ni en scope global')
+                sys.exit()
+        else:
+            print('Funcion no existe')
+            sys.exit()
+    
     
 
