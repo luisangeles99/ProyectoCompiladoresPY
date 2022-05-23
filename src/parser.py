@@ -231,7 +231,7 @@ def p_G_EXP(p):
     '''G_EXP        : MID_EXP relationalOperation G_EXP_ONE'''
 
 def p_G_EXP_ONE(p):
-    '''G_EXP_ONE    : G_EXP_TWO MID_EXP
+    '''G_EXP_ONE    : G_EXP_TWO G_EXP
                     | empty'''
 
 def p_G_EXP_TWO(p):
@@ -308,7 +308,7 @@ def p_READ_FUNC(p):
     '''READ_FUNC        : READ VARIABLE SEMICOLON'''
 
 def p_WHILE_LOOP(p):
-    '''WHILE_LOOP     : WHILE LPAREN EXP RPAREN NESTED_BLOCK'''
+    '''WHILE_LOOP     : WHILE whilePreExp LPAREN EXP RPAREN whilePostExp NESTED_BLOCK endWhile'''
 
 def p_COND(p):
     '''COND             : IF LPAREN EXP RPAREN condExp NESTED_BLOCK COND_ONE condEnd'''
@@ -343,7 +343,6 @@ def p_pushOperador(p):
     '''pushOperador     : '''
     oper = p[-1]
     pOperadores.append(oper)
-    #print('Push a pOperadores', pOperadores)
 
 def p_pushInt(p):
     '''pushInt         :'''
@@ -416,16 +415,23 @@ def p_logicalAndOperation(p):
 
 
 #------------------------------------ COND NEURAL POINTS ----------------------------     
-        
-def p_condExp(p):
-    '''condExp          :'''
+
+def quadGoToF():
     expType = pTipos.pop()
+    print(pTipos)
+    print(pOperadores)
+    print(pOperandos)
+    quadGenerator.printQuads()
     if expType != 'bool':
-        print('Type mismatch in if expression, must be a bool!')
+        print('Type mismatch in expression condition, must be a bool!')
         sys.exit()
     res = pOperandos.pop()
     quadGenerator.generateQuad('gotoF', res, None, -1)
     pSaltos.append(quadGenerator.counter)
+
+def p_condExp(p):
+    '''condExp          :'''
+    quadGoToF()
 
 def p_condElse(p):
     '''condElse         :'''
@@ -439,6 +445,22 @@ def p_condEnd(p):
     end = pSaltos.pop()
     quadGenerator.updateJump(end)
 
+#------------------------------------ WHILE NEURAL POINTS ---------------------------- 
+
+def p_whilePreExp(p):
+    '''whilePreExp          :'''
+    pSaltos.append(quadGenerator.counter - 1)
+
+def p_whilePostExp(p):
+    '''whilePostExp         :'''
+    quadGoToF()
+
+def p_endWhile(p):
+    '''endWhile             :'''
+    end = pSaltos.pop()
+    ret = pSaltos.pop() #return to evaluate expression
+    quadGenerator.generateQuad('goto', None, None, ret)
+    quadGenerator.updateJump(end)
 
 #------------------------------------ FUNCTION NEURAL POINTS ----------------------------
 
