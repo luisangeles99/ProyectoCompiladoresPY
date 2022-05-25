@@ -44,7 +44,7 @@ relationalOperators = [
 #TODO: Remove import rules from language and from diagram
 
 def p_PROGRAM(p):
-    '''P            : PROGRAM ID SEMICOLON P_STRUCTURE'''
+    '''P            : PROGRAM ID SEMICOLON P_STRUCTURE endProgram'''
 
 def p_P_STRUCTURE(p):
     '''P_STRUCTURE  : P_STR_ONE PROG_MEMBERS PROG_M_ONE'''
@@ -299,10 +299,14 @@ def p_RETURN(p):
 
 def p_RETURN_F_ONE(p):
     '''RETURN_F_ONE     : VARIABLE
-                        | EXP'''
+                        | EXP
+                        | empty'''
 
 def p_PRINT(p):
     '''PRINT_FUNC       : PRINT LPAREN EXP RPAREN SEMICOLON'''
+    temp = pOperandos.pop()
+    tempType = pTipos.pop()
+    quadGenerator.generateQuad('print', None, None, temp)
 
 def p_READ_FUNC(p):
     '''READ_FUNC        : READ VARIABLE SEMICOLON'''
@@ -326,6 +330,12 @@ def p_NESTED_B_ONE(p):
 
 
 #------------------------------------ NEURAL POINTS ------------------------------------
+
+#------------------------------------ PROGRAM NEURAL POINTS ----------------------------
+
+def p_endProgram(p):
+    '''endProgram       :'''
+    quadGenerator.generateQuad('END', None, None, None)
 
 #------------------------------------ VARIABLES NEURAL POINTS ----------------------------
 
@@ -449,7 +459,7 @@ def p_condEnd(p):
 
 def p_whilePreExp(p):
     '''whilePreExp          :'''
-    pSaltos.append(quadGenerator.counter - 1)
+    pSaltos.append(quadGenerator.counter + 1)
 
 def p_whilePostExp(p):
     '''whilePostExp         :'''
@@ -476,6 +486,11 @@ def p_addFunc(p):
         global currScope
         currScope = 'local'
 
+#------------------------------------ STMT NEURAL POINTS ----------------------------
+
+def p_readFunc(p):
+    '''readFunc         :'''
+    pass
 
 #------------------------------------ MANAGE OF STACKS ----------------------------
 def printPOperandos():
