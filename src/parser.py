@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 import ply.yacc as yacc
 from Avail import Avail
 from lexer import tokens
@@ -44,7 +45,7 @@ relationalOperators = [
 #TODO: Remove import rules from language and from diagram
 
 def p_PROGRAM(p):
-    '''P            : PROGRAM ID SEMICOLON P_STRUCTURE endProgram'''
+    '''P            : PROGRAM ID startProgram SEMICOLON P_STRUCTURE endProgram'''
 
 def p_P_STRUCTURE(p):
     '''P_STRUCTURE  : P_STR_ONE PROG_MEMBERS PROG_M_ONE'''
@@ -296,11 +297,13 @@ def p_STMT(p):
 
 def p_RETURN(p):
     '''RETURN_FUNC      : RETURN RETURN_F_ONE SEMICOLON'''
+    term = pOperandos.pop()
+    termTipo = pTipos.pop()
+    quadGenerator.generateQuad('return', None, None, term)
 
 def p_RETURN_F_ONE(p):
     '''RETURN_F_ONE     : VARIABLE
-                        | EXP
-                        | empty'''
+                        | EXP'''
 
 def p_PRINT(p):
     '''PRINT_FUNC       : PRINT LPAREN EXP RPAREN SEMICOLON'''
@@ -332,6 +335,11 @@ def p_NESTED_B_ONE(p):
 #------------------------------------ NEURAL POINTS ------------------------------------
 
 #------------------------------------ PROGRAM NEURAL POINTS ----------------------------
+
+def p_startProgram(p):
+    '''startProgram     :'''
+    quadGenerator.generateQuad('goto', 'main', None, None)
+    pSaltos.append(quadGenerator.counter)
 
 def p_endProgram(p):
     '''endProgram       :'''
