@@ -350,6 +350,7 @@ def p_startProgram(p):
     '''startProgram     :'''
     quadGenerator.generateQuad('goto', 'main', None, None)
     pSaltos.append(quadGenerator.counter)
+    funcDirectory.addFunction('program', None)
 
 def p_endProgram(p):
     '''endProgram       :'''
@@ -363,7 +364,7 @@ def p_addVar(p):
     if currScope == 'local':
         funcDirectory.addVar(currFunc, varName, currTypeVar, None)
     elif currScope == 'global':
-        pass
+        funcDirectory.addVar('program', varName, currTypeVar, None)
     
 #------------------------------------ EXP NEURAL POINTS ----------------------------
 
@@ -600,6 +601,7 @@ with open(file, 'r') as f:
     print('apropiado')
     quadGenerator.printQuads()
     quadGenerator.printQuadsWithCount()
+    print(funcDirectory.directorio['program'])
     print(funcDirectory.directorio['num'])
     print(funcDirectory.directorio['realMadrid'])
     print(funcDirectory.directorio['main'])
