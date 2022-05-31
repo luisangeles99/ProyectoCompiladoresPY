@@ -1,5 +1,3 @@
-from distutils.log import debug
-from tkinter.messagebox import NO
 import ply.yacc as yacc
 from Avail import Avail
 from lexer import tokens
@@ -21,6 +19,7 @@ precedence = (
 )
 
 currTypeVar = None
+currVar = None
 currTypeFunc = None
 currFunc = None
 currFuncCall = None
@@ -39,6 +38,7 @@ pOperadores = []
 pOperandos = []
 pTipos = []
 pSaltos = []
+pDims = []
 relationalOperators = [
     '>', '<', '>=', '<=', '==', '!='
 ]
@@ -194,11 +194,11 @@ def p_DEC_V_O_SIMPLE(p):
                             | empty'''
                     
 def p_DEC_ARR(p):
-    '''DEC_ARR              : LSBRACKET CTEI RSBRACKET DEC_ARR_ONE
+    '''DEC_ARR              : LSBRACKET CTEI addDimVar RSBRACKET DEC_ARR_ONE arrDeclarationCalc
                             | empty'''
-
+#TODO: Analyze using more dims than two
 def p_DEC_ARR_ONE(p):
-    '''DEC_ARR_ONE          : LSBRACKET CTEI RSBRACKET
+    '''DEC_ARR_ONE          : LSBRACKET CTEI addDimVar RSBRACKET
                             | empty'''
 
 def p_DEC_V_O_COMPLEX(p):
@@ -309,6 +309,14 @@ def p_RETURN(p):
     '''RETURN_FUNC      : RETURN RETURN_F_ONE SEMICOLON'''
     term = pOperandos.pop()
     termTipo = pTipos.pop()
+    funcTipo = funcDirectory.directorio[currFunc]['type']
+    if funcTipo == 'void':
+        print('No se pueder regresar un valor en func del tipo void')
+        sys.exit()
+    if funcTipo != termTipo:
+        print('Tipo de retorno incorrecto para funcion ', currFunc)
+        sys.exit()
+    funcDirectory.setReturnFlag(currFunc)
     quadGenerator.generateQuad('return', None, None, term)
 
 def p_RETURN_F_ONE(p):
@@ -361,6 +369,8 @@ def p_endProgram(p):
 def p_addVar(p):
     '''addVar           : '''
     varName = p[-1]
+    global currVar
+    currVar = varName
     if currScope == 'local':
         funcDirectory.addVar(currFunc, varName, currTypeVar, None)
     elif currScope == 'global':
@@ -518,6 +528,11 @@ def p_setFuncCounter(p):
 
 def p_endFunc(p):
     '''endFunc          : '''
+    funcTipo = funcDirectory.directorio[currFunc]['type']
+    returnFlag = funcDirectory.directorio[currFunc]['return']
+    if funcTipo != 'void' and not returnFlag:
+        print('Falta valor de retorno para funcion ', currFunc)
+        sys.exit()
     quadGenerator.generateQuad('ENDFUNC', None, None, None)
     #TODO: Release var table
     numTemps = avail.curr
@@ -560,10 +575,30 @@ def p_gosubFunc(p):
     quadNum = funcDirectory.directorio[currFuncCall]['startCounter']
     quadGenerator.generateQuad('GOSUB', currFuncCall, None, quadNum)
 
+#------------------------------------ ARRAYS NEURAL POINTS ----------------------------
+
+def p_addDimVar(p):
+    '''addDimVar       : '''
+    funcName = 'program'
+    if currScope != 'global':
+        funcName = currFunc
+    dimSize = p[-1]
+    funcDirectory.addDimToVar(funcName, currVar, dimSize)
+
+def p_arrDeclarationCalc(p):
+    '''arrDeclarationCalc   : '''
+    '''addDimVar       : '''
+    funcName = 'program'
+    if currScope != 'global':
+        funcName = currFunc
+    funcDirectory.dimPostDeclarationCalc(funcName, currVar)
+    #TODO: Store vAddress
+
+
 #------------------------------------ STMT NEURAL POINTS ----------------------------
 
 def p_readFunc(p):
-    '''readFunc         :'''
+    '''readFunc         : '''
     pass
 
 #------------------------------------ MANAGE OF STACKS ----------------------------
@@ -601,8 +636,9 @@ with open(file, 'r') as f:
     print('apropiado')
     quadGenerator.printQuads()
     quadGenerator.printQuadsWithCount()
-    print(funcDirectory.directorio['program'])
-    print(funcDirectory.directorio['num'])
-    print(funcDirectory.directorio['realMadrid'])
+    print(funcDirectory.directorio['program']['vars'].table)
+    funcDirectory.directorio['program']['vars'].printNodes('arrFloat')
+    #print(funcDirectory.directorio['num'])
+    #print(funcDirectory.directorio['realMadrid'])
     print(funcDirectory.directorio['main'])
-    print(funcDirectory.directorio['num']['vars'].table)
+    #print(funcDirectory.directorio['num']['vars'].table)

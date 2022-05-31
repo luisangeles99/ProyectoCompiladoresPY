@@ -32,7 +32,8 @@ class DirectorioFunciones:
             'numVars': 0,
             'numTemps': 0,
             'paramsTable': ParamTable(),
-            'startCounter': None
+            'startCounter': None,
+            'return': False
         }
     
     def functionExists(self, name):
@@ -55,12 +56,21 @@ class DirectorioFunciones:
                 self.directorio[funcName]['vars'].addVar(varName, type, val)
                 self.directorio[funcName]['numVars'] = self.directorio[funcName]['numVars'] + 1
             else:
-                print('Variable ya declarada')
+                print('Variable ya declarada ', varName)
                 sys.exit()
         else:
             print('Funcion no existe')
             sys.exit()
             
+    def addDimToVar(self, funcName, varName, val):
+        if not self.directorio[funcName]['vars'].getArrayFlag(varName):
+            self.directorio[funcName]['vars'].addDim(varName, val)
+        else:
+            self.directorio[funcName]['vars'].addDimNode(varName, val)
+    
+    def dimPostDeclarationCalc(self, funcName, varName):
+        self.directorio[funcName]['vars'].dimPostDeclarationCalc(varName)
+
     def updateVarValue(self, funcName, varName, val):
         if self.functionExists(funcName):
             if self.directorio[funcName]['vars'].searchVar(varName):
@@ -92,5 +102,8 @@ class DirectorioFunciones:
     
     def setStartCounter(self, funcName, counter):
         self.directorio[funcName]['startCounter'] = counter
+
+    def setReturnFlag(self, funcName):
+        self.directorio[funcName]['return'] = True
 
 
