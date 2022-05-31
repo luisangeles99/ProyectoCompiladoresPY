@@ -1,3 +1,4 @@
+from distutils.log import debug
 from tkinter.messagebox import NO
 import ply.yacc as yacc
 from Avail import Avail
@@ -22,7 +23,9 @@ precedence = (
 currTypeVar = None
 currTypeFunc = None
 currFunc = None
+currFuncCall = None
 currScope = 'global'
+kParam = 0
 
 start = 'P'
 
@@ -114,25 +117,29 @@ def p_FIELD_ACCESS(p):
 def p_FUNCTION_ACCESS(p):
     '''FUNCTION_ACCESS      : ID POINT FUNCTION_CALL'''
 
-def p_FUNCTION_CALL(p):
-    '''FUNCTION_CALL        : ID LPAREN EXP FUNCTION_C_ONE RPAREN'''
+def p_FUNCTION_CALL(p): #TODO ANALYZE CREATING ONE FOR VOID ONLY
+    '''FUNCTION_CALL        : ID verifyFunction LPAREN FUNCTION_C_ONE verifyNumParams RPAREN gosubFunc'''
 
 def p_FUNCTION_C_ONE(p):
-    '''FUNCTION_C_ONE       : COMMA EXP FUNCTION'''
+    '''FUNCTION_C_ONE       : EXP verifyParam FUNCTION_C_TWO
+                            | empty'''
+
+def p_FUNCTION_C_TWO(p):
+    '''FUNCTION_C_TWO       : COMMA EXP verifyParam FUNCTION_C_TWO
+                            | empty'''
 
 def p_FUNCTION_DEC(p): #CHECK IF SET CURR IS OK THERE
-    '''FUNCTION_DEC         : FUNC FUNCTION_D_ONE ID addFunc LPAREN FUNCTION_D_TWO RPAREN'''
+    '''FUNCTION_DEC         : FUNC FUNCTION_D_ONE ID addFunc LPAREN FUNCTION_D_TWO RPAREN setNumParams'''
 
 
 def p_FUNCTION(p):
-    '''FUNCTION             : FUNCTION_DEC BLOCK'''
+    '''FUNCTION             : FUNCTION_DEC setFuncCounter BLOCK endFunc'''
 
 def p_FUNCTION_D_ONE(p):
     '''FUNCTION_D_ONE       : SIMPLE_TYPE
                             | VOID'''
     if p[1] == 'void':
-        global currTypeFunc 
-        print('añadimos tipo void')
+        global currTypeFunc
         currTypeFunc = p[1]
 
 def p_FUNCTION_D_TWO(p):
@@ -140,7 +147,7 @@ def p_FUNCTION_D_TWO(p):
                             | empty'''
 
 def p_PARAM(p):
-    '''PARAM                : SIMPLE_TYPE ID PARAM_ONE'''
+    '''PARAM                : SIMPLE_TYPE ID addParam PARAM_ONE'''
 
 
 def p_PARAM_ONE(p):
@@ -171,7 +178,7 @@ def p_ASSIGN_OP(p):
     if varType != tempType:
         print('Type mismatch in assign for var: ', varId)
         sys.exit()
-    funcDirectory.updateVarValue(currFunc, varId, temp)
+    #funcDirectory.updateVarValue(currFunc, varId, temp) # we are going to drop the table
     quadGenerator.generateQuad(p[2], temp, None, varId)
     
 
@@ -205,7 +212,10 @@ def p_SIMPLE_TYPE(p):
     if p[-1] == 'func':
         global currTypeFunc
         currTypeFunc = p[1]
-    elif p[-1] == 'var':
+    #elif p[-1] == 'var':
+    #    global currTypeVar
+    #    currTypeVar = p[1]
+    else:
         global currTypeVar
         currTypeVar = p[1]
 
@@ -288,7 +298,7 @@ def p_BLOCK_STMT(p):
 
 def p_STMT(p):
     '''STMT         : ASSIGN_OP 
-                    | FUNCTION_CALL 
+                    | FUNCTION_CALL SEMICOLON
                     | READ_FUNC 
                     | PRINT_FUNC 
                     | COND 
@@ -436,10 +446,6 @@ def p_logicalAndOperation(p):
 
 def quadGoToF():
     expType = pTipos.pop()
-    print(pTipos)
-    print(pOperadores)
-    print(pOperandos)
-    quadGenerator.printQuads()
     if expType != 'bool':
         print('Type mismatch in expression condition, must be a bool!')
         sys.exit()
@@ -487,12 +493,71 @@ def p_addFunc(p):
     functionName = p[-1]
     if not funcDirectory.functionExists(functionName):
         funcDirectory.addFunction(functionName, currTypeFunc)
-        print('Func added to directory')
-        print(funcDirectory.directorio)
+        #print('Func added to directory')
+        #print(funcDirectory.directorio)
         global currFunc 
         currFunc = functionName
         global currScope
         currScope = 'local'
+
+def p_addParam(p):
+    '''addParam         : '''
+    varName = p[-1]
+    funcDirectory.addVar(currFunc, varName, currTypeVar, None)
+    funcDirectory.addParam(currFunc, currTypeVar)
+
+def p_setNumParams(p):
+    '''setNumParams     : '''
+    funcDirectory.setNumParams(currFunc)
+
+def p_setFuncCounter(p):
+    '''setFuncCounter   : '''
+    nextQuad = quadGenerator.counter + 1
+    funcDirectory.setStartCounter(currFunc, nextQuad)
+
+def p_endFunc(p):
+    '''endFunc          : '''
+    quadGenerator.generateQuad('ENDFUNC', None, None, None)
+    #TODO: Release var table
+    numTemps = avail.curr
+    funcDirectory.setNumTemp(currFunc, numTemps)
+    avail.reset()
+
+def p_verifyFunction(p):
+    '''verifyFunction   : '''
+    funcName = p[-1]
+    if not funcDirectory.functionExists(funcName):
+        print('Metodo ', funcName, ' no existe')
+        sys.exit()
+    quadGenerator.generateQuad('ERA', None, None, funcName)
+    global currFuncCall
+    currFuncCall = funcName
+    global kParam
+    kParam = 0
+
+def p_verifyParam(p):
+    '''verifyParam      : '''
+    global kParam
+    operando = pOperandos.pop()
+    tipo = pTipos.pop()
+    tipoParam = funcDirectory.getParamType(currFuncCall, kParam)
+    if tipo != tipoParam:
+        print('Error en el param ', kParam + 1, ' de la funcion ', currFuncCall)
+        sys.exit()
+    paramKString = 'param' + str(kParam + 1)
+    kParam = kParam + 1
+    quadGenerator.generateQuad('PARAM', operando, None, paramKString)
+
+def p_verifyNumParams(p):
+    '''verifyNumParams      : '''
+    if not kParam == funcDirectory.directorio[currFuncCall]['numParams']:
+        print('Numero de parametros incorrecto en funcion ', currFuncCall)
+        sys.exit()
+
+def p_gosubFunc(p):
+    '''gosubFunc        : '''
+    quadNum = funcDirectory.directorio[currFuncCall]['startCounter']
+    quadGenerator.generateQuad('GOSUB', currFuncCall, None, quadNum)
 
 #------------------------------------ STMT NEURAL POINTS ----------------------------
 
@@ -531,7 +596,11 @@ file = 'tests/entrada.txt'
 with open(file, 'r') as f:
     input = f.read()
     parser.parse(input)
+    #parser.parse(input, debug = 1)
     print('apropiado')
     quadGenerator.printQuads()
     quadGenerator.printQuadsWithCount()
-
+    print(funcDirectory.directorio['num'])
+    print(funcDirectory.directorio['realMadrid'])
+    print(funcDirectory.directorio['main'])
+    print(funcDirectory.directorio['num']['vars'].table)

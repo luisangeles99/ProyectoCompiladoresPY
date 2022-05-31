@@ -4,6 +4,18 @@ from numpy import var
 from VariablesTable import VariablesTable
 import sys
 
+class ParamTable:
+    def __init__(self):
+        self.table = []
+        self.counter = 0
+    
+    def addParam(self, type):
+        self.counter = self.counter + 1
+        self.table.append(type)
+
+    def getParamType(self, index):
+        return self.table[index]
+
 class DirectorioFunciones:
     
     def __init__(self):
@@ -15,7 +27,12 @@ class DirectorioFunciones:
             return
         self.directorio[name] = {
             'type': returnType,
-            'vars': VariablesTable()
+            'vars': VariablesTable(),
+            'numParams': 0,
+            'numVars': 0,
+            'numTemps': 0,
+            'paramsTable': ParamTable(),
+            'startCounter': None
         }
     
     def functionExists(self, name):
@@ -36,6 +53,7 @@ class DirectorioFunciones:
         if self.functionExists(funcName):
             if not self.directorio[funcName]['vars'].searchVar(varName):
                 self.directorio[funcName]['vars'].addVar(varName, type, val)
+                self.directorio[funcName]['numVars'] = self.directorio[funcName]['numVars'] + 1
             else:
                 print('Variable ya declarada')
                 sys.exit()
@@ -53,6 +71,26 @@ class DirectorioFunciones:
         else:
             print('Funcion no existe')
             sys.exit()
+
+    def addParam(self, funcName, type):
+        self.directorio[funcName]['paramsTable'].addParam(type)
     
+    def getParamType(self, funcName, index):
+        if index < self.directorio[funcName]['numParams']:
+            return self.directorio[funcName]['paramsTable'].getParamType(index)
+        print('Numero de parametros incorrectos en funcion ', funcName)
+        sys.exit()
+
+    def setNumParams(self, funcName):
+        self.directorio[funcName]['numParams'] = self.directorio[funcName]['paramsTable'].counter
+
+    def setNumVars(self, funcName, num):
+        self.directorio[funcName]['numVars'] = num
+
+    def setNumTemp(self, funcName, num):
+        self.directorio[funcName]['numTemps'] = num
     
+    def setStartCounter(self, funcName, counter):
+        self.directorio[funcName]['startCounter'] = counter
+
 
