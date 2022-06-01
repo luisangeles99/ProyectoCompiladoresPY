@@ -165,8 +165,12 @@ def p_VARIABLE(p): #TODO: Check if braces for access is there
     varInfo = funcDirectory.getVar(currFunc, varId)
     pTipos.append(varInfo['type'])
 
-def p_VARIABLE_ONE(p):
-    '''VARIABLE_ONE         : LSBRACKET EXP RSBRACKET VARIABLE_ONE
+def p_VARIABLE_ONE(p): #TODO: this allows multiple index, more than matrix check
+    '''VARIABLE_ONE         : LSBRACKET verifyArray EXP createArrayQuads RSBRACKET VARIABLE_TWO
+                            | empty'''
+
+def p_VARIABLE_TWO(p):
+    '''VARIABLE_TWO         : LSBRACKET EXP RSBRACKET
                             | empty'''
 
 def p_ASSIGN_OP(p):
@@ -594,6 +598,39 @@ def p_arrDeclarationCalc(p):
     funcDirectory.dimPostDeclarationCalc(funcName, currVar)
     #TODO: Store vAddress
 
+def p_arrVarCall(p):
+    '''verifyArray          : '''
+    varName = pOperandos.pop()
+    _ = pTipos.pop()
+    funcName = 'program'
+    if currScope != 'global':
+        funcName = currFunc
+    if not funcDirectory.checkVarIsDim(funcName, varName):
+        print('La variable', varName, 'no tiene dimensiones')
+        sys.exit()
+    dim = 1
+    pDims.append((varName, dim))
+    pOperadores.append('fB') #pushing fake bottom
+
+def p_createArrayQuads(p):
+    '''createArrayQuads     : '''
+    node = funcDirectory.getVarDimNode(currVar)
+    val = pOperandos[-1]
+    quadGenerator.generateQuad('verify', val, node.lInf, node.lSup)
+    if node.next:
+        aux = pOperandos.pop()
+        temp = avail.next()
+        quadGenerator.generateQuad('*', aux, node.m, temp)
+        pOperandos.append(temp)
+    dim = pDims[-1]
+    dim = dim[1]
+    if dim > 1:
+        aux2 = pOperandos.pop()
+        aux1 = pOperandos.pop()
+        temp2 = avail.next()
+        quadGenerator.generateQuad('+', aux1, aux2, temp2)
+        pOperandos.append(temp2)
+    
 
 #------------------------------------ STMT NEURAL POINTS ----------------------------
 

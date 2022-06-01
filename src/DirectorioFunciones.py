@@ -50,6 +50,12 @@ class DirectorioFunciones:
             print('Funcion no existe')
             sys.exit()
 
+    def getVarDimNode(self, funcName, varName):
+        return self.directorio[funcName]['vars'].getDimNode(varName)
+
+    def checkVarIsDim(self, funcName, varName):
+        return self.directorio[funcName]['vars'].getArrayFlag(varName)
+
     def addVar(self, funcName, varName, type, val):
         if self.functionExists(funcName):
             if not self.directorio[funcName]['vars'].searchVar(varName):
@@ -105,5 +111,7 @@ class DirectorioFunciones:
 
     def setReturnFlag(self, funcName):
         self.directorio[funcName]['return'] = True
+
+    
 
 

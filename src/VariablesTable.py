@@ -70,3 +70,6 @@ class VariablesTable:
         while node:
             print(node.lSup, node.m)
             node = node.next
+        
+    def getDimNode(self, name):
+        return self.table[name]['nodes']
