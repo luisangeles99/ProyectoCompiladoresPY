@@ -43,6 +43,8 @@ class DirectorioFunciones:
         if self.functionExists(funcName):
             if self.directorio[funcName]['vars'].searchVar(varName):
                 return self.directorio[funcName]['vars'].getVar(varName)
+            elif self.directorio['program']['vars'].searchVar(varName):
+                return self.directorio['program']['vars'].getVar(varName)
             else:
                 print('Variable ', varName, 'no existe en el contexto')
                 sys.exit()
@@ -51,10 +53,16 @@ class DirectorioFunciones:
             sys.exit()
 
     def getVarDimNode(self, funcName, varName):
-        return self.directorio[funcName]['vars'].getDimNode(varName)
+        if self.directorio[funcName]['vars'].searchVar(varName):
+            return self.directorio[funcName]['vars'].getDimNode(varName)
+        else:
+            return self.directorio['program']['vars'].getDimNode(varName)
 
     def checkVarIsDim(self, funcName, varName):
-        return self.directorio[funcName]['vars'].getArrayFlag(varName)
+        if self.directorio[funcName]['vars'].searchVar(varName):
+            return self.directorio[funcName]['vars'].getArrayFlag(varName)
+        else:
+            return self.directorio['program']['vars'].getArrayFlag(varName)
 
     def addVar(self, funcName, varName, type, val):
         if self.functionExists(funcName):

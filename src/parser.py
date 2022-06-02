@@ -24,6 +24,7 @@ currTypeFunc = None
 currFunc = None
 currFuncCall = None
 currScope = 'global'
+currNode = None
 kParam = 0
 
 start = 'P'
@@ -39,6 +40,7 @@ pOperandos = []
 pTipos = []
 pSaltos = []
 pDims = []
+pNodos = []
 relationalOperators = [
     '>', '<', '>=', '<=', '==', '!='
 ]
@@ -157,20 +159,23 @@ def p_PARAM_ONE(p):
 #------------------------------------ VARIABLES SYNTAX ------------------------------------
 
 def p_VARIABLE(p): #TODO: Check if braces for access is there
-    '''VARIABLE             : ID VARIABLE_ONE
+    '''VARIABLE             : ID pushVar VARIABLE_ONE
                             | FIELD_ACCESS'''
-    varId = p[1]
+#TODO move to correct area
+def p_pushVar(p):
+    '''pushVar              : '''
+    varId = p[-1]
     pOperandos.append(varId)
     #get type using function name
     varInfo = funcDirectory.getVar(currFunc, varId)
     pTipos.append(varInfo['type'])
 
 def p_VARIABLE_ONE(p): #TODO: this allows multiple index, more than matrix check
-    '''VARIABLE_ONE         : LSBRACKET verifyArray EXP createArrayQuads RSBRACKET VARIABLE_TWO
+    '''VARIABLE_ONE         : LSBRACKET verifyArray EXP createArrayQuads RSBRACKET VARIABLE_TWO createLastArrayQuads
                             | empty'''
 
 def p_VARIABLE_TWO(p):
-    '''VARIABLE_TWO         : LSBRACKET EXP RSBRACKET
+    '''VARIABLE_TWO         : LSBRACKET updateDimArray EXP createArrayQuads RSBRACKET
                             | empty'''
 
 def p_ASSIGN_OP(p):
@@ -602,6 +607,8 @@ def p_arrVarCall(p):
     '''verifyArray          : '''
     varName = pOperandos.pop()
     _ = pTipos.pop()
+    global currVar
+    currVar = varName
     funcName = 'program'
     if currScope != 'global':
         funcName = currFunc
@@ -609,12 +616,14 @@ def p_arrVarCall(p):
         print('La variable', varName, 'no tiene dimensiones')
         sys.exit()
     dim = 1
+    node = funcDirectory.getVarDimNode(currFunc, currVar)
+    pNodos.append(node)
     pDims.append((varName, dim))
     pOperadores.append('fB') #pushing fake bottom
 
 def p_createArrayQuads(p):
     '''createArrayQuads     : '''
-    node = funcDirectory.getVarDimNode(currVar)
+    node = pNodos[-1]
     val = pOperandos[-1]
     quadGenerator.generateQuad('verify', val, node.lInf, node.lSup)
     if node.next:
@@ -631,6 +640,33 @@ def p_createArrayQuads(p):
         quadGenerator.generateQuad('+', aux1, aux2, temp2)
         pOperandos.append(temp2)
     
+def p_updateDimArray(p):
+    '''updateDimArray       : '''
+    node = pNodos.pop()
+    dim = pDims.pop()
+    if node.next == None:
+        print('Indexacion incorrecta verifique dimensiones en variable', dim[0])
+        sys.exit()
+    dim = (dim[0], dim[1] + 1)
+    pDims.append(dim)
+    pNodos.append(node.next)
+
+def p_createLastArrayQuads(p):
+    '''createLastArrayQuads     : '''
+    aux1 = pOperandos.pop()
+    temp = avail.next()
+    node = pNodos.pop()
+    quadGenerator.generateQuad('+', aux1, node.m, temp)
+    temp2 = '(' + avail.next() + ')'
+    quadGenerator.generateQuad('+', temp, 1000, temp2)
+    pOperandos.append(temp2)
+    pOperadores.pop()#remove fake bottom
+    #Verify correct dims
+    dims = pDims.pop()
+    trueDims = funcDirectory.getVar(currFunc, dims[0])['dim']
+    if trueDims != dims[1]:
+        print('Indexacion incorrecta verifique dimensiones en variable', dims[0])
+        sys.exit()
 
 #------------------------------------ STMT NEURAL POINTS ----------------------------
 
@@ -674,7 +710,7 @@ with open(file, 'r') as f:
     quadGenerator.printQuads()
     quadGenerator.printQuadsWithCount()
     print(funcDirectory.directorio['program']['vars'].table)
-    funcDirectory.directorio['program']['vars'].printNodes('arrFloat')
+    #funcDirectory.directorio['program']['vars'].printNodes('arrFloat')
     #print(funcDirectory.directorio['num'])
     #print(funcDirectory.directorio['realMadrid'])
     print(funcDirectory.directorio['main'])
