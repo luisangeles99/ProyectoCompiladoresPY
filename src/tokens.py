@@ -46,5 +46,6 @@ reserved = {
     'func' : 'FUNC',
     'import' : 'IMPORT',
     'derives' : 'DERIVES',
-    'return' : 'RETURN'
+    'return' : 'RETURN',
+    'main': 'MAIN'
 }

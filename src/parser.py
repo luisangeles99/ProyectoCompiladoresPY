@@ -4,7 +4,7 @@ from lexer import tokens
 from DirectorioFunciones import DirectorioFunciones
 from QuadGenerator import QuadGenerator
 from CuboSemantico import SemanticCube
-import Memoria
+from Memoria import dirBasesConstantes, dirBasesGlobales, dirBasesLocales, dirBasesTemporales
 import sys
 
 precedence = (
@@ -26,6 +26,10 @@ currFuncCall = None
 currScope = 'global'
 currNode = None
 kParam = 0
+counterConstantes = [0,0,0,0]
+counterGlobales = [0,0,0,0]
+counterLocales = [0,0,0,0]
+counterTemporales = [0,0,0,0]
 
 start = 'P'
 
@@ -44,13 +48,19 @@ pNodos = []
 relationalOperators = [
     '>', '<', '>=', '<=', '==', '!='
 ]
+typesIndex = {
+    'int': 0,
+    'float': 1,
+    'char': 2,
+    'bool': 3
+}
 
 #------------------------------------ PROGRAM SYNTAX ------------------------------------
 
 #TODO: Remove import rules from language and from diagram
 
 def p_PROGRAM(p):
-    '''P            : PROGRAM ID startProgram SEMICOLON P_STRUCTURE endProgram'''
+    '''P            : PROGRAM ID startProgram SEMICOLON P_STRUCTURE MAIN_FUNC endProgram'''
 
 def p_P_STRUCTURE(p):
     '''P_STRUCTURE  : P_STR_ONE PROG_MEMBERS PROG_M_ONE'''
@@ -133,6 +143,8 @@ def p_FUNCTION_C_TWO(p):
 def p_FUNCTION_DEC(p): #CHECK IF SET CURR IS OK THERE
     '''FUNCTION_DEC         : FUNC FUNCTION_D_ONE ID addFunc LPAREN FUNCTION_D_TWO RPAREN setNumParams'''
 
+def p_MAIN_FUNC(p):
+    '''MAIN_FUNC            : MAIN addMain LPAREN RPAREN BLOCK'''
 
 def p_FUNCTION(p):
     '''FUNCTION             : FUNCTION_DEC setFuncCounter BLOCK endFunc'''
@@ -165,9 +177,10 @@ def p_VARIABLE(p): #TODO: Check if braces for access is there
 def p_pushVar(p):
     '''pushVar              : '''
     varId = p[-1]
-    pOperandos.append(varId)
+    
     #get type using function name
     varInfo = funcDirectory.getVar(currFunc, varId)
+    pOperandos.append(varId)
     pTipos.append(varInfo['type'])
 
 def p_VARIABLE_ONE(p): #TODO: this allows multiple index, more than matrix check
@@ -187,8 +200,13 @@ def p_ASSIGN_OP(p):
     if varType != tempType:
         print('Type mismatch in assign for var: ', varId)
         sys.exit()
-    #funcDirectory.updateVarValue(currFunc, varId, temp) # we are going to drop the table
-    quadGenerator.generateQuad(p[2], temp, None, varId)
+    vAddress = temp
+    vAddress2 = varId
+    if type(temp) != int:
+        vAddress = funcDirectory.getVarVirtualAddress(currFunc, temp)
+    if type(varId) != int:
+        vAddress2 = funcDirectory.getVarVirtualAddress(currFunc, varId)
+    quadGenerator.generateQuad(p[2], vAddress, None, vAddress2)
     
 
 def p_DEC_VAR(p):
@@ -326,7 +344,10 @@ def p_RETURN(p):
         print('Tipo de retorno incorrecto para funcion ', currFunc)
         sys.exit()
     funcDirectory.setReturnFlag(currFunc)
-    quadGenerator.generateQuad('return', None, None, term)
+    vAddress = term
+    if type(term) != int:
+        vAddress = funcDirectory.getVarVirtualAddress(currFunc, term)
+    quadGenerator.generateQuad('return', None, None, vAddress)
 
 def p_RETURN_F_ONE(p):
     '''RETURN_F_ONE     : VARIABLE
@@ -381,9 +402,10 @@ def p_addVar(p):
     global currVar
     currVar = varName
     if currScope == 'local':
-        funcDirectory.addVar(currFunc, varName, currTypeVar, None)
+        vAddress = localVirtualAddress(currTypeVar)
+        funcDirectory.addVar(currFunc, varName, currTypeVar, vAddress)
     elif currScope == 'global':
-        funcDirectory.addVar('program', varName, currTypeVar, None)
+        globalVirtualAddress(varName, currTypeVar)
     
 #------------------------------------ EXP NEURAL POINTS ----------------------------
 
@@ -395,20 +417,20 @@ def p_pushOperador(p):
 def p_pushInt(p):
     '''pushInt         :'''
     const = p[-1]
-    pOperandos.append(const)
-    pTipos.append('int')
+    constType = 'int'
+    constantVirtualAddress(constType, typesIndex[constType])
 
 def p_pushFloat(p):
     '''pushFloat        :'''
     const = p[-1]
-    pOperandos.append(const)
-    pTipos.append('float')
+    constType = 'float'
+    constantVirtualAddress(constType, typesIndex[constType])
 
 def p_pushChar(p):
     '''pushChar         :'''
     const = p[-1]
-    pOperandos.append(const)
-    pTipos.append('char')
+    constType = 'char'
+    constantVirtualAddress(constType, typesIndex[constType])
 
 def expQuad():
     rOperand = pOperandos.pop()
@@ -420,7 +442,7 @@ def expQuad():
     if resultType == 'error':
         print('type mismatch')
         sys.exit()
-    res = avail.next()
+    res = temporalVirtualAddress(resultType)
     quadGenerator.generateQuad(oper, lOperand, rOperand, res)
     pOperandos.append(res)
     pTipos.append(resultType)
@@ -460,7 +482,6 @@ def p_logicalAndOperation(p):
         return
     if pOperadores[-1] == '&&':
         expQuad()
-
 
 #------------------------------------ COND NEURAL POINTS ----------------------------     
 
@@ -520,10 +541,21 @@ def p_addFunc(p):
         global currScope
         currScope = 'local'
 
+def p_addMain(p):
+    '''addMain          : '''
+    funcDirectory.addFunction('main', 'void')
+    mainGoto = pSaltos.pop()
+    quadGenerator.updateJump(mainGoto)
+    global currFunc
+    currFunc = 'main'
+    global currScope
+    currScope = 'local'
+
 def p_addParam(p):
     '''addParam         : '''
     varName = p[-1]
-    funcDirectory.addVar(currFunc, varName, currTypeVar, None)
+    vAddress = localVirtualAddress(currTypeVar)
+    funcDirectory.addVar(currFunc, varName, currTypeVar, vAddress)
     funcDirectory.addParam(currFunc, currTypeVar)
 
 def p_setNumParams(p):
@@ -537,6 +569,7 @@ def p_setFuncCounter(p):
 
 def p_endFunc(p):
     '''endFunc          : '''
+    global currFunc
     funcTipo = funcDirectory.directorio[currFunc]['type']
     returnFlag = funcDirectory.directorio[currFunc]['return']
     if funcTipo != 'void' and not returnFlag:
@@ -544,9 +577,14 @@ def p_endFunc(p):
         sys.exit()
     quadGenerator.generateQuad('ENDFUNC', None, None, None)
     #TODO: Release var table
-    numTemps = avail.curr
+    global counterTemporales
+    numTemps = counterTemporales
     funcDirectory.setNumTemp(currFunc, numTemps)
-    avail.reset()
+    counterTemporales = [0,0,0,0] #reset temporales
+    currFunc = 'program'
+    global currScope
+    currScope = 'global'
+
 
 def p_verifyFunction(p):
     '''verifyFunction   : '''
@@ -628,15 +666,18 @@ def p_createArrayQuads(p):
     quadGenerator.generateQuad('verify', val, node.lInf, node.lSup)
     if node.next:
         aux = pOperandos.pop()
-        temp = avail.next()
+        _ = pTipos.pop()
+        temp = temporalVirtualAddress('int')
         quadGenerator.generateQuad('*', aux, node.m, temp)
         pOperandos.append(temp)
     dim = pDims[-1]
     dim = dim[1]
     if dim > 1:
         aux2 = pOperandos.pop()
+        #_ = pTipos.pop()
         aux1 = pOperandos.pop()
-        temp2 = avail.next()
+        #_ = pTipos.pop()
+        temp2 = temporalVirtualAddress('int')
         quadGenerator.generateQuad('+', aux1, aux2, temp2)
         pOperandos.append(temp2)
     
@@ -654,10 +695,10 @@ def p_updateDimArray(p):
 def p_createLastArrayQuads(p):
     '''createLastArrayQuads     : '''
     aux1 = pOperandos.pop()
-    temp = avail.next()
+    temp = temporalVirtualAddress('int')
     node = pNodos.pop()
     quadGenerator.generateQuad('+', aux1, node.m, temp)
-    temp2 = '(' + avail.next() + ')'
+    temp2 = '(' + avail.next() + ')' #TODO: put pointer here
     quadGenerator.generateQuad('+', temp, 1000, temp2)
     pOperandos.append(temp2)
     pOperadores.pop()#remove fake bottom
@@ -673,6 +714,44 @@ def p_createLastArrayQuads(p):
 def p_readFunc(p):
     '''readFunc         : '''
     pass
+
+#------------------------------------ VIRTUAL ADDRESES ----------------------------     
+
+def constantVirtualAddress(constType, index):
+    global counterConstantes
+    offset = counterConstantes[index]
+    baseAddress = dirBasesConstantes[constType]
+    address = baseAddress + offset
+    counterConstantes[index] = offset + 1
+    pOperandos.append(address)
+    pTipos.append(constType)
+
+def globalVirtualAddress(varName, varType):
+    global counterGlobales
+    index = typesIndex[varType]
+    offset = counterGlobales[index]
+    baseAddress = dirBasesGlobales[varType]
+    address = baseAddress + offset
+    counterGlobales[index] = offset + 1
+    funcDirectory.addVar('program', varName, varType, address)
+
+def temporalVirtualAddress(termType):
+    global counterTemporales
+    index = typesIndex[termType]
+    offset = counterTemporales[index]
+    baseAddress = dirBasesTemporales[termType]
+    address = baseAddress + offset
+    counterTemporales[index] = offset + 1
+    return address
+
+def localVirtualAddress(termType):
+    global counterLocales
+    index = typesIndex[termType]
+    offset = counterLocales[index]
+    baseAddress = dirBasesLocales[termType]
+    address = baseAddress + offset
+    counterLocales[index] = offset + 1
+    return address
 
 #------------------------------------ MANAGE OF STACKS ----------------------------
 def printPOperandos():
@@ -710,8 +789,7 @@ with open(file, 'r') as f:
     quadGenerator.printQuads()
     quadGenerator.printQuadsWithCount()
     print(funcDirectory.directorio['program']['vars'].table)
-    #funcDirectory.directorio['program']['vars'].printNodes('arrFloat')
-    #print(funcDirectory.directorio['num'])
-    #print(funcDirectory.directorio['realMadrid'])
-    print(funcDirectory.directorio['main'])
-    #print(funcDirectory.directorio['num']['vars'].table)
+    print('-------------------------------------------')
+    print(funcDirectory.directorio['num']['vars'].table)
+    print('-------------------------------------------')
+    print(funcDirectory.directorio['main']['vars'].table)

@@ -18,13 +18,13 @@ class VariablesTable:
         self.table = {}
 
     #add var to table
-    def addVar(self, name, type, val): # TODO: USE MEMORY AND TO ADD MATRIX
+    def addVar(self, name, type, virtualAdd): # TODO: USE MEMORY AND TO ADD MATRIX
         if name in self.table.keys():
-            print('Variable declarada aquí saldríamos')
+            print('Variable previamente declarada', name)
             sys.exit()
         self.table[name] = {
             'type': type,
-            'value': val,
+            'virtualAdd': virtualAdd,
             'isArray': False
         }
 
@@ -37,6 +37,9 @@ class VariablesTable:
 
     def getVar(self, name):
         return self.table[name]
+
+    def getVarVirtualAddress(self, name):
+        return self.table[name]['virtualAdd']
 
     #TODO: Implement GETTERS AND SETTERS FOR DIRECTORY USE
     def searchVar(self, name):

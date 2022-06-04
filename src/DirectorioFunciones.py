@@ -64,10 +64,10 @@ class DirectorioFunciones:
         else:
             return self.directorio['program']['vars'].getArrayFlag(varName)
 
-    def addVar(self, funcName, varName, type, val):
+    def addVar(self, funcName, varName, type, virtualAdd):
         if self.functionExists(funcName):
             if not self.directorio[funcName]['vars'].searchVar(varName):
-                self.directorio[funcName]['vars'].addVar(varName, type, val)
+                self.directorio[funcName]['vars'].addVar(varName, type, virtualAdd)
                 self.directorio[funcName]['numVars'] = self.directorio[funcName]['numVars'] + 1
             else:
                 print('Variable ya declarada ', varName)
@@ -120,6 +120,10 @@ class DirectorioFunciones:
     def setReturnFlag(self, funcName):
         self.directorio[funcName]['return'] = True
 
-    
+    def getVarVirtualAddress(self, funcName, varName):
+        if self.directorio[funcName]['vars'].searchVar(varName):
+            return self.directorio[funcName]['vars'].getVarVirtualAddress(varName)
+        else:
+            return self.directorio['program']['vars'].getVarVirtualAddress(varName)
 
 
