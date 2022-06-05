@@ -126,4 +126,9 @@ class DirectorioFunciones:
         else:
             return self.directorio['program']['vars'].getVarVirtualAddress(varName)
 
+    def getVarSize(self, funcName, varName):
+        if self.directorio[funcName]['vars'].searchVar(varName):
+            return self.directorio[funcName]['vars'].getVarSize(varName)
+        else:
+            return self.directorio['program']['vars'].getVarSize(varName)
 

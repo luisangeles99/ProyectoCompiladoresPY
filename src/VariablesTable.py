@@ -76,3 +76,6 @@ class VariablesTable:
         
     def getDimNode(self, name):
         return self.table[name]['nodes']
+
+    def getVarSize(self, name):
+        return self.table[name]['size']

@@ -29,6 +29,8 @@ dirBasesTemporales = {
     'bool': 27000
 }
 
+dirBasePointers = 30000
+
 class Memoria:
     def __init__(self):
         self.memoria = []

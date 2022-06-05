@@ -4,7 +4,7 @@ from lexer import tokens
 from DirectorioFunciones import DirectorioFunciones
 from QuadGenerator import QuadGenerator
 from CuboSemantico import SemanticCube
-from Memoria import dirBasesConstantes, dirBasesGlobales, dirBasesLocales, dirBasesTemporales
+from Memoria import dirBasesConstantes, dirBasesGlobales, dirBasesLocales, dirBasesTemporales, dirBasePointers
 import sys
 
 precedence = (
@@ -443,6 +443,10 @@ def expQuad():
         print('type mismatch')
         sys.exit()
     res = temporalVirtualAddress(resultType)
+    if type(lOperand) != int:
+        lOperand = funcDirectory.getVarVirtualAddress(currFunc, lOperand)
+    if type(rOperand) != int:
+        rOperand = funcDirectory.getVarVirtualAddress(currFunc, rOperand)
     quadGenerator.generateQuad(oper, lOperand, rOperand, res)
     pOperandos.append(res)
     pTipos.append(resultType)
@@ -570,6 +574,8 @@ def p_setFuncCounter(p):
 def p_endFunc(p):
     '''endFunc          : '''
     global currFunc
+    global counterLocales
+    global dirBasePointers
     funcTipo = funcDirectory.directorio[currFunc]['type']
     returnFlag = funcDirectory.directorio[currFunc]['return']
     if funcTipo != 'void' and not returnFlag:
@@ -581,6 +587,8 @@ def p_endFunc(p):
     numTemps = counterTemporales
     funcDirectory.setNumTemp(currFunc, numTemps)
     counterTemporales = [0,0,0,0] #reset temporales
+    counterLocales = [0,0,0,0] #reset locales
+    dirBasePointers = 30000 # reset pointers
     currFunc = 'program'
     global currScope
     currScope = 'global'
@@ -639,7 +647,18 @@ def p_arrDeclarationCalc(p):
     if currScope != 'global':
         funcName = currFunc
     funcDirectory.dimPostDeclarationCalc(funcName, currVar)
-    #TODO: Store vAddress
+    #TODO: Store the next vAddress
+    sizeDimVar = funcDirectory.getVarSize(funcName, currVar)
+    index = typesIndex[currTypeVar]
+    if currScope != 'global':
+        global counterLocales
+        counterLocales[index] = counterLocales[index] + sizeDimVar - 1
+    else:
+        global counterGlobales
+        counterGlobales[index] = counterGlobales[index] + sizeDimVar - 1
+
+
+        
 
 def p_arrVarCall(p):
     '''verifyArray          : '''
@@ -698,8 +717,14 @@ def p_createLastArrayQuads(p):
     temp = temporalVirtualAddress('int')
     node = pNodos.pop()
     quadGenerator.generateQuad('+', aux1, node.m, temp)
-    temp2 = '(' + avail.next() + ')' #TODO: put pointer here
-    quadGenerator.generateQuad('+', temp, 1000, temp2)
+    global dirBasePointers
+    temp2 = dirBasePointers
+    dirBasePointers = dirBasePointers + 1
+    #Obtener direccion base usando var de pila de dims
+    varName = pDims[-1]
+    varName = varName[0]    
+    baseAddress = funcDirectory.getVarVirtualAddress(currFunc, varName)
+    quadGenerator.generateQuad('+', temp, baseAddress, temp2)
     pOperandos.append(temp2)
     pOperadores.pop()#remove fake bottom
     #Verify correct dims
