@@ -1,0 +1,33 @@
+QUADS-START
+('gotoM', 'main', None, 15)
+('==', 1000, 17000, 27000)
+('gotoF', 27000, None, 6)
+('return', 'factorial', None, 17001)
+('stopFunc', None, None, None)
+('ERA', None, None, 'factorial')
+('-', 1000, 17002, 21000)
+('PARAM', 21000, None, 1000)
+('GOSUB', 'factorial', None, 2)
+('=', 9000, None, 21001)
+('*', 21001, 1000, 21002)
+('return', 'factorial', None, 21002)
+('stopFunc', None, None, None)
+('ENDFUNC', None, None, None)
+('ERA', None, None, 'factorial')
+('PARAM', 17003, None, 1000)
+('GOSUB', 'factorial', None, 2)
+('=', 9000, None, 21000)
+('print', None, None, 21000)
+('END', None, None, None)
+QUADS-END
+FUNC-INFO-START
+['program', 0, [1, 0, 0, 0], [4, 0, 0, 0], None, None, 0]
+['factorial', 1, [1, 0, 0, 0], [3, 0, 0, 1], 2, 9000, 0]
+['main', 0, [0, 0, 0, 0], [1, 0, 0, 0], None, None, 0]
+FUNC-INFO-END
+CONST-INFO-START
+(1, 17000)
+(1, 17001)
+(1, 17002)
+(5, 17003)
+CONST-INFO-END

@@ -1,20 +1,24 @@
 # DESCRIPCION DEL DIRECTORIO DE FUNCIONES Y DE SUS METODOS
 
-from numpy import var
 from VariablesTable import VariablesTable
 import sys
 
 class ParamTable:
     def __init__(self):
         self.table = []
+        self.paramNames = []
         self.counter = 0
     
-    def addParam(self, type):
+    def addParam(self, type, name):
         self.counter = self.counter + 1
         self.table.append(type)
+        self.paramNames.append(name)
 
     def getParamType(self, index):
         return self.table[index]
+    
+    def getParamName(self, index):
+        return self.paramNames[index]
 
 class DirectorioFunciones:
     
@@ -31,9 +35,11 @@ class DirectorioFunciones:
             'numParams': 0,
             'numVars': 0,
             'numTemps': 0,
+            'numPointers': 0,
             'paramsTable': ParamTable(),
             'startCounter': None,
-            'return': False
+            'return': False,
+            'globalRetAddress': None
         }
     
     def functionExists(self, name):
@@ -68,7 +74,6 @@ class DirectorioFunciones:
         if self.functionExists(funcName):
             if not self.directorio[funcName]['vars'].searchVar(varName):
                 self.directorio[funcName]['vars'].addVar(varName, type, virtualAdd)
-                self.directorio[funcName]['numVars'] = self.directorio[funcName]['numVars'] + 1
             else:
                 print('Variable ya declarada ', varName)
                 sys.exit()
@@ -96,14 +101,18 @@ class DirectorioFunciones:
             print('Funcion no existe')
             sys.exit()
 
-    def addParam(self, funcName, type):
-        self.directorio[funcName]['paramsTable'].addParam(type)
+    def addParam(self, funcName, type, varName):
+        self.directorio[funcName]['paramsTable'].addParam(type, varName)
     
     def getParamType(self, funcName, index):
         if index < self.directorio[funcName]['numParams']:
             return self.directorio[funcName]['paramsTable'].getParamType(index)
         print('Numero de parametros incorrectos en funcion ', funcName)
         sys.exit()
+
+    def getParamName(self, funcName, index):
+        if index < self.directorio[funcName]['numParams']:
+            return self.directorio[funcName]['paramsTable'].getParamName(index)
 
     def setNumParams(self, funcName):
         self.directorio[funcName]['numParams'] = self.directorio[funcName]['paramsTable'].counter
@@ -113,12 +122,18 @@ class DirectorioFunciones:
 
     def setNumTemp(self, funcName, num):
         self.directorio[funcName]['numTemps'] = num
+
+    def setNumPointer(self, funcName, num):
+        self.directorio[funcName]['numPointers'] = num
     
     def setStartCounter(self, funcName, counter):
         self.directorio[funcName]['startCounter'] = counter
 
     def setReturnFlag(self, funcName):
         self.directorio[funcName]['return'] = True
+
+    def setGlobalReturnAddress(self, funcName, address):
+        self.directorio[funcName]['globalRetAddress'] = address
 
     def getVarVirtualAddress(self, funcName, varName):
         if self.directorio[funcName]['vars'].searchVar(varName):
@@ -131,4 +146,15 @@ class DirectorioFunciones:
             return self.directorio[funcName]['vars'].getVarSize(varName)
         else:
             return self.directorio['program']['vars'].getVarSize(varName)
+
+    def interCodeInfo(self, funcName):
+        info = []
+        info.append(funcName)
+        info.append(self.directorio[funcName]['numParams'])
+        info.append(self.directorio[funcName]['numVars'])
+        info.append(self.directorio[funcName]['numTemps'])
+        info.append(self.directorio[funcName]['startCounter'])
+        info.append(self.directorio[funcName]['globalRetAddress'])
+        info.append(self.directorio[funcName]['numPointers'])
+        return info
 
