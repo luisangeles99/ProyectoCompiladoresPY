@@ -1,0 +1,23 @@
+program fibo;
+
+func int fibo(int num){
+    if(num <= 2){
+        return 1;
+    }
+    var int prev, curr, aux;
+    prev = 0;
+    curr = 1;
+
+    while(num > 1){
+        aux = curr;
+        curr = curr + prev;
+        prev = aux;
+        num = num - 1;
+    }
+    return curr;
+
+}
+
+main(){
+    print(fibo(9));
+}

@@ -623,13 +623,14 @@ def p_verifyParam(p):
     '''verifyParam      : '''
     global kParam
     operando = pOperandos.pop()
-    print(operando)
     tipo = pTipos.pop()
     tipoParam = funcDirectory.getParamType(currFuncCall, kParam)
     paramName = funcDirectory.getParamName(currFuncCall, kParam)
     if tipo != tipoParam:
         print('Error en el param ', kParam + 1, ' de la funcion ', currFuncCall)
         sys.exit()
+    if type(operando) != int:
+        operando = funcDirectory.getVarVirtualAddress(currFunc, operando)
     vAddress = funcDirectory.getVarVirtualAddress(currFuncCall, paramName)
     kParam = kParam + 1
     quadGenerator.generateQuad('PARAM', operando, None, vAddress)
@@ -678,9 +679,6 @@ def p_arrDeclarationCalc(p):
         global counterGlobales
         counterGlobales[index] = counterGlobales[index] + sizeDimVar - 1
 
-
-        
-
 def p_arrVarCall(p):
     '''verifyArray          : '''
     varName = pOperandos.pop()
@@ -712,8 +710,12 @@ def p_createArrayQuads(p):
         temp = temporalVirtualAddress('int')
         if type(aux) != int:
             aux = funcDirectory.getVarVirtualAddress(currFunc, aux)
-        quadGenerator.generateQuad('*', aux, node.m, temp)
+        vAddress = constantVirtualAddress(int(node.m), 'int', typesIndex['int'])
+        pOperandos.pop()
+        pTipos.pop()
+        quadGenerator.generateQuad('*', aux, vAddress, temp)
         pOperandos.append(temp)
+        pTipos.append('int')
     dim = pDims[-1]
     dim = dim[1]
     if dim > 1:
@@ -728,6 +730,7 @@ def p_createArrayQuads(p):
             aux2 = funcDirectory.getVarVirtualAddress(currFunc, aux2)
         quadGenerator.generateQuad('+', aux1, aux2, temp2)
         pOperandos.append(temp2)
+        pTipos.append('int')
     
 def p_updateDimArray(p):
     '''updateDimArray       : '''
@@ -765,7 +768,7 @@ def p_createLastArrayQuads(p):
         sys.exit()
 
 #------------------------------------ STMT NEURAL POINTS ----------------------------
-
+#TODO: complete read
 def p_readFunc(p):
     '''readFunc         : '''
     pass
@@ -832,6 +835,7 @@ def p_empty(p):
 #ERROR
 def p_error(p):
     print('error de sintaxis')
+    print(p)
     sys.exit()
 
 #BUILD THE PARSER
@@ -870,7 +874,7 @@ def createObjCode():
 
 #test the parser
 #
-file = 'tests/factorialRecursivo.txt'
+file = 'tests/matmul.txt'
 #
 with open(file, 'r') as f:
     input = f.read()

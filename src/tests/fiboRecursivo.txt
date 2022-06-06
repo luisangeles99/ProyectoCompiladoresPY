@@ -1,0 +1,14 @@
+program fiboRec;
+
+func int fibo(int num){
+    if(num <= 1){
+        return num;
+    }
+    var int aux;
+    aux = fibo(num - 1);
+    return fibo(num - 2) + aux;
+}
+
+main(){
+    print(fibo(9));
+}

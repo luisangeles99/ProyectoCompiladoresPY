@@ -1,0 +1,6 @@
+class Test{
+    Test(){
+        var float b;
+    }
+    var int y,z;
+}

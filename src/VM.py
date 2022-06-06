@@ -35,6 +35,8 @@ def execute():
     progEnd = len(quads)
     while(instructionP < progEnd):
         oper = quads[instructionP][0]
+        #print('ins', instructionP)
+        #print(oper)
         quad = quads[instructionP]
         #EXPRESIONES
         if oper in expOperators.keys():

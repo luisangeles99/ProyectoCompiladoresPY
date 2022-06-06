@@ -1,5 +1,4 @@
 src/__pychache__/
-src/tests/
 src/parser.out
 *.pyc
 .DS_Store

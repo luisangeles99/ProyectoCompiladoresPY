@@ -1,0 +1,34 @@
+program test;
+
+var int x, xArr[10], xMat[5][5], next;
+var float f1, f2, f3;
+
+func int num(int p1, int p2){
+    while(p1 < p2){
+        xArr[p1] = p1;
+        print(xArr[p1]);
+        p1 = p1 + 1;
+    }
+    print('o');
+    print(p1);
+    return xArr[p1 - 1];
+}
+func void realMadrid(char c1, int num, float f1){
+    print('r');
+    print('e');
+    print('a');
+    print('l');
+}
+
+main(){
+    var int res;
+    res = num(0, 10);
+    x = 5;
+    if (x < 10){
+        print(5);
+    }
+    xArr[8] = 100; 
+    realMadrid('a', 10, 3.45);
+    x = x + res;
+    print(x);
+}

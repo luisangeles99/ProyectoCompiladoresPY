@@ -1,10 +1,6 @@
 #class memoria description
 # not using dictionaries but spaces as specified in class
 
-import sys
-
-from cv2 import add
-
 dirBasesLocales = {
     'int': 1000,
     'float': 3000,
