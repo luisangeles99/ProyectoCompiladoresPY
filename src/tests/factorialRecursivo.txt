@@ -9,5 +9,7 @@ func int factorial(int num){
 }
 
 main(){
-    print(factorial(5));
+    var int num;
+    read(num);
+    print(factorial(num));
 }

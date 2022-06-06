@@ -351,6 +351,8 @@ def p_RETURN_F_ONE(p):
     '''RETURN_F_ONE     : VARIABLE
                         | EXP'''
 
+
+
 def p_PRINT(p):
     '''PRINT_FUNC       : PRINT LPAREN EXP RPAREN SEMICOLON'''
     temp = pOperandos.pop()
@@ -360,7 +362,13 @@ def p_PRINT(p):
     quadGenerator.generateQuad('print', None, None, temp)
 
 def p_READ_FUNC(p):
-    '''READ_FUNC        : READ VARIABLE SEMICOLON'''
+    '''READ_FUNC        : READ LPAREN VARIABLE RPAREN SEMICOLON'''
+    temp = pOperandos.pop()
+    tempType = pTipos.pop()
+    if type(temp) != int:
+        temp = funcDirectory.getVarVirtualAddress(currFunc, temp)
+    quadGenerator.generateQuad('read', None, None, temp)
+
 
 def p_WHILE_LOOP(p):
     '''WHILE_LOOP     : WHILE whilePreExp LPAREN EXP RPAREN whilePostExp NESTED_BLOCK endWhile'''
@@ -767,12 +775,6 @@ def p_createLastArrayQuads(p):
         print('Indexacion incorrecta verifique dimensiones en variable', dims[0])
         sys.exit()
 
-#------------------------------------ STMT NEURAL POINTS ----------------------------
-#TODO: complete read
-def p_readFunc(p):
-    '''readFunc         : '''
-    pass
-
 #------------------------------------ VIRTUAL ADDRESES ----------------------------     
 
 def constantVirtualAddress(const, constType, index):
@@ -874,7 +876,7 @@ def createObjCode():
 
 #test the parser
 #
-file = 'tests/matmul.txt'
+file = 'tests/factorialRecursivo.txt'
 #
 with open(file, 'r') as f:
     input = f.read()

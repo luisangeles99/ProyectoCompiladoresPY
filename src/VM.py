@@ -118,8 +118,8 @@ def specialFunc(oper, quad):
         val = getValue(quad[3])
         print(val)
     elif oper == 'read':
-        #TODO: read func
-        pass
+        inp = input()
+        setValue(quad[3], inp)
 
 def calc(oper, address1, address2):
     valLeft = getValue(address1)
