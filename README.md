@@ -38,8 +38,8 @@ Documentación versión 1
 Definición 
 
 # Errores actuales (Backlog)
-  *La declaración de variables globales siempre deberá estar entre la declaración del programa y la primera función, de no ser así habrá un error en compilación debido a que se reiniciará el conteo de variables globales.  
+  * La declaración de variables globales siempre deberá estar entre la declaración del programa y la primera función, de no ser así habrá un error en compilación debido a que se reiniciará el conteo de variables globales.  
 
-  *Operaciones aritméticas entre funciones marcaran un error, debido a que no cuentan con un suelo falso, primero se intentara hacer la operación, cuando debería ser primero la obtención del resultado de las funciones en cuestión y luego la operación aritmética.  
+  * Operaciones aritméticas entre funciones marcaran un error, debido a que no cuentan con un suelo falso, primero se intentara hacer la operación, cuando debería ser primero la obtención del resultado de las funciones en cuestión y luego la operación aritmética.  
 
-  *Los arreglos no pueden ser globales, estos tienen no tienen una implementación, por lo cual si son declarados de manera global un error ocurría.  
+  * Los arreglos no pueden ser globales, estos tienen no tienen una implementación, por lo cual si son declarados de manera global un error ocurría.  
