@@ -1,3 +1,17 @@
+"""
+.########.....###....########...######..########.########.
+.##.....##...##.##...##.....##.##....##.##.......##.....##
+.##.....##..##...##..##.....##.##.......##.......##.....##
+.########..##.....##.########...######..######...########.
+.##........#########.##...##.........##.##.......##...##..
+.##........##.....##.##....##..##....##.##.......##....##.
+.##........##.....##.##.....##..######..########.##.....##
+
+La clase fundamental de todo el compilador, donde se encuentran
+las reglas gramaticales, las acciones semanticas y los puntos
+neuralgicos.
+"""
+
 from pydoc import classname
 from statistics import variance
 from tkinter import CURRENT
@@ -63,16 +77,17 @@ typesIndex = {
 }
 
 #------------------------------------ PROGRAM SYNTAX ------------------------------------
-
-#TODO: Remove import rules from language
-
+'''
+Reglas gramaticales para la definicion del programa, se especifican declaracion, estructura,
+miemebros y librerias.
+'''
 def p_PROGRAM(p):
     '''P            : PROGRAM ID startProgram SEMICOLON P_STRUCTURE MAIN_FUNC endProgram'''
 
 def p_P_STRUCTURE(p):
     '''P_STRUCTURE  : P_STR_ONE PROG_MEMBERS PROG_M_ONE'''
 
-def p_P_STR_ONE(p): #tal vez quitar
+def p_P_STR_ONE(p):
     '''P_STR_ONE    : LIBS_DECLARATION
                     | empty'''
 
