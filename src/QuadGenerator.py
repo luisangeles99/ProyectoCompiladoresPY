@@ -1,4 +1,16 @@
-# class description
+"""
+..#######..##.....##....###....########......######...########.##....##
+.##.....##.##.....##...##.##...##.....##....##....##..##.......###...##
+.##.....##.##.....##..##...##..##.....##....##........##.......####..##
+.##.....##.##.....##.##.....##.##.....##....##...####.######...##.##.##
+.##..##.##.##.....##.#########.##.....##....##....##..##.......##..####
+.##....##..##.....##.##.....##.##.....##....##....##..##.......##...###
+..#####.##..#######..##.....##.########......######...########.##....##
+
+Esta clase nos ayudara a generar los cuadruplos necesarios para generar
+codigo intermedio, de tal forma que tengan una estrucutra que permita 
+almacenar la opreacion a realizar, las direcciones y el resultado.
+"""
 from tabulate import tabulate
 
 quadOperations = {
@@ -14,6 +26,14 @@ class QuadGenerator:
         self.counter = 0
 
     def generateQuad(self, oper, dir1, dir2, dir3):
+        """Metodo encargado de generar los cuadruplos.
+
+        Args:
+            oper (number): tipo de operacion
+            dir1 (number): direccion de memoria uno
+            dir2 (number): direccion de memoria dos
+            dir3 (number): direccion de memoria tres o resultado
+        """        
         self.counter = self.counter + 1
         quad = (oper, dir1, dir2, dir3)
         self.quadsTable.append(quad)
@@ -30,6 +50,11 @@ class QuadGenerator:
         print (tabulate(table, headers=["Num","Oper", "LOp", "ROp", "Res"]))
 
     def updateJump(self, end):
+        """Actualiacion de salto
+
+        Args:
+            end (int): salto
+        """        
         quad = self.quadsTable[end - 1] #index from 0
         newQuad = (quad[0], quad[1], quad[2], self.counter + 1)
         self.quadsTable[end - 1] = newQuad
