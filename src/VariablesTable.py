@@ -31,6 +31,7 @@ class VariablesTable:
     def __init__(self):
         self.table = {}
 
+    #add var to table
     def addVar(self, name, type, virtualAdd):
         if name in self.table.keys():
             print('Variable previamente declarada', name)
@@ -40,6 +41,18 @@ class VariablesTable:
             'virtualAdd': virtualAdd,
             'isArray': False
         }
+
+    def addComplexVar(self, name):
+        if name in self.table.keys():
+            print('Variable previamente declarada', name)
+            sys.exit()
+        self.table[name] = {
+            'type': 'complex',
+            'vars': VariablesTable()
+        }
+    
+    def addObjectVar(self, complexName, name, type, vAddress):
+        self.table[complexName]['vars'].addVar(name, type, vAddress)
 
     def addDim(self, name, val):
         self.table[name]['dim'] = 1
@@ -54,7 +67,6 @@ class VariablesTable:
     def getVarVirtualAddress(self, name):
         return self.table[name]['virtualAdd']
 
-    #TODO: Implement GETTERS AND SETTERS FOR DIRECTORY USE
     def searchVar(self, name):
         return name in self.table.keys()
 

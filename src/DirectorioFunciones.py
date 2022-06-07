@@ -25,7 +25,7 @@ class DirectorioFunciones:
     def __init__(self):
         self.directorio = {}
 
-    def addFunction(self, name, returnType): #TODO: PARAMETERS AND MEMORY
+    def addFunction(self, name, returnType): 
         if name in self.directorio.keys():
             print('Funcion ya declarada error')
             return
@@ -44,7 +44,7 @@ class DirectorioFunciones:
     
     def functionExists(self, name):
         return name in self.directorio.keys()
-        
+
     def getVar(self, funcName, varName):
         if self.functionExists(funcName):
             if self.directorio[funcName]['vars'].searchVar(varName):
@@ -80,6 +80,12 @@ class DirectorioFunciones:
         else:
             print('Funcion no existe')
             sys.exit()
+
+    def addComplexVar(self, funcName, varName):
+        self.directorio[funcName]['vars'].addComplexVar(varName)
+
+    def addObjectVar(self, funcName, name, varName, type, vAddress):
+        self.directorio[funcName]['vars'].addObjectVar(name, varName, type, vAddress)
             
     def addDimToVar(self, funcName, varName, val):
         if not self.directorio[funcName]['vars'].getArrayFlag(varName):

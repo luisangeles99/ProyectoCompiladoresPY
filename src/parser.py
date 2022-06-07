@@ -1,8 +1,10 @@
-from email.mime import base
+from pydoc import classname
+from tkinter import CURRENT
 import ply.yacc as yacc
 from Avail import Avail
 from lexer import tokens
 from DirectorioFunciones import DirectorioFunciones
+from DirectorioObjetos import DirectorioObjetos
 from QuadGenerator import QuadGenerator
 from CuboSemantico import SemanticCube
 from Memoria import dirBasesConstantes, dirBasesGlobales, dirBasesLocales, dirBasesTemporales, dirBasePointers
@@ -26,6 +28,7 @@ currFunc = None
 currFuncCall = None
 currScope = 'global'
 currNode = None
+currClass = None
 kParam = 0
 counterConstantes = [0,0,0,0]
 counterGlobales = [0,0,0,0]
@@ -37,6 +40,7 @@ start = 'P'
 #------------------------------------ INSTANTIATE NEEDED DATA STR ------------------------------------
 
 funcDirectory = DirectorioFunciones()
+objDirectory = DirectorioObjetos()
 quadGenerator = QuadGenerator()
 cubo = SemanticCube()
 avail = Avail()
@@ -93,10 +97,10 @@ def p_LIB(p):
 #------------------------------------ CLASS SYNTAX ------------------------------------
 
 def p_CLASS(p):
-    '''CLASS_STR    : CLASS_DEC LBRACE CLASS_BODY RBRACE'''
+    '''CLASS_STR    : CLASS_DEC LBRACE CLASS_BODY RBRACE endClass'''
 
 def p_CLASS_DEC(p):
-    '''CLASS_DEC    : CLASS ID CLASS_DEC_ONE'''
+    '''CLASS_DEC    : CLASS ID addClass CLASS_DEC_ONE'''
 
 def p_CLASS_DEC_ONE(p):
     '''CLASS_DEC_ONE    : CLASS_INHERITS
@@ -117,7 +121,7 @@ def p_CLASS_BODY_MEMBER(p):
                             | DEC_VAR'''
 
 def p_CLASS_CONSTRUCTOR(p):
-    '''CLASS_CONSTRUCTOR    : ID LPAREN CLASS_C_ONE RPAREN BLOCK'''
+    '''CLASS_CONSTRUCTOR    : ID addClassConstructor LPAREN CLASS_C_ONE RPAREN constructorParam setFuncCounter BLOCK endFunc'''
 
 def p_CLASS_C_ONE(p):
     '''CLASS_C_ONE          : PARAM
@@ -196,9 +200,15 @@ def p_ASSIGN_OP(p):
     vAddress = temp
     vAddress2 = varId
     if type(temp) != int:
-        vAddress = funcDirectory.getVarVirtualAddress(currFunc, temp)
+        if currClass != None:
+            vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, temp)
+        else:
+            vAddress = funcDirectory.getVarVirtualAddress(currFunc, temp)
     if type(varId) != int:
-        vAddress2 = funcDirectory.getVarVirtualAddress(currFunc, varId)
+        if currClass != None:
+            vAddress2 = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, varId)
+        else:
+            vAddress2 = funcDirectory.getVarVirtualAddress(currFunc, varId)
     quadGenerator.generateQuad(p[2], vAddress, None, vAddress2)
     
 
@@ -206,7 +216,7 @@ def p_DEC_VAR(p):
     '''DEC_VAR              : VAR DEC_VAR_ONE SEMICOLON'''
 
 def p_DEC_VAR_ONE(p):
-    '''DEC_VAR_ONE          : COMPLEX_TYPE ID DEC_V_O_COMPLEX
+    '''DEC_VAR_ONE          : COMPLEX_TYPE ID addComplexVar DEC_V_O_COMPLEX
                             | SIMPLE_TYPE ID addVar DEC_ARR DEC_V_O_SIMPLE'''
 
 def p_DEC_V_O_SIMPLE(p):
@@ -240,7 +250,7 @@ def p_SIMPLE_TYPE(p):
         currTypeVar = p[1]
 
 def p_COMPLEX_TYPE(p):
-    '''COMPLEX_TYPE         : ID'''
+    '''COMPLEX_TYPE         : ID checkClassName'''
 
 #------------------------------------ EXPRESSIONS SYNTAX ------------------------------------
 
@@ -334,18 +344,28 @@ def p_RETURN(p):
     '''RETURN_FUNC      : RETURN RETURN_F_ONE SEMICOLON'''
     term = pOperandos.pop()
     termTipo = pTipos.pop()
-    funcTipo = funcDirectory.directorio[currFunc]['type']
+    if currClass != None:
+        funcTipo = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFunc]['type']
+    else: 
+        funcTipo = funcDirectory.directorio[currFunc]['type']
     if funcTipo == 'void':
         print('No se pueder regresar un valor en func del tipo void')
         sys.exit()
     if funcTipo != termTipo:
         print('Tipo de retorno incorrecto para funcion ', currFunc)
         sys.exit()
-    funcDirectory.setReturnFlag(currFunc)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].setReturnFlag(currFunc)
+    else:
+        funcDirectory.setReturnFlag(currFunc)
     vAddress = term
     if type(term) != int:
-        vAddress = funcDirectory.getVarVirtualAddress(currFunc, term)
-    quadGenerator.generateQuad('return', currFunc, None, vAddress)
+        if currClass != None:
+            vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, term)
+            quadGenerator.generateQuad('returnObj', currFunc, None, vAddress)
+        else:
+            vAddress = funcDirectory.getVarVirtualAddress(currFunc, term)
+            quadGenerator.generateQuad('return', currFunc, None, vAddress)
 
 def p_RETURN_F_ONE(p):
     '''RETURN_F_ONE     : VARIABLE
@@ -358,7 +378,10 @@ def p_PRINT(p):
     temp = pOperandos.pop()
     tempType = pTipos.pop()
     if type(temp) != int:
-        temp = funcDirectory.getVarVirtualAddress(currFunc, temp)
+        if currClass != None:
+            temp = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, temp)
+        else:
+            temp = funcDirectory.getVarVirtualAddress(currFunc, temp)
     quadGenerator.generateQuad('print', None, None, temp)
 
 def p_READ_FUNC(p):
@@ -366,7 +389,10 @@ def p_READ_FUNC(p):
     temp = pOperandos.pop()
     tempType = pTipos.pop()
     if type(temp) != int:
-        temp = funcDirectory.getVarVirtualAddress(currFunc, temp)
+        if currClass != None:
+            temp = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, temp)
+        else:
+            temp = funcDirectory.getVarVirtualAddress(currFunc, temp)
     quadGenerator.generateQuad('read', None, None, temp)
 
 
@@ -413,7 +439,10 @@ def p_addVar(p):
     currVar = varName
     if currScope == 'local':
         vAddress = localVirtualAddress(currTypeVar)
-        funcDirectory.addVar(currFunc, varName, currTypeVar, vAddress)
+        if currClass != None:
+            objDirectory.directorio[currClass]['funcDirectory'].addVar(currFunc, varName, currTypeVar, vAddress)
+        else:
+            funcDirectory.addVar(currFunc, varName, currTypeVar, vAddress)
     elif currScope == 'global':
         globalVirtualAddress(varName, currTypeVar)
     
@@ -421,7 +450,10 @@ def p_pushVar(p):
     '''pushVar              : '''
     varId = p[-1]
     #get type using function name
-    varInfo = funcDirectory.getVar(currFunc, varId)
+    if currClass != None:
+        varInfo = objDirectory.directorio[currClass]['funcDirectory'].getVar(currFunc, varId)
+    else:
+        varInfo = funcDirectory.getVar(currFunc, varId)
     pOperandos.append(varId)
     pTipos.append(varInfo['type'])
 #------------------------------------ EXP NEURAL POINTS ----------------------------
@@ -461,9 +493,15 @@ def expQuad():
         sys.exit()
     res = temporalVirtualAddress(resultType)
     if type(lOperand) != int:
-        lOperand = funcDirectory.getVarVirtualAddress(currFunc, lOperand)
+        if currClass != None:
+            lOperand = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, lOperand)
+        else:
+            lOperand = funcDirectory.getVarVirtualAddress(currFunc, lOperand)
     if type(rOperand) != int:
-        rOperand = funcDirectory.getVarVirtualAddress(currFunc, rOperand)
+        if currClass != None:
+            rOperand = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, rOperand)
+        else:
+            rOperand = funcDirectory.getVarVirtualAddress(currFunc, rOperand)
     quadGenerator.generateQuad(oper, lOperand, rOperand, res)
     pOperandos.append(res)
     pTipos.append(resultType)
@@ -512,7 +550,10 @@ def quadGoToF():
         sys.exit()
     res = pOperandos.pop()
     if type(res) != int:
-        res = funcDirectory.getVarVirtualAddress(currFunc, res)
+        if currClass != None:
+            res = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, res)
+        else:
+            res = funcDirectory.getVarVirtualAddress(currFunc, res)
     quadGenerator.generateQuad('gotoF', res, None, -1)
     pSaltos.append(quadGenerator.counter)
 
@@ -553,17 +594,27 @@ def p_endWhile(p):
 
 def p_addFunc(p):
     '''addFunc          : '''
+    global currFunc 
     functionName = p[-1]
-    if not funcDirectory.functionExists(functionName):
-        funcDirectory.addFunction(functionName, currTypeFunc)
-        #añadimos variable global con mismo nombre si no es void
-        if currTypeFunc != 'void':
-            address = globalVirtualAddress(functionName, currTypeFunc)
-            funcDirectory.setGlobalReturnAddress(functionName, address)
-        global currFunc 
-        currFunc = functionName
-        global currScope
-        currScope = 'local'
+    if currClass != None:
+        if not objDirectory.directorio[currClass]['funcDirectory'].functionExists(functionName):
+            objDirectory.directorio[currClass]['funcDirectory'].addFunction(functionName, currTypeFunc)
+            #añadimos variable global con mismo nombre si no es void
+            if currTypeFunc != 'void':
+                address = globalVirtualAddress(functionName, currTypeFunc)
+                objDirectory.directorio[currClass]['funcDirectory'].setGlobalReturnAddress(functionName, address)
+            
+            currFunc = functionName
+    else:
+        if not funcDirectory.functionExists(functionName):
+            funcDirectory.addFunction(functionName, currTypeFunc)
+            #añadimos variable global con mismo nombre si no es void
+            if currTypeFunc != 'void':
+                address = globalVirtualAddress(functionName, currTypeFunc)
+                funcDirectory.setGlobalReturnAddress(functionName, address) 
+            currFunc = functionName
+            global currScope
+            currScope = 'local'
 
 def p_addMain(p):
     '''addMain          : '''
@@ -579,34 +630,52 @@ def p_addParam(p):
     '''addParam         : '''
     varName = p[-1]
     vAddress = localVirtualAddress(currTypeVar)
-    funcDirectory.addVar(currFunc, varName, currTypeVar, vAddress)
-    funcDirectory.addParam(currFunc, currTypeVar, varName)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].addVar(currFunc, varName, currTypeVar, vAddress)
+        objDirectory.directorio[currClass]['funcDirectory'].addParam(currFunc, currTypeVar, varName)
+    else:
+        funcDirectory.addVar(currFunc, varName, currTypeVar, vAddress)
+        funcDirectory.addParam(currFunc, currTypeVar, varName)
 
 def p_setNumParams(p):
     '''setNumParams     : '''
-    funcDirectory.setNumParams(currFunc)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].setNumParams(currFunc)
+    else:
+        funcDirectory.setNumParams(currFunc)
 
 def p_setFuncCounter(p):
     '''setFuncCounter   : '''
     nextQuad = quadGenerator.counter + 1
-    funcDirectory.setStartCounter(currFunc, nextQuad)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].setStartCounter(currFunc, nextQuad)
+    else:
+        funcDirectory.setStartCounter(currFunc, nextQuad)
 
 def p_endFunc(p):
     '''endFunc          : '''
     #globales a usar
     global currFunc, counterLocales, dirBasePointers, counterTemporales
-    funcTipo = funcDirectory.directorio[currFunc]['type']
-    returnFlag = funcDirectory.directorio[currFunc]['return']
+    if currClass != None:
+        funcTipo = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFunc]['type']
+        returnFlag = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFunc]['return']
+    else:
+        funcTipo = funcDirectory.directorio[currFunc]['type']
+        returnFlag = funcDirectory.directorio[currFunc]['return']
     if funcTipo != 'void' and not returnFlag:
         print('Falta valor de retorno para funcion ', currFunc)
         sys.exit()
     if currFunc != 'main':
         quadGenerator.generateQuad('ENDFUNC', None, None, None)
-        #TODO: Release var table
         #Set number for memory use
-    funcDirectory.setNumTemp(currFunc, counterTemporales)
-    funcDirectory.setNumVars(currFunc, counterLocales)
-    funcDirectory.setNumPointer(currFunc, dirBasePointers - 30000)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].setNumTemp(currFunc, counterTemporales)
+        objDirectory.directorio[currClass]['funcDirectory'].setNumVars(currFunc, counterLocales)
+        objDirectory.directorio[currClass]['funcDirectory'].setNumPointer(currFunc, dirBasePointers - 30000)
+    else:
+        funcDirectory.setNumTemp(currFunc, counterTemporales)
+        funcDirectory.setNumVars(currFunc, counterLocales)
+        funcDirectory.setNumPointer(currFunc, dirBasePointers - 30000)
     counterTemporales = [0,0,0,0] #reset temporales
     counterLocales = [0,0,0,0] #reset locales
     dirBasePointers = 30000 # reset pointers
@@ -618,10 +687,16 @@ def p_endFunc(p):
 def p_verifyFunction(p):
     '''verifyFunction   : '''
     funcName = p[-1]
-    if not funcDirectory.functionExists(funcName):
-        print('Metodo ', funcName, ' no existe')
-        sys.exit()
-    quadGenerator.generateQuad('ERA', None, None, funcName)
+    if currClass != None:
+        if not objDirectory.directorio[currClass]['funcDirectory'].functionExists(funcName):
+            print('Metodo ', funcName, ' no existe')
+            sys.exit()
+        quadGenerator.generateQuad('ERAOBJ', None, None, funcName)
+    else:
+        if not funcDirectory.functionExists(funcName):
+            print('Metodo ', funcName, ' no existe')
+            sys.exit()
+        quadGenerator.generateQuad('ERA', None, None, funcName)
     global currFuncCall
     currFuncCall = funcName
     global kParam
@@ -632,31 +707,52 @@ def p_verifyParam(p):
     global kParam
     operando = pOperandos.pop()
     tipo = pTipos.pop()
-    tipoParam = funcDirectory.getParamType(currFuncCall, kParam)
-    paramName = funcDirectory.getParamName(currFuncCall, kParam)
+    if currClass != None:
+        tipoParam = objDirectory.directorio[currClass]['funcDirectory'].getParamType(currFuncCall, kParam)
+        paramName = objDirectory.directorio[currClass]['funcDirectory'].getParamName(currFuncCall, kParam)
+    else:
+        tipoParam = funcDirectory.getParamType(currFuncCall, kParam)
+        paramName = funcDirectory.getParamName(currFuncCall, kParam)
     if tipo != tipoParam:
         print('Error en el param ', kParam + 1, ' de la funcion ', currFuncCall)
         sys.exit()
     if type(operando) != int:
-        operando = funcDirectory.getVarVirtualAddress(currFunc, operando)
-    vAddress = funcDirectory.getVarVirtualAddress(currFuncCall, paramName)
+        if currClass != None:
+            operando = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, operando)
+        else:    
+            operando = funcDirectory.getVarVirtualAddress(currFunc, operando)
+    if currClass != None:
+        vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFuncCall, paramName)
+    else:        
+        vAddress = funcDirectory.getVarVirtualAddress(currFuncCall, paramName)
     kParam = kParam + 1
     quadGenerator.generateQuad('PARAM', operando, None, vAddress)
 
 def p_verifyNumParams(p):
     '''verifyNumParams      : '''
-    if not kParam == funcDirectory.directorio[currFuncCall]['numParams']:
+    if currClass != None:
+        numParam = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['numParams']
+    else:
+        numParam = funcDirectory.directorio[currFuncCall]['numParams']
+    if not kParam == numParam:
         print('Numero de parametros incorrecto en funcion ', currFuncCall)
         sys.exit()
 
 def p_gosubFunc(p):
     '''gosubFunc        : '''
-    quadNum = funcDirectory.directorio[currFuncCall]['startCounter']
-    funcTipo = funcDirectory.directorio[currFuncCall]['type']
+    if currClass != None:
+        quadNum = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['startCounter']
+        funcTipo = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['type']
+    else:
+        quadNum = funcDirectory.directorio[currFuncCall]['startCounter']
+        funcTipo = funcDirectory.directorio[currFuncCall]['type']
     quadGenerator.generateQuad('GOSUB', currFuncCall, None, quadNum)
     if funcTipo != 'void':
         res = temporalVirtualAddress(funcTipo)
-        vAddress = funcDirectory.getVarVirtualAddress('program', currFuncCall)
+        if currClass != None:
+            vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress('program', currFuncCall)
+        else:
+            vAddress = funcDirectory.getVarVirtualAddress('program', currFuncCall)
         quadGenerator.generateQuad('=', vAddress, None, res)
         pOperandos.append(res)
         pTipos.append(funcTipo)
@@ -669,7 +765,10 @@ def p_addDimVar(p):
     if currScope != 'global':
         funcName = currFunc
     dimSize = p[-1]
-    funcDirectory.addDimToVar(funcName, currVar, dimSize)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].addDimToVar(funcName, currVar, dimSize)
+    else:
+        funcDirectory.addDimToVar(funcName, currVar, dimSize)
 
 def p_arrDeclarationCalc(p):
     '''arrDeclarationCalc   : '''
@@ -677,8 +776,12 @@ def p_arrDeclarationCalc(p):
     funcName = 'program'
     if currScope != 'global':
         funcName = currFunc
-    funcDirectory.dimPostDeclarationCalc(funcName, currVar)
-    sizeDimVar = funcDirectory.getVarSize(funcName, currVar)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].dimPostDeclarationCalc(funcName, currVar)
+        sizeDimVar = objDirectory.directorio[currClass]['funcDirectory'].getVarSize(funcName, currVar)
+    else:
+        funcDirectory.dimPostDeclarationCalc(funcName, currVar)
+        sizeDimVar = funcDirectory.getVarSize(funcName, currVar)
     index = typesIndex[currTypeVar]
     if currScope != 'global':
         global counterLocales
@@ -696,11 +799,17 @@ def p_arrVarCall(p):
     funcName = 'program'
     if currScope != 'global':
         funcName = currFunc
-    if not funcDirectory.checkVarIsDim(funcName, varName):
-        print('La variable', varName, 'no tiene dimensiones')
-        sys.exit()
+    if currClass != None:
+        if not objDirectory.directorio[currClass]['funcDirectory'].checkVarIsDim(funcName, varName):
+            print('La variable', varName, 'no tiene dimensiones')
+            sys.exit()
+        node = objDirectory.directorio[currClass]['funcDirectory'].getVarDimNode(currFunc, currVar)
+    else:
+        if not funcDirectory.checkVarIsDim(funcName, varName):
+            print('La variable', varName, 'no tiene dimensiones')
+            sys.exit()
+        node = funcDirectory.getVarDimNode(currFunc, currVar)
     dim = 1
-    node = funcDirectory.getVarDimNode(currFunc, currVar)
     pNodos.append(node)
     pDims.append((varName, dim))
     pOperadores.append('fB') #pushing fake bottom
@@ -710,14 +819,20 @@ def p_createArrayQuads(p):
     node = pNodos[-1]
     val = pOperandos[-1]
     if type(val) != int:
-        val = funcDirectory.getVarVirtualAddress(currFunc, val)
+        if currClass != None:
+            val = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, val)
+        else:
+            val = funcDirectory.getVarVirtualAddress(currFunc, val)
     quadGenerator.generateQuad('verify', val, node.lInf, node.lSup)
     if node.next:
         aux = pOperandos.pop()
         _ = pTipos.pop()
         temp = temporalVirtualAddress('int')
         if type(aux) != int:
-            aux = funcDirectory.getVarVirtualAddress(currFunc, aux)
+            if currClass != None:
+                aux = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, aux)
+            else:
+                aux = funcDirectory.getVarVirtualAddress(currFunc, aux)
         vAddress = constantVirtualAddress(int(node.m), 'int', typesIndex['int'])
         pOperandos.pop()
         pTipos.pop()
@@ -733,9 +848,15 @@ def p_createArrayQuads(p):
         _ = pTipos.pop()
         temp2 = temporalVirtualAddress('int')
         if type(aux1) != int:
-            aux1 = funcDirectory.getVarVirtualAddress(currFunc, aux1)
+            if currClass != None:
+                aux1 = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, aux1)
+            else:
+                aux1 = funcDirectory.getVarVirtualAddress(currFunc, aux1)
         if type(aux2) != int:
-            aux2 = funcDirectory.getVarVirtualAddress(currFunc, aux2)
+            if currClass != None:
+                aux2 = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, aux2)
+            else:
+                aux2 = funcDirectory.getVarVirtualAddress(currFunc, aux2)
         quadGenerator.generateQuad('+', aux1, aux2, temp2)
         pOperandos.append(temp2)
         pTipos.append('int')
@@ -757,20 +878,29 @@ def p_createLastArrayQuads(p):
     temp = temporalVirtualAddress('int')
     node = pNodos.pop()
     if type(aux1) != int:
-        aux1 = funcDirectory.getVarVirtualAddress(currFunc, aux1)
+        if currClass != None:
+            aux1 = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, aux1)
+        else:
+            aux1 = funcDirectory.getVarVirtualAddress(currFunc, aux1)
     global dirBasePointers
     temp2 = dirBasePointers
     dirBasePointers = dirBasePointers + 1
     #Obtener direccion base usando var de pila de dims
     varName = pDims[-1]
-    varName = varName[0]    
-    baseAddress = funcDirectory.getVarVirtualAddress(currFunc, varName)
+    varName = varName[0] 
+    if currClass != None:
+        baseAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, varName)
+    else:
+        baseAddress = funcDirectory.getVarVirtualAddress(currFunc, varName)
     quadGenerator.generateQuad('addBaseAdd', aux1, baseAddress, temp2)
     pOperandos.append(temp2)
     pOperadores.pop()#remove fake bottom
     #Verify correct dims
     dims = pDims.pop()
-    trueDims = funcDirectory.getVar(currFunc, dims[0])['dim']
+    if currClass != None:
+        trueDims = objDirectory.directorio[currClass]['funcDirectory'].getVar(currFunc, dims[0])['dim']
+    else:
+        trueDims = funcDirectory.getVar(currFunc, dims[0])['dim']
     if trueDims != dims[1]:
         print('Indexacion incorrecta verifique dimensiones en variable', dims[0])
         sys.exit()
@@ -797,7 +927,10 @@ def globalVirtualAddress(varName, varType):
     baseAddress = dirBasesGlobales[varType]
     address = baseAddress + offset
     counterGlobales[index] = offset + 1
-    funcDirectory.addVar('program', varName, varType, address)
+    if currClass != None:
+        objDirectory.directorio[currClass]['funcDirectory'].addVar('program', varName, varType, address)
+    else:
+        funcDirectory.addVar('program', varName, varType, address)
     return address
 
 def temporalVirtualAddress(termType):
@@ -828,6 +961,66 @@ def printPOperadores():
 def printPTipos():
     print('Pila de tipos', pTipos)
 
+#------------------------------------ CLASS NEURAL POINTS ----------------------------
+
+def p_addClass(p):
+    '''addClass         : '''
+    #guardamos las variables globales actuales
+    global currClass, counterConstantes, counterGlobales
+    funcDirectory.setNumVars('program', counterGlobales)
+    funcDirectory.setNumTemp('program', counterConstantes)
+    counterGlobales = [0,0,0,0]
+    counterConstantes = [0,0,0,0]
+    className = p[-1]
+    currClass = className
+    objDirectory.addObject(className)
+    objDirectory.directorio[currClass]['funcDirectory'].addFunction('program', None)
+    
+
+def p_addClassConstructor(p):
+    '''addClassConstructor      : '''
+    funcType = 'void'
+    funcName = currClass
+    objDirectory.directorio[currClass]['funcDirectory'].addFunction(funcName, funcType)
+    global currFunc 
+    currFunc = funcName
+    global currScope
+    currScope = 'local'
+
+def p_constructorParam(p):
+    '''constructorParam         : '''
+    objDirectory.directorio[currClass]['funcDirectory'].setNumParams(currFunc)
+
+def p_endClass(p):
+    '''endClass         : '''
+    global currScope, currClass, counterConstantes, counterGlobales
+    currScope = 'global'
+    objDirectory.directorio[currClass]['funcDirectory'].setNumVars('program', counterGlobales)
+    objDirectory.directorio[currClass]['funcDirectory'].setNumTemp('program', counterConstantes)
+    currClass = None
+    counterGlobales = [0,0,0,0]
+    counterConstantes = [0,0,0,0]
+
+def p_checkClassName(p):
+    '''checkClassName   : '''
+    className = p[-1]
+    if className not in objDirectory.directorio.keys():
+        print('Clase',className, 'no existe')
+        sys.exit()
+    global currTypeVar
+    currTypeVar = className
+
+def p_addComplexVar(p):
+    '''addComplexVar    : '''
+    #TODO: Allow complex types in Classes
+    objName = p[-1]
+    funcDirectory.addComplexVar(currFunc, objName)
+    objVarTable = objDirectory.getObjectVars(currTypeVar)
+    for var in objVarTable.table.keys():
+        varType = objVarTable.table[var]['type']
+        vAddress = localVirtualAddress(varType)
+        funcDirectory.addObjectVar(currFunc, objName, var, varType, vAddress)
+    
 
 #EMPTY
 def p_empty(p):
@@ -874,13 +1067,18 @@ def createObjCode():
     f.close()
 
 
-#test the parser
-#
-file = 'tests/factorialRecursivo.txt'
-#
-with open(file, 'r') as f:
-    input = f.read()
-    parser.parse(input)
-    #parser.parse(input, debug = 1)
-    print('apropiado')
-    createObjCode()
+
+if __name__ == '__main__':
+    if (len(sys.argv) > 1):
+        file = sys.argv[1]
+        with open(file, 'r') as f:
+            input = f.read()
+            parser.parse(input)
+            #parser.parse(input, debug = 1)
+            print('apropiado')
+            createObjCode()
+            print(funcDirectory.directorio['num'])
+            print(funcDirectory.directorio['num']['vars'].table)
+            print(funcDirectory.directorio['num']['vars'].table['t1']['vars'].table)
+    else:
+        print('File missing')

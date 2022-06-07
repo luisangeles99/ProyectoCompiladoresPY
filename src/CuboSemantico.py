@@ -2,7 +2,7 @@
 
 class SemanticCube():
     def __init__(self):
-        self.cube = { #TODO: Verify if we are using symbols or the token ex. + or PLUS; ALSO CHECK IF WE ARE ALLOWING COMPARISON OF 1 AND '1'
+        self.cube = { 
             'int': {
                 'int': {
                     '+': 'int', '-': 'int', '*': 'int', '/':'int', '=': 'int', 
@@ -20,6 +20,11 @@ class SemanticCube():
                     '||': 'error', '&&': 'error'
                 },
                 'bool': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'error', '&&': 'error'
+                },
+                'complex': {
                     '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
                     '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
                     '||': 'error', '&&': 'error'
@@ -45,6 +50,11 @@ class SemanticCube():
                     '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
                     '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
                     '||': 'error', '&&': 'error'
+                },
+                'complex': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'error', '&&': 'error'
                 }
             },
             'char': {
@@ -64,6 +74,11 @@ class SemanticCube():
                     '||': 'error', '&&': 'error'
                 },
                 'bool': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'error', '&&': 'error'
+                },
+                'complex': {
                     '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
                     '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
                     '||': 'error', '&&': 'error'
@@ -89,16 +104,40 @@ class SemanticCube():
                     '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
                     '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
                     '||': 'bool', '&&': 'bool'
+                },
+                'complex': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'error', '&&': 'error'
+                }
+            },
+            'complex': {
+                'int': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'bool', '!=': 'bool',
+                    '||': 'error', '&&': 'error'
+                },
+                'float': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'bool', '!=': 'bool',
+                    '||': 'error', '&&': 'error'
+                },
+                'char': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'error', '&&': 'error'
+                },
+                'bool': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'bool', '&&': 'bool'
+                },
+                'complex': {
+                    '+': 'error', '-': 'error', '*': 'error', '/':'error', '=': 'error', 
+                    '<': 'error', '>': 'error', '<=': 'error', '>=': 'error', '==': 'error', '!=': 'error',
+                    '||': 'error', '&&': 'error'
                 }
             }
-        }
-
-        self.typesMapping = {
-            'int': 1,
-            'float': 2,
-            'char': 3,
-            'bool': 4,
-            'error': 0
         }
 
     def getType(self, leftType, rightType, oper):

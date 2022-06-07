@@ -46,7 +46,7 @@ def t_CTEI(t):
     t.value = int(t.value)
     return t
 
-def t_CTECH(t): #TODO: CHECK NAME IN PARSER
+def t_CTECH(t): 
     r'\'[A-Za-z]\''
     t.value = t.value[1]
     return t

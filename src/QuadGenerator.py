@@ -8,14 +8,12 @@ quadOperations = {
     '/': 4
 }
 
-#TODO: 
 class QuadGenerator:
     def __init__(self):
         self.quadsTable = []
         self.counter = 0
 
     def generateQuad(self, oper, dir1, dir2, dir3):
-        #TODO: use cube to validate correct quad
         self.counter = self.counter + 1
         quad = (oper, dir1, dir2, dir3)
         self.quadsTable.append(quad)
@@ -36,5 +34,5 @@ class QuadGenerator:
         newQuad = (quad[0], quad[1], quad[2], self.counter + 1)
         self.quadsTable[end - 1] = newQuad
 
-    #TODO: Special cases for quads like ASSIGN, ETC...
-    #TODO: Define all possible operations in a dict to use numbers instead of str
+    
+    
