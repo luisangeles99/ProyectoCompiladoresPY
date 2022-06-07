@@ -1,18 +1,32 @@
-# clase para tener la estructura de tabla de variables 
-# estará disponible para variables globales y locales
-# locales solo en función
+"""
+.##.....##....###....########.....########....###....########..##.......########
+.##.....##...##.##...##.....##.......##......##.##...##.....##.##.......##......
+.##.....##..##...##..##.....##.......##.....##...##..##.....##.##.......##......
+.##.....##.##.....##.########........##....##.....##.########..##.......######..
+..##...##..#########.##...##.........##....#########.##.....##.##.......##......
+...##.##...##.....##.##....##........##....##.....##.##.....##.##.......##......
+....###....##.....##.##.....##.......##....##.....##.########..########.########
 
+Clase para tener la estructura de tabla de variables estará disponible para 
+variables globales y locales solo en función. Dentro de la misma podemos encontrar
+funciones que ayudan a guardar diferentes variables y funciones dentro de una tabla
+de variables, esta tabla tiene diferentes funciones como hacer consultas de diferentes
+valores y agregar funciones o variables a la misma. 
+"""
 import sys
 
-
-class DimNode:
-    def __init__(self, val):
+'''DimNode
+Esta es una estrucutra que simula una dimension en forma de nodo, se tiene un limite 
+inferior y un superior, esta tiene una propiedad next que apunta a otro nodo y el size.
+'''
+class DimNode:    
+    def __init__(self, val):    
         self.lInf = 0
         self.lSup = val - 1
         self.m = None
         self.next = None
 
- 
+
 class VariablesTable:
     def __init__(self):
         self.table = {}
