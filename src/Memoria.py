@@ -1,6 +1,18 @@
-#class memoria description
-# not using dictionaries but spaces as specified in class
+"""
+.##.....##.########.##.....##..#######..########..####....###...
+.###...###.##.......###...###.##.....##.##.....##..##....##.##..
+.####.####.##.......####.####.##.....##.##.....##..##...##...##.
+.##.###.##.######...##.###.##.##.....##.########...##..##.....##
+.##.....##.##.......##.....##.##.....##.##...##....##..#########
+.##.....##.##.......##.....##.##.....##.##....##...##..##.....##
+.##.....##.########.##.....##..#######..##.....##.####.##.....##
 
+Clase principal para manejo de memoria, dentro de si misma se
+declaran los directorios a utilizar, al igual que sus rangos y
+contiene dos metodos pinciaples para administrar la memoria.
+"""
+
+# Espacios de memoria designados.
 dirBasesLocales = {
     'int': 1000,
     'float': 3000,
@@ -33,13 +45,18 @@ rangoGlobales = [9000,16999]
 rangoConstantes = [17000, 20999]
 rangoTemporales = [21000, 28999]
 
-#TODO: Pointers
 #Clase Base con metodos compartidos y estructura de memoria
 class Memoria:
     def __init__(self):
         self.memoria = [[[],[],[],[]],[[],[],[],[]],[[]]]
     
     def allocateMemory(self, numCells, memoryType):
+        """Alocacion de la memoria.
+
+        Args:
+            numCells (int): numero de celdas a utilizar
+            memoryType (int): tipo de memoria
+        """        
         i = 0
         for num in numCells:
             self.memoria[memoryType][i] = [None] * num
@@ -51,12 +68,27 @@ class MemoriaGlobal(Memoria):
         super().__init__()
 
     def memoryType(self, address):
+        """Obtencion de tipo de memoria.
+
+        Args:
+            address (int): direccion de memoria
+
+        Returns:
+            int: global(0) o constante(1)
+        """        
         if address >= rangoGlobales[0] and address <= rangoGlobales[1]:
             return 0
         if address >= rangoConstantes[0] and address <= rangoConstantes[1]:
             return 1
     
-    def setValue(self, address, val): # in global we have constants, pointers global vars
+    def setValue(self, address, val): 
+        """Asignacion de valor a memoria, donde estan las constantes y aputandores
+        globales.
+
+        Args:
+            address (int): direccion de memoria
+            val (any): valor que se estara asignando
+        """        
         memoryType = self.memoryType(address)
         index, offset = self.memoryOffset(address, memoryType)
         if index == 0:
@@ -70,6 +102,16 @@ class MemoriaGlobal(Memoria):
         self.memoria[memoryType][index][offset] = val
 
     def memoryOffset(self, address, memoryType):
+        """Calculo de offset para memoria.
+
+        Args:
+            address (int): direccion de memoria
+            memoryType (int): tipo de memoria
+
+        Returns:
+            int: index
+            int: valor calculado de offset
+        """        
         if memoryType == 0:
             if address >= dirBasesGlobales['int'] and address < dirBasesGlobales['float']:
                 offset = address - dirBasesGlobales['int']
@@ -116,7 +158,14 @@ class MemoriaLocal(Memoria):
         if address >= dirBasePointers and address < dirBasePointers + 1000 - 1:
             return 2
 
-    def setValue(self, address, val): # in local we have vars, temps ,pointers
+    def setValue(self, address, val):
+        """Asignacion de valor a memoria local, donde estan las variables, 
+        temporales y apuntadores.
+
+        Args:
+            address (int): direccion de memoria
+            val (any): valor que se estara asignando
+        """       
         memoryType = self.memoryType(address)
         index, offset = self.memoryOffset(address, memoryType)
         if index == 0:
@@ -130,6 +179,16 @@ class MemoriaLocal(Memoria):
         self.memoria[memoryType][index][offset] = val
 
     def memoryOffset(self, address, memoryType):
+        """Calculo de offset para memoria.
+
+        Args:
+            address (int): direccion de memoria
+            memoryType (int): tipo de memoria
+
+        Returns:
+            int: index
+            int: valor calculado de offset
+        """ 
         if memoryType == 0:
             if address >= dirBasesLocales['int'] and address < dirBasesLocales['float']:
                 offset = address - dirBasesLocales['int']
