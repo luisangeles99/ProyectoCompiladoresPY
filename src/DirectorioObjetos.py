@@ -1,5 +1,15 @@
+"""
+.########..####.########......#######..########........##.########.########..######.
+.##.....##..##..##.....##....##.....##.##.....##.......##.##..........##....##....##
+.##.....##..##..##.....##....##.....##.##.....##.......##.##..........##....##......
+.##.....##..##..########.....##.....##.########........##.######......##.....######.
+.##.....##..##..##...##......##.....##.##.....##.##....##.##..........##..........##
+.##.....##..##..##....##.....##.....##.##.....##.##....##.##..........##....##....##
+.########..####.##.....##.....#######..########...######..########....##.....######.
 
-#Descripcion de la clase
+Esta es la clase pincipal que administra la tabla de objetos, tiene metodos para 
+agregar y hacer consultas de objetos.
+"""
 
 from DirectorioFunciones import DirectorioFunciones
 import sys
@@ -9,6 +19,11 @@ class DirectorioObjetos:
         self.directorio = {}
 
     def addObject(self, name):
+        """Agregar un nuevo objeto mediante el identificador.
+
+        Args:
+            name (string): identificador
+        """        
         if name in self.directorio.keys():
             print('Clase ya declarada')
             sys.exit()
