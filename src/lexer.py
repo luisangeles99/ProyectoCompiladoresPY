@@ -1,3 +1,16 @@
+"""
+.##.......########.##.....##.########.########.
+.##.......##........##...##..##.......##.....##
+.##.......##.........##.##...##.......##.....##
+.##.......######......###....######...########.
+.##.......##.........##.##...##.......##...##..
+.##.......##........##...##..##.......##....##.
+.########.########.##.....##.########.##.....##
+
+Clase principal que contiene el analisis lexico que se realizo,
+este utiliza modulos de PLY para poder funcionar y basicamente
+contiene las reglas gramaticales.
+"""
 import ply.lex as lex
 
 from tokens import tokens, reserved
