@@ -26,13 +26,27 @@ class DimNode:
         self.m = None
         self.next = None
 
-
+''' VariablesTable
+Es la estrucutra principal para el manejo de variables a lo largo de la vida el programa,
+aqui podemos realizar opreaciones sobre la estrucutra que permita agregar variables o 
+funciones de diferentes tipos, hacer consultas a las mismas, agregar dimensiones y
+hacer actualizaciones en la tabla.
+'''
 class VariablesTable:
     def __init__(self):
         self.table = {}
 
     #add var to table
     def addVar(self, name, type, virtualAdd):
+        """metodo principal para agregar variables a la tabla, guarda con llave usando
+        el identificador y como valores un diccionario con el tipo, la memoria virtual y
+        un flag para saber si es un array.
+
+        Args:
+            name (string): identificador
+            type (string): tipo de dato
+            virtualAdd (int): memoria virtual
+        """        
         if name in self.table.keys():
             print('Variable previamente declarada', name)
             sys.exit()
@@ -43,6 +57,13 @@ class VariablesTable:
         }
 
     def addComplexVar(self, name):
+        """Para agregar a la tabla variales complejas, solamente se confirma que el
+        identificador sea unico y de ser asi sera agregado a la tabla, utilizando como
+        llave el nombre y de valores el tipo y el valor.
+
+        Args:
+            name (string): identificador
+        """        
         if name in self.table.keys():
             print('Variable previamente declarada', name)
             sys.exit()
@@ -55,6 +76,13 @@ class VariablesTable:
         self.table[complexName]['vars'].addVar(name, type, vAddress)
 
     def addDim(self, name, val):
+        """Metodo utilizado para agregar dimensiones a un tipo de variable
+        array, donde se inicializan los primeros datos de esta estrcutura.
+
+        Args:
+            name (string): identificador
+            val (any): valor a asignar
+        """        
         self.table[name]['dim'] = 1
         self.table[name]['isArray'] = True
         self.table[name]['size'] = None
@@ -77,6 +105,12 @@ class VariablesTable:
         self.table[name]['value'] = val
 
     def addDimNode(self, name, val):
+        """Metodo utilizado para agregar mas dimensiones a un nodo.
+
+        Args:
+            name (string): identificador
+            val (any): valor de para incrementar la dimension
+        """        
         node = self.table[name]['nodes']
         while node.next != None:
             node = node.next
