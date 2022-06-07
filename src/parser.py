@@ -1,4 +1,5 @@
 from pydoc import classname
+from statistics import variance
 from tkinter import CURRENT
 import ply.yacc as yacc
 from Avail import Avail
@@ -129,7 +130,19 @@ def p_CLASS_C_ONE(p):
 
 def p_FIELD_ACCESS(p):
     '''FIELD_ACCESS         : ID POINT ID'''
-    
+    objName = p[1]
+    varName = p[3]
+    objInfo = funcDirectory.getVar(currFunc, objName)
+    if objInfo['type'] != 'complex':
+        print('Variable', objName, 'no es un objeto')
+        sys.exit()
+    if not objInfo['vars'].searchVar(varName):
+        print('Objeto', objName, 'no tiene la variable', varName)
+    varInfo = objInfo['vars'].getVar(varName)
+    varType = varInfo['type']
+    vAddress = varInfo['virtualAdd']
+    pOperandos.append(vAddress)
+    pTipos.append(varType)
 
 #------------------------------------ FUNCTION SYNTAX ------------------------------------
 
