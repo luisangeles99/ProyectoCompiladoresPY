@@ -129,6 +129,7 @@ def p_CLASS_C_ONE(p):
 
 def p_FIELD_ACCESS(p):
     '''FIELD_ACCESS         : ID POINT ID'''
+    
 
 #------------------------------------ FUNCTION SYNTAX ------------------------------------
 
@@ -362,10 +363,14 @@ def p_RETURN(p):
     if type(term) != int:
         if currClass != None:
             vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, term)
-            quadGenerator.generateQuad('returnObj', currFunc, None, vAddress)
+    
         else:
             vAddress = funcDirectory.getVarVirtualAddress(currFunc, term)
-            quadGenerator.generateQuad('return', currFunc, None, vAddress)
+    
+    if currClass != None:
+        quadGenerator.generateQuad('returnObj', currFunc, None, vAddress)
+    else:
+        quadGenerator.generateQuad('return', currFunc, None, vAddress)
 
 def p_RETURN_F_ONE(p):
     '''RETURN_F_ONE     : VARIABLE
@@ -1077,8 +1082,8 @@ if __name__ == '__main__':
             #parser.parse(input, debug = 1)
             print('apropiado')
             createObjCode()
-            print(funcDirectory.directorio['num'])
-            print(funcDirectory.directorio['num']['vars'].table)
-            print(funcDirectory.directorio['num']['vars'].table['t1']['vars'].table)
+            #print(funcDirectory.directorio['num'])
+            #print(funcDirectory.directorio['num']['vars'].table)
+            #print(funcDirectory.directorio['num']['vars'].table['t1']['vars'].table)
     else:
         print('File missing')
