@@ -10,5 +10,5 @@ func int fibo(int num){
 }
 
 main(){
-    print(fibo(9));
+    print(fibo(10));
 }

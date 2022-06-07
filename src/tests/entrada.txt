@@ -1,6 +1,7 @@
 program test;
 
-var int x, next;
+
+var int x;
 var float f1, f2, f3;
 
 class Test{
@@ -17,11 +18,14 @@ class Test{
 }
 
 
+
+
 func int num(int p1, int p2){
     var Test t1;
+    var int xArr[10], xMat[5][5];
     t1.y = 5000;
     print(t1.y);
-    var int xArr[10], xMat[5][5];
+    t1.testFunc(5000);
     while(p1 < p2){
         xArr[p1] = p1;
         print(xArr[p1]);
@@ -31,12 +35,6 @@ func int num(int p1, int p2){
     print(p1);
     return xArr[p1 - 1];
 }
-func void realMadrid(char c1, int num, float f1){
-    print('r');
-    print('e');
-    print('a');
-    print('l');
-}
 
 main(){
     var int res;
@@ -45,7 +43,8 @@ main(){
     if (x < 10){
         print(5);
     }
-    realMadrid('a', 10, 3.45);
     x = x + res;
+    f1 = 0.0;
+    print(f1);
     print(x);
 }

@@ -1,4 +1,3 @@
-from pdb import pm
 import sys
 from Memoria import MemoriaGlobal, MemoriaLocal, rangoGlobales, rangoConstantes, rangoLocales, rangoTemporales, dirBasePointers
 import ast

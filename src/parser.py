@@ -11,10 +11,6 @@ La clase fundamental de todo el compilador, donde se encuentran
 las reglas gramaticales, las acciones semanticas y los puntos
 neuralgicos.
 """
-
-from pydoc import classname
-from statistics import variance
-from tkinter import CURRENT
 import ply.yacc as yacc
 from Avail import Avail
 from lexer import tokens
@@ -49,6 +45,11 @@ counterConstantes = [0,0,0,0]
 counterGlobales = [0,0,0,0]
 counterLocales = [0,0,0,0]
 counterTemporales = [0,0,0,0]
+subFunc = False
+
+#auxiliares
+auxCounterGlobales = None
+auxCounterConstantes = None
 
 start = 'P'
 
@@ -153,6 +154,7 @@ def p_FIELD_ACCESS(p):
         sys.exit()
     if not objInfo['vars'].searchVar(varName):
         print('Objeto', objName, 'no tiene la variable', varName)
+        sys.exit()
     varInfo = objInfo['vars'].getVar(varName)
     varType = varInfo['type']
     vAddress = varInfo['virtualAdd']
@@ -162,7 +164,17 @@ def p_FIELD_ACCESS(p):
 #------------------------------------ FUNCTION SYNTAX ------------------------------------
 
 def p_FUNCTION_ACCESS(p):
-    '''FUNCTION_ACCESS      : ID POINT FUNCTION_CALL'''
+    '''FUNCTION_ACCESS      : ID setObjFlag POINT FUNCTION_CALL'''
+
+def p_setObjFlag(p):
+    '''setObjFlag           : '''
+    objName = p[-1]
+    print(objName)
+    if not objName in funcDirectory.directorio[currFunc]['vars'].searchVar(objName):
+        print('Variable', objName, 'no existe')
+        sys.exit()
+    global subFunc
+    subFunc = True
 
 def p_FUNCTION_CALL(p):
     '''FUNCTION_CALL        : ID verifyFunction LPAREN FUNCTION_C_ONE verifyNumParams RPAREN gosubFunc'''
@@ -175,7 +187,7 @@ def p_FUNCTION_C_TWO(p):
     '''FUNCTION_C_TWO       : COMMA EXP verifyParam FUNCTION_C_TWO
                             | empty'''
 
-def p_FUNCTION_DEC(p): #CHECK IF SET CURR IS OK THERE
+def p_FUNCTION_DEC(p):
     '''FUNCTION_DEC         : FUNC FUNCTION_D_ONE ID addFunc LPAREN FUNCTION_D_TWO RPAREN setNumParams'''
 
 def p_MAIN_FUNC(p):
@@ -333,6 +345,7 @@ def p_FACT(p):
     '''FACT         : CONST 
                     | VARIABLE 
                     | FUNCTION_CALL 
+                    | FUNCTION_ACCESS
                     | LPAREN EXP RPAREN'''
 
 
@@ -358,6 +371,7 @@ def p_BLOCK_STMT(p):
 
 def p_STMT(p):
     '''STMT         : ASSIGN_OP 
+                    | FUNCTION_ACCESS SEMICOLON
                     | FUNCTION_CALL SEMICOLON
                     | READ_FUNC 
                     | PRINT_FUNC 
@@ -720,7 +734,8 @@ def p_endFunc(p):
 def p_verifyFunction(p):
     '''verifyFunction   : '''
     funcName = p[-1]
-    if currClass != None:
+    
+    if subFunc:
         if not objDirectory.directorio[currClass]['funcDirectory'].functionExists(funcName):
             print('Metodo ', funcName, ' no existe')
             sys.exit()
@@ -740,7 +755,7 @@ def p_verifyParam(p):
     global kParam
     operando = pOperandos.pop()
     tipo = pTipos.pop()
-    if currClass != None:
+    if subFunc:
         tipoParam = objDirectory.directorio[currClass]['funcDirectory'].getParamType(currFuncCall, kParam)
         paramName = objDirectory.directorio[currClass]['funcDirectory'].getParamName(currFuncCall, kParam)
     else:
@@ -750,11 +765,11 @@ def p_verifyParam(p):
         print('Error en el param ', kParam + 1, ' de la funcion ', currFuncCall)
         sys.exit()
     if type(operando) != int:
-        if currClass != None:
+        if subFunc:
             operando = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, operando)
         else:    
             operando = funcDirectory.getVarVirtualAddress(currFunc, operando)
-    if currClass != None:
+    if subFunc:
         vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFuncCall, paramName)
     else:        
         vAddress = funcDirectory.getVarVirtualAddress(currFuncCall, paramName)
@@ -763,7 +778,7 @@ def p_verifyParam(p):
 
 def p_verifyNumParams(p):
     '''verifyNumParams      : '''
-    if currClass != None:
+    if subFunc:
         numParam = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['numParams']
     else:
         numParam = funcDirectory.directorio[currFuncCall]['numParams']
@@ -773,7 +788,8 @@ def p_verifyNumParams(p):
 
 def p_gosubFunc(p):
     '''gosubFunc        : '''
-    if currClass != None:
+    global subFunc
+    if subFunc:
         quadNum = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['startCounter']
         funcTipo = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['type']
     else:
@@ -782,8 +798,9 @@ def p_gosubFunc(p):
     quadGenerator.generateQuad('GOSUB', currFuncCall, None, quadNum)
     if funcTipo != 'void':
         res = temporalVirtualAddress(funcTipo)
-        if currClass != None:
+        if subFunc:
             vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress('program', currFuncCall)
+            subFunc = False
         else:
             vAddress = funcDirectory.getVarVirtualAddress('program', currFuncCall)
         quadGenerator.generateQuad('=', vAddress, None, res)
@@ -999,9 +1016,11 @@ def printPTipos():
 def p_addClass(p):
     '''addClass         : '''
     #guardamos las variables globales actuales
-    global currClass, counterConstantes, counterGlobales
+    global currClass, counterConstantes, counterGlobales, auxCounterConstantes, auxCounterGlobales
     funcDirectory.setNumVars('program', counterGlobales)
     funcDirectory.setNumTemp('program', counterConstantes)
+    auxCounterGlobales = counterGlobales
+    auxCounterConstantes = counterConstantes
     counterGlobales = [0,0,0,0]
     counterConstantes = [0,0,0,0]
     className = p[-1]
@@ -1031,8 +1050,8 @@ def p_endClass(p):
     objDirectory.directorio[currClass]['funcDirectory'].setNumVars('program', counterGlobales)
     objDirectory.directorio[currClass]['funcDirectory'].setNumTemp('program', counterConstantes)
     currClass = None
-    counterGlobales = [0,0,0,0]
-    counterConstantes = [0,0,0,0]
+    counterGlobales = auxCounterGlobales
+    counterConstantes = auxCounterConstantes
 
 def p_checkClassName(p):
     '''checkClassName   : '''
