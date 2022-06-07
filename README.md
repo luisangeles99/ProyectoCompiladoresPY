@@ -1,5 +1,7 @@
 # Java++
-Java++ nace de la idea de construir un compilador en python3, teniendo como objetivo el desarrollo de un lenguaje con el paradigma orientado a objetos. Durante el desarrollo de Java++ hubo muchas ideas diferente que se quisieron incorporar y parte de ellas fue la integracion de una pieza tan importante como PLY.
+Java++ nace de la idea de construir un compilador en python3, teniendo como objetivo el desarrollo de un lenguaje con el paradigma orientado a objetos. Durante el desarrollo de Java++ hubo muchas ideas diferente que se quisieron incorporar y parte de ellas fue la integracion de una pieza tan importante como PLY. 
+
+PLY es un modulo que nos facilita la creacion de un lexer y un parser, de esta forma se pudieron constrar mas los esfuerzos en la definicion de las correctas reglas gramaticales, asignacion de memoria, tablas de funciones, variables y objetos y entre muchas mas implementaciones. 
 
 ## Propósito 
 Crear un lenguaje de programación orientado a objetos, que sea capaz de crear programas ejecutables capaces de correr operaciones iterativas, recursivas y propias de un lenguaje actual para diseño de programas básicos. 
@@ -12,6 +14,11 @@ Dirigido a estudiantes de programación o personas con intereses a fin, donde pu
 Java++ viene preparado con una forma muy sencilla de utilizarse, de manera que puedas comenzar a programar lo antes posible. Solamente es necesario utilizar le bash desarrollado de la siguiente manera.
 
     $bash run.bash fileName
+
+Un ejemplo de esto usando uno de los casos de prueba que se encuentran en /tests seria de la siguiente forma:
+
+    $bash run.bash fiboRecursivo
+
 
 # Versions
 ## Avance 1
