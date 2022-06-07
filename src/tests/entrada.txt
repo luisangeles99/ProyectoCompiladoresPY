@@ -25,7 +25,6 @@ func int num(int p1, int p2){
     var int xArr[10], xMat[5][5];
     t1.y = 5000;
     print(t1.y);
-    t1.testFunc(5000);
     while(p1 < p2){
         xArr[p1] = p1;
         print(xArr[p1]);
