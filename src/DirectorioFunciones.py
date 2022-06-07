@@ -1,4 +1,16 @@
-# DESCRIPCION DEL DIRECTORIO DE FUNCIONES Y DE SUS METODOS
+"""
+.########.##.....##.##....##..######.....########..####.########.
+.##.......##.....##.###...##.##....##....##.....##..##..##.....##
+.##.......##.....##.####..##.##..........##.....##..##..##.....##
+.######...##.....##.##.##.##.##..........##.....##..##..########.
+.##.......##.....##.##..####.##..........##.....##..##..##...##..
+.##.......##.....##.##...###.##....##....##.....##..##..##....##.
+.##........#######..##....##..######.....########..####.##.....##
+
+Estructura que administra la tabla de funciones, en ella se iran
+almacenando las funciones con la informacion pertinente de las
+mismas.
+"""
 
 from VariablesTable import VariablesTable
 import sys
@@ -26,6 +38,12 @@ class DirectorioFunciones:
         self.directorio = {}
 
     def addFunction(self, name, returnType): 
+        """Metodo principal para agregar funciones a la tabla.
+
+        Args:
+            name (string): identificador
+            returnType (string): tipo de dato de retorno
+        """        
         if name in self.directorio.keys():
             print('Funcion ya declarada error')
             return
@@ -46,6 +64,16 @@ class DirectorioFunciones:
         return name in self.directorio.keys()
 
     def getVar(self, funcName, varName):
+        """Metodo de consulta a variables por medio del
+        nombre de la funcion.
+
+        Args:
+            funcName (string): nombre de la funcion
+            varName (string): nombre de la variable buscada
+
+        Returns:
+            any: variable encontrada
+        """        
         if self.functionExists(funcName):
             if self.directorio[funcName]['vars'].searchVar(varName):
                 return self.directorio[funcName]['vars'].getVar(varName)
@@ -71,6 +99,15 @@ class DirectorioFunciones:
             return self.directorio['program']['vars'].getArrayFlag(varName)
 
     def addVar(self, funcName, varName, type, virtualAdd):
+        """Metodo para agregar variables a la tabla por medio del nombre
+        de la funcion.
+
+        Args:
+            funcName (string): nombre de la funcion
+            varName (string): nombre de la variable
+            type (string): tipo de dato
+            virtualAdd (int): direccion virtual
+        """               
         if self.functionExists(funcName):
             if not self.directorio[funcName]['vars'].searchVar(varName):
                 self.directorio[funcName]['vars'].addVar(varName, type, virtualAdd)
@@ -97,6 +134,14 @@ class DirectorioFunciones:
         self.directorio[funcName]['vars'].dimPostDeclarationCalc(varName)
 
     def updateVarValue(self, funcName, varName, val):
+        """Actualizacion del valor de un registro en la tabla, pero medio
+        del nombre de la funcion y la variable.
+
+        Args:
+            funcName (string): nombre de la funcion
+            varName (string): nombre de la variable
+            val (any): nuevo valor
+        """        
         if self.functionExists(funcName):
             if self.directorio[funcName]['vars'].searchVar(varName):
                 self.directorio[funcName]['vars'].updateVal(varName, val)
@@ -154,6 +199,17 @@ class DirectorioFunciones:
             return self.directorio['program']['vars'].getVarSize(varName)
 
     def interCodeInfo(self, funcName):
+        """Informacion de codigo intermedio, es una impresion
+        que contiene informacion relevante para ser utilizada por
+        la maquina virutal.
+
+        Args:
+            funcName (string): nombre de la funcion
+
+        Returns:
+            array: nombre de funcion, numero de parametros, variables,
+            temporales, counter, direccion y apuntadores.
+        """        
         info = []
         info.append(funcName)
         info.append(self.directorio[funcName]['numParams'])
