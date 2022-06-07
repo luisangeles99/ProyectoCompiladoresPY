@@ -229,24 +229,6 @@ def splitRawCode(rawCode):
         splittedCode.append(rawCode[x].rstrip('\n'))
     return splittedCode
 
-'''
-if __name__ == '__main__':
-    if (len(sys.argv)>1):
-        file = sys.argv[1]
-        try:
-            f = open(file, 'r')
-            data = f.readlines()
-            f.close()
-            data = clean_data(data)
-            create(data)
-            execute()
-            # log()
-        except EOFError:
-            print(EOFError)
-    else:
-        print(".dout file not found")
-'''
-
 file = 'interCode.txt'
 f = open(file, 'r')
 rawCode = f.readlines()
