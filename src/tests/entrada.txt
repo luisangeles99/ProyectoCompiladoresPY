@@ -1,13 +1,13 @@
 program test;
 
-var int x, xArr[10], xMat[5][5], next;
+var int x, next;
 var float f1, f2, f3;
 
 class Test{
     Test(){
         var float b;
     }
-    var int y,z;
+    var int y, z;
     func void testFunc(int a){
         print(a);
     }
@@ -19,6 +19,9 @@ class Test{
 
 func int num(int p1, int p2){
     var Test t1;
+    t1.y = 5000;
+    print(t1.y);
+    var int xArr[10], xMat[5][5];
     while(p1 < p2){
         xArr[p1] = p1;
         print(xArr[p1]);
@@ -42,7 +45,6 @@ main(){
     if (x < 10){
         print(5);
     }
-    xArr[8] = 100; 
     realMadrid('a', 10, 3.45);
     x = x + res;
     print(x);
