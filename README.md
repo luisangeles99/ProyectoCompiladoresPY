@@ -20,7 +20,7 @@ Un ejemplo de esto usando uno de los casos de prueba que se encuentran en /tests
     $bash run.bash fiboRecursivo
 
 
-# Versions
+# Versiones
 ## Avance 1
 Lexer y Parser
 
