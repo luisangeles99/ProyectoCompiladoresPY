@@ -5,26 +5,47 @@ var int x;
 var float f1, f2, f3;
 
 class Test{
-    Test(){
-        var float b;
-    }
     var int y, z;
-    func void testFunc(int a){
-        print(a);
+    Test(){
+        y = 0;
+    }
+    func void testFunc(){
+        print(10);
     }
     func int testNum(int b){
         return b;
     }
 }
 
-
-
+class Computer{
+    var char name;
+    var float weight, size;
+    Computer(){
+        name = 'c';
+        weight = 2.56;
+        size = 100.2;
+    }
+    
+    func int powerOn(){
+        return 1;
+    }
+    func int powerOff(){
+        return 0;
+    }
+    func void sayHello(){
+        print('h');
+        print('o');
+        print('l');
+        print('a');
+    }
+}
 
 func int num(int p1, int p2){
     var Test t1;
     var int xArr[10], xMat[5][5];
     t1.y = 5000;
     print(t1.y);
+    t1.testFunc();
     while(p1 < p2){
         xArr[p1] = p1;
         print(xArr[p1]);
@@ -36,6 +57,7 @@ func int num(int p1, int p2){
 }
 
 main(){
+    var Computer comp;
     var int res;
     res = num(0, 10);
     x = 5;
@@ -46,4 +68,6 @@ main(){
     f1 = 0.0;
     print(f1);
     print(x);
+    comp.sayHello();
+    print(comp.powerOn());
 }

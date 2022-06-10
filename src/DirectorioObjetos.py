@@ -31,16 +31,15 @@ class DirectorioObjetos:
             'funcDirectory': DirectorioFunciones()
         }
 
-    def interCodeClassInfo(self, objName):
-        info = []
-        info.append(objName)
-        for funcName in self.directorio[objName]['funcDirectory'].keys():
-            info.append(self.directorio[objName]['funcDirectory'].interCodeInfo(funcName))
-        return info
-
     def getObjectVars(self, objName):
         return self.directorio[objName]['funcDirectory'].directorio['program']['vars']
 
-    
-
+    def getObjectInfo(self, objName):
+        info = []
+        funcInfo = []
+        for func in self.directorio[objName]['funcDirectory'].directorio.keys():
+            funcInfo.append(self.directorio[objName]['funcDirectory'].interCodeInfo(func))
+        info.append(objName)
+        info.append(funcInfo)
+        return info
         

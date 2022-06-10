@@ -22,6 +22,7 @@ from Memoria import dirBasesConstantes, dirBasesGlobales, dirBasesLocales, dirBa
 import sys
 
 precedence = (
+    
     ('right', 'ASSIGN'),
     ('left', 'NE'),
     ('nonassoc', 'LT', 'GT'),
@@ -30,10 +31,13 @@ precedence = (
     ('left', 'LBRACE', 'RBRACE'),
     ('left', 'LPAREN', 'RPAREN'),
     ('left', 'CTEF', 'CTEI')
+    
 )
 
 currTypeVar = None
 currVar = None
+currObj = None
+currVarObj = None
 currTypeFunc = None
 currFunc = None
 currFuncCall = None
@@ -49,7 +53,6 @@ subFunc = False
 
 #auxiliares
 auxCounterGlobales = None
-auxCounterConstantes = None
 
 start = 'P'
 
@@ -127,7 +130,7 @@ def p_CLASS_INHERITS(p):
     '''CLASS_INHERITS   : DERIVES ID'''
 
 def p_CLASS_BODY(p):
-    '''CLASS_BODY       : CLASS_CONSTRUCTOR CLASS_BODY_MEMBER CLASS_B_M_ONE'''
+    '''CLASS_BODY       : CLASS_BODY_MEMBER CLASS_B_M_ONE CLASS_CONSTRUCTOR CLASS_BODY_MEMBER CLASS_B_M_ONE'''
 
 def p_CLASS_B_M_ONE(p):
     '''CLASS_B_M_ONE    : CLASS_BODY_MEMBER CLASS_B_M_ONE
@@ -144,10 +147,38 @@ def p_CLASS_C_ONE(p):
     '''CLASS_C_ONE          : PARAM
                             | empty'''
 
-def p_FIELD_ACCESS(p):
-    '''FIELD_ACCESS         : ID POINT ID'''
-    objName = p[1]
-    varName = p[3]
+def p_OBJECT_ACCESS(p):
+    '''OBJECT_ACCESS        : ID setCurrObj POINT ID setCurrObjVar OBJECT_ACCESS_ONE '''
+
+def p_setCurrObj(p):
+    '''setCurrObj           : '''
+    global currObj
+    currObj = p[-1]
+
+def p_setCurrObjVar(p):
+    '''setCurrObjVar        : '''
+    global currVarObj
+    currVarObj = p[-1]
+
+def p_setCurrObjVarFunc(p):
+    '''setCurrObjVarFunc        : '''
+    global currTypeVar
+    varInfo = funcDirectory.getVar(currFunc, currObj)
+    currTypeVar = varInfo['objType'] 
+
+def p_setObjFlag(p):
+    '''setObjFuncFlag       : '''
+    global subFunc
+    subFunc = True
+
+def p_OBJECT_ACCESS_ONE(p):
+    '''OBJECT_ACCESS_ONE    : setCurrObjVarFunc setObjFuncFlag verifyFunction LPAREN FUNCTION_C_ONE verifyNumParams RPAREN gosubFunc
+                            | fieldAccess empty'''
+
+def p_fieldAccess(p):
+    '''fieldAccess         : '''
+    objName = currObj
+    varName = currVarObj
     objInfo = funcDirectory.getVar(currFunc, objName)
     if objInfo['type'] != 'complex':
         print('Variable', objName, 'no es un objeto')
@@ -163,18 +194,6 @@ def p_FIELD_ACCESS(p):
 
 #------------------------------------ FUNCTION SYNTAX ------------------------------------
 
-def p_FUNCTION_ACCESS(p):
-    '''FUNCTION_ACCESS      : ID setObjFlag POINT FUNCTION_CALL'''
-
-def p_setObjFlag(p):
-    '''setObjFlag           : '''
-    objName = p[-1]
-    print(objName)
-    if not objName in funcDirectory.directorio[currFunc]['vars'].searchVar(objName):
-        print('Variable', objName, 'no existe')
-        sys.exit()
-    global subFunc
-    subFunc = True
 
 def p_FUNCTION_CALL(p):
     '''FUNCTION_CALL        : ID verifyFunction LPAREN FUNCTION_C_ONE verifyNumParams RPAREN gosubFunc'''
@@ -219,7 +238,7 @@ def p_PARAM_ONE(p):
 
 def p_VARIABLE(p):
     '''VARIABLE             : ID pushVar VARIABLE_ONE
-                            | FIELD_ACCESS'''
+                            | OBJECT_ACCESS'''
 
 def p_VARIABLE_ONE(p): #TODO. If time allows it; allow more dims
     '''VARIABLE_ONE         : LSBRACKET verifyArray EXP createArrayQuads RSBRACKET VARIABLE_TWO createLastArrayQuads
@@ -344,8 +363,8 @@ def p_TERM_ONE(p):
 def p_FACT(p):
     '''FACT         : CONST 
                     | VARIABLE 
-                    | FUNCTION_CALL 
-                    | FUNCTION_ACCESS
+                    | OBJECT_ACCESS
+                    | FUNCTION_CALL
                     | LPAREN EXP RPAREN'''
 
 
@@ -371,7 +390,7 @@ def p_BLOCK_STMT(p):
 
 def p_STMT(p):
     '''STMT         : ASSIGN_OP 
-                    | FUNCTION_ACCESS SEMICOLON
+                    | OBJECT_ACCESS SEMICOLON
                     | FUNCTION_CALL SEMICOLON
                     | READ_FUNC 
                     | PRINT_FUNC 
@@ -410,7 +429,7 @@ def p_RETURN(p):
             vAddress = funcDirectory.getVarVirtualAddress(currFunc, term)
     
     if currClass != None:
-        quadGenerator.generateQuad('returnObj', currFunc, None, vAddress)
+        quadGenerator.generateQuad('returnObj', currFunc, currClass, vAddress)
     else:
         quadGenerator.generateQuad('return', currFunc, None, vAddress)
 
@@ -731,16 +750,17 @@ def p_endFunc(p):
     currScope = 'global'
 
 
+
 def p_verifyFunction(p):
     '''verifyFunction   : '''
-    funcName = p[-1]
-    
     if subFunc:
-        if not objDirectory.directorio[currClass]['funcDirectory'].functionExists(funcName):
-            print('Metodo ', funcName, ' no existe')
+        funcName = currVarObj
+        if not objDirectory.directorio[currTypeVar]['funcDirectory'].functionExists(funcName):
+            print('Metodo de objeto', funcName, ' no existe')
             sys.exit()
-        quadGenerator.generateQuad('ERAOBJ', None, None, funcName)
+        quadGenerator.generateQuad('ERAOBJ', currTypeVar, None, funcName)
     else:
+        funcName = p[-1]
         if not funcDirectory.functionExists(funcName):
             print('Metodo ', funcName, ' no existe')
             sys.exit()
@@ -756,8 +776,8 @@ def p_verifyParam(p):
     operando = pOperandos.pop()
     tipo = pTipos.pop()
     if subFunc:
-        tipoParam = objDirectory.directorio[currClass]['funcDirectory'].getParamType(currFuncCall, kParam)
-        paramName = objDirectory.directorio[currClass]['funcDirectory'].getParamName(currFuncCall, kParam)
+        tipoParam = objDirectory.directorio[currTypeVar]['funcDirectory'].getParamType(currFuncCall, kParam)
+        paramName = objDirectory.directorio[currTypeVar]['funcDirectory'].getParamName(currFuncCall, kParam)
     else:
         tipoParam = funcDirectory.getParamType(currFuncCall, kParam)
         paramName = funcDirectory.getParamName(currFuncCall, kParam)
@@ -766,11 +786,11 @@ def p_verifyParam(p):
         sys.exit()
     if type(operando) != int:
         if subFunc:
-            operando = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFunc, operando)
+            operando = objDirectory.directorio[currTypeVar]['funcDirectory'].getVarVirtualAddress(currFunc, operando)
         else:    
             operando = funcDirectory.getVarVirtualAddress(currFunc, operando)
     if subFunc:
-        vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress(currFuncCall, paramName)
+        vAddress = objDirectory.directorio[currTypeVar]['funcDirectory'].getVarVirtualAddress(currFuncCall, paramName)
     else:        
         vAddress = funcDirectory.getVarVirtualAddress(currFuncCall, paramName)
     kParam = kParam + 1
@@ -779,7 +799,7 @@ def p_verifyParam(p):
 def p_verifyNumParams(p):
     '''verifyNumParams      : '''
     if subFunc:
-        numParam = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['numParams']
+        numParam = objDirectory.directorio[currTypeVar]['funcDirectory'].directorio[currFuncCall]['numParams']
     else:
         numParam = funcDirectory.directorio[currFuncCall]['numParams']
     if not kParam == numParam:
@@ -790,8 +810,8 @@ def p_gosubFunc(p):
     '''gosubFunc        : '''
     global subFunc
     if subFunc:
-        quadNum = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['startCounter']
-        funcTipo = objDirectory.directorio[currClass]['funcDirectory'].directorio[currFuncCall]['type']
+        quadNum = objDirectory.directorio[currTypeVar]['funcDirectory'].directorio[currFuncCall]['startCounter']
+        funcTipo = objDirectory.directorio[currTypeVar]['funcDirectory'].directorio[currFuncCall]['type']
     else:
         quadNum = funcDirectory.directorio[currFuncCall]['startCounter']
         funcTipo = funcDirectory.directorio[currFuncCall]['type']
@@ -799,13 +819,14 @@ def p_gosubFunc(p):
     if funcTipo != 'void':
         res = temporalVirtualAddress(funcTipo)
         if subFunc:
-            vAddress = objDirectory.directorio[currClass]['funcDirectory'].getVarVirtualAddress('program', currFuncCall)
-            subFunc = False
+            vAddress = objDirectory.directorio[currTypeVar]['funcDirectory'].getVarVirtualAddress('program', currFuncCall)    
         else:
             vAddress = funcDirectory.getVarVirtualAddress('program', currFuncCall)
+        
         quadGenerator.generateQuad('=', vAddress, None, res)
         pOperandos.append(res)
         pTipos.append(funcTipo)
+    subFunc = False
 
 #------------------------------------ ARRAYS NEURAL POINTS ----------------------------
 
@@ -1016,13 +1037,11 @@ def printPTipos():
 def p_addClass(p):
     '''addClass         : '''
     #guardamos las variables globales actuales
-    global currClass, counterConstantes, counterGlobales, auxCounterConstantes, auxCounterGlobales
+    global currClass, counterConstantes, counterGlobales, auxCounterGlobales
     funcDirectory.setNumVars('program', counterGlobales)
     funcDirectory.setNumTemp('program', counterConstantes)
     auxCounterGlobales = counterGlobales
-    auxCounterConstantes = counterConstantes
     counterGlobales = [0,0,0,0]
-    counterConstantes = [0,0,0,0]
     className = p[-1]
     currClass = className
     objDirectory.addObject(className)
@@ -1051,7 +1070,6 @@ def p_endClass(p):
     objDirectory.directorio[currClass]['funcDirectory'].setNumTemp('program', counterConstantes)
     currClass = None
     counterGlobales = auxCounterGlobales
-    counterConstantes = auxCounterConstantes
 
 def p_checkClassName(p):
     '''checkClassName   : '''
@@ -1066,7 +1084,7 @@ def p_addComplexVar(p):
     '''addComplexVar    : '''
     #TODO: Allow complex types in Classes
     objName = p[-1]
-    funcDirectory.addComplexVar(currFunc, objName)
+    funcDirectory.addComplexVar(currFunc, objName, currTypeVar)
     objVarTable = objDirectory.getObjectVars(currTypeVar)
     for var in objVarTable.table.keys():
         varType = objVarTable.table[var]['type']
@@ -1110,6 +1128,13 @@ def createObjCode():
         f.write('\n')
     f.write('FUNC-INFO-END')
     f.write('\n')
+    f.write('OBJ-INFO-START')
+    f.write('\n')
+    for obj in objDirectory.directorio.keys():
+        f.write(str(objDirectory.getObjectInfo(obj)))
+        f.write('\n')
+    f.write('OBJ-INFO-END')
+    f.write('\n')
     f.write('CONST-INFO-START')
     f.write('\n')
     for constInfo in constants:
@@ -1125,8 +1150,8 @@ if __name__ == '__main__':
         file = sys.argv[1]
         with open(file, 'r') as f:
             input = f.read()
+            #parser.parse(input)
             parser.parse(input)
-            #parser.parse(input, debug = 1)
             print('apropiado')
             createObjCode()
             #print(funcDirectory.directorio['num'])

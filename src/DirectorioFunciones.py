@@ -80,7 +80,7 @@ class DirectorioFunciones:
             elif self.directorio['program']['vars'].searchVar(varName):
                 return self.directorio['program']['vars'].getVar(varName)
             else:
-                print('Variable ', varName, 'no existe en el contexto')
+                print('Variable', varName, 'no existe en el contexto')
                 sys.exit()
         else:
             print('Funcion no existe')
@@ -118,8 +118,8 @@ class DirectorioFunciones:
             print('Funcion no existe')
             sys.exit()
 
-    def addComplexVar(self, funcName, varName):
-        self.directorio[funcName]['vars'].addComplexVar(varName)
+    def addComplexVar(self, funcName, varName, objType):
+        self.directorio[funcName]['vars'].addComplexVar(varName, objType)
 
     def addObjectVar(self, funcName, name, varName, type, vAddress):
         self.directorio[funcName]['vars'].addObjectVar(name, varName, type, vAddress)

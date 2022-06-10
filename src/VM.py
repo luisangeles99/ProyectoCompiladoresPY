@@ -10,6 +10,7 @@ pEjecucion = []
 funciones = {}
 instructionP = 1
 memoriaGlobal = MemoriaGlobal()
+objDirectory = {}
 expOperators = {
     '+': operator.add, 
     '-': operator.sub, 
@@ -26,7 +27,7 @@ expOperators = {
 }
 jumps = ['goto', 'gotoF', 'gotoM', 'GOSUB']
 specialFuncs = ['print', 'read']
-funcOper = ['ERA', 'PARAM', 'ENDFUNC', 'return']
+funcOper = ['ERA', 'PARAM', 'ENDFUNC', 'return', 'ERAOBJ', 'returnObj']
 
 # Runs through all quads
 def execute():
@@ -99,6 +100,21 @@ def funcOperations(oper, quad):
         memoriaActual = pMemorias.pop()
         pMemorias.append(memoriaFunc)
         pMemorias.append(memoriaActual)
+    elif oper == 'ERAOBJ':
+        objName = quad[1]
+        memoriaFunc = MemoriaLocal()
+        #Get func vars
+        numVars = objDirectory[objName][quad[3]]['numVars']
+        memoriaFunc.allocateMemory(numVars, 0)
+        #Get func temps
+        numTemps = objDirectory[objName][quad[3]]['numTemps']
+        memoriaFunc.allocateMemory(numTemps, 1)
+        #Get func pointers
+        numPointer = objDirectory[objName][quad[3]]['numPointers']
+        memoriaFunc.allocateMemory([numPointer], 2)
+        memoriaActual = pMemorias.pop()
+        pMemorias.append(memoriaFunc)
+        pMemorias.append(memoriaActual)
     elif oper == 'PARAM':
         param = getValue(quad[1])
         memoriaActual = pMemorias.pop()
@@ -107,6 +123,11 @@ def funcOperations(oper, quad):
     elif oper == 'return':
         val = getValue(quad[3])
         address = funciones[quad[1]]['globalRetAddress']
+        setValue(address, val)
+    elif oper == 'returnObj':
+        val = getValue(quad[3])
+        objName = quad[2]
+        address = objDirectory[objName][quad[1]]['globalRetAddress']
         setValue(address, val)
     elif oper == 'ENDFUNC':
         pMemorias.pop()
@@ -212,6 +233,26 @@ def readFuncs(code):
     numVariables = funciones['program']['numVars']
     memoriaGlobal.allocateMemory(numVariables, 0)
 
+def readObjs(code):
+    start = code.index('OBJ-INFO-START')
+    end = code.index('OBJ-INFO-END')
+    for i in range(start + 1, end):
+        objFuncs = {}
+        obj = ast.literal_eval(code[i])
+        objName = obj[0]
+        for func in obj[1]:
+            funcName = func[0]
+            objFuncs[funcName] = {
+                'numParams': func[1],
+                'numVars': func[2],
+                'numTemps': func[3],
+                'startCounter': func[4],
+                'globalRetAddress': func[5],
+                'numPointers': func[6]
+            }
+        objDirectory[objName] = objFuncs
+    print(objDirectory)
+
 def readConst(code):
     start = code.index('CONST-INFO-START')
     end = code.index('CONST-INFO-END')
@@ -234,5 +275,6 @@ rawCode = f.readlines()
 code = splitRawCode(rawCode)
 readQuads(code)
 readFuncs(code)
+readObjs(code)
 readConst(code)
 execute()

@@ -56,7 +56,7 @@ class VariablesTable:
             'isArray': False
         }
 
-    def addComplexVar(self, name):
+    def addComplexVar(self, name, objType):
         """Para agregar a la tabla variales complejas, solamente se confirma que el
         identificador sea unico y de ser asi sera agregado a la tabla, utilizando como
         llave el nombre y de valores el tipo y el valor.
@@ -69,6 +69,7 @@ class VariablesTable:
             sys.exit()
         self.table[name] = {
             'type': 'complex',
+            'objType': objType,
             'vars': VariablesTable()
         }
     
