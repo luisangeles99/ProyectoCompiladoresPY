@@ -251,7 +251,6 @@ def readObjs(code):
                 'numPointers': func[6]
             }
         objDirectory[objName] = objFuncs
-    print(objDirectory)
 
 def readConst(code):
     start = code.index('CONST-INFO-START')

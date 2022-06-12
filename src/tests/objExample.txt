@@ -1,0 +1,62 @@
+program test;
+
+class Test{
+    var int y, z;
+    Test(){
+        y = 0;
+        z = 0;
+    }
+    func void testFunc(){
+        print(5);
+    }
+    func int testNum(int b){
+        return b;
+    }
+}
+
+class Computer{
+    var char name;
+    var float weight, size;
+    Computer(){
+        name = 'c';
+        weight = 2.56;
+        size = 100.2;
+    }
+    
+    func int powerOn(int num){
+        return 1;
+    }
+    func int powerOff(){
+        return 0;
+    }
+    func void sayHello(){
+        print('h');
+        print('o');
+        print('l');
+        print('a');
+    }
+}
+
+func int num(int p1, int p2){
+    var Test t1;
+    t1.Test();
+    t1.y = 5000;
+    print(t1.y);
+    t1.testFunc();
+    print(t1.y);
+    return t1.testNum(10);
+}
+
+main(){
+    var int aux;
+    var Computer comp;
+    comp.Computer();
+    print(comp.name);
+    print(comp.weight);
+    
+    comp.sayHello();
+
+    print(comp.name);
+    aux = num(0, 10);
+    print(aux);
+}

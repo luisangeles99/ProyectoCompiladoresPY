@@ -124,6 +124,9 @@ class DirectorioFunciones:
     def addObjectVar(self, funcName, name, varName, type, vAddress):
         self.directorio[funcName]['vars'].addObjectVar(name, varName, type, vAddress)
             
+    def updateVarAddress(self, funcName, name, varName, vAddress):
+        self.directorio[funcName]['vars'].updateVarAddress(name, varName, vAddress)
+    
     def addDimToVar(self, funcName, varName, val):
         if not self.directorio[funcName]['vars'].getArrayFlag(varName):
             self.directorio[funcName]['vars'].addDim(varName, val)

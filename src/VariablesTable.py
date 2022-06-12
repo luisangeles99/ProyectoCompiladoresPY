@@ -76,6 +76,12 @@ class VariablesTable:
     def addObjectVar(self, complexName, name, type, vAddress):
         self.table[complexName]['vars'].addVar(name, type, vAddress)
 
+    def updateObjectVarAddress(self, complexName, name, vAddress):
+        self.table[complexName]['vars'].updateVarAddress(name, vAddress)
+
+    def updateVarAddress(self, varName, vAddress):
+        self.table[varName]['virtualAdd'] = vAddress
+
     def addDim(self, name, val):
         """Metodo utilizado para agregar dimensiones a un tipo de variable
         array, donde se inicializan los primeros datos de esta estrcutura.

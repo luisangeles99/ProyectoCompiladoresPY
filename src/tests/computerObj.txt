@@ -1,0 +1,32 @@
+program test;
+
+class Computer{
+    var char name;
+    var float weight, size;
+    Computer(){
+        name = 'c';
+    }
+    
+    func int powerOn(){
+        return 1;
+    }
+
+    func int powerOff(){
+        return 0;
+    }
+
+    func void sayHello(){
+        print('h');
+        print('o');
+        print('l');
+        print('a');
+    }
+}
+
+main(){
+    var Computer comp;
+    
+    print(comp.powerOn());
+    comp.sayHello();
+    print(comp.powerOff());
+}
